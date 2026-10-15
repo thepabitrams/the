@@ -1,0 +1,136 @@
+---
+import { resolveBadges } from '@/shared/components/ui/tech';
+import type { ProjectEntry } from '@/shared/types/project-entry';
+
+export interface Props {
+  project: ProjectEntry;
+}
+
+const { project } = Astro.props;
+const projectData = project.data;
+const projectSlug = project.slug;
+const techStack = projectData.techStack ?? [];
+const badges = resolveBadges(techStack);
+---
+
+<article
+  class="group/card md:col-span-2 bg-neutral-50 dark:bg-neutral-900 rounded-2xl
+         border border-neutral-200/60 dark:border-white/10
+         hover:border-neutral-300 dark:hover:border-white/25
+         transition-all duration-300
+         hover:shadow-xl hover:shadow-neutral-200/50
+         dark:hover:shadow-xl dark:hover:shadow-white/10
+         overflow-hidden"
+  data-title={projectData.title}
+  data-desc={projectData.description}
+  data-tags={techStack.join(' ')}
+>
+  <div class="grid md:grid-cols-2 gap-0">
+
+    <div class="p-8 md:p-12 order-2 md:order-1 flex flex-col gap-6">
+
+      <div class="flex flex-col gap-3">
+        <span class="inline-flex w-fit items-center text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+          Featured
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          {projectData.title}
+        </h2>
+      </div>
+
+      <p class="text-neutral-500 dark:text-neutral-400 leading-relaxed">
+        {projectData.description}
+      </p>
+
+      {badges.length > 0 && (
+        <div class="flex flex-wrap items-center gap-1.5">
+          {badges.map((badge) =>
+            badge.type === 'badge' ? (
+              <badge.Component version={badge.version} />
+            ) : (
+              <span
+                class="inline-flex items-stretch overflow-hidden text-[10px] font-bold uppercase tracking-[0.08em] leading-none select-none opacity-60"
+                title="No badge defined — add one in tech/badges/"
+              >
+                <span class="inline-flex items-center gap-1 px-2.5 py-1.75 bg-transparent border border-dashed border-neutral-400 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400">
+                  {badge.label}
+                </span>
+                {badge.version && (
+                  <span class="inline-flex items-center px-2.5 py-1.75 font-bold bg-transparent border-y border-r border-dashed border-neutral-400 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400">
+                    {badge.version}
+                  </span>
+                )}
+              </span>
+            )
+          )}
+        </div>
+      )}
+
+      <div class="flex flex-wrap items-center gap-4 mt-auto pt-4">
+        {projectData.liveUrl && (
+          <a
+            href={projectData.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900
+                   text-sm font-medium px-4 py-2 rounded-full
+                   hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
+          >
+            Live Demo
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        )}
+
+        {projectData.githubUrl && (
+          <a
+            href={projectData.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group/link inline-flex items-center gap-1 text-sm font-medium
+                   text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white
+                   transition-colors"
+          >
+            Source Code
+            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                 fill="none" stroke="currentColor" stroke-width="2.25" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7v8"/>
+            </svg>
+          </a>
+        )}
+
+        <a
+          href={`/projects/${projectSlug}`}
+          class="group/link ml-auto inline-flex items-center gap-1 text-sm font-medium
+                 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white
+                 transition-colors"
+        >
+          About
+          <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-0.5"
+               fill="none" stroke="currentColor" stroke-width="2.25" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0l-6-6m6 6l-6 6"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="relative bg-neutral-100 dark:bg-neutral-800 min-h-70 md:min-h-105 overflow-hidden order-1 md:order-2">
+      {projectData.image ? (
+        <img
+          src={projectData.image}
+          alt={projectData.title}
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <div class="absolute inset-0 flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
+          Project Preview
+        </div>
+      )}
+    </div>
+
+  </div>
+</article>

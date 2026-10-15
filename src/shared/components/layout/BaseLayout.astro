@@ -4,7 +4,7 @@ import Head from '@/shared/seo/Head.astro';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 
-export interface Props {
+export interface BaseLayoutProps {
   title: string;
   description?: string;
 }
@@ -27,10 +27,14 @@ const { title, description } = Astro.props;
       Skip to main content
     </a>
 
-    <Header />
+    <slot name="header">
+      <Header />
+    </slot>
+
     <main id="main-content">
       <slot />
     </main>
+
     <Footer />
   </body>
 </html>

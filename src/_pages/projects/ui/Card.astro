@@ -1,95 +1,130 @@
 ---
+import { resolveBadges } from '@/shared/components/ui/tech';
+import type { ProjectEntry } from '@/shared/types/project-entry';
+
 export interface Props {
-  project: {
-    slug: string;
-    data: {
-      title: string;
-      description: string;
-      techStack?: string[];
-      image?: string;
-      liveUrl?: string;
-      githubUrl?: string;
-    };
-  };
-  delay?: number;
+  project: ProjectEntry;
 }
-const { project, delay = 0 } = Astro.props;
+
+const { project } = Astro.props;
 const projectData = project.data;
 const projectSlug = project.slug;
+const techStack = projectData.techStack ?? [];
+const badges = resolveBadges(techStack);
 ---
 
 <div
-  class="project-card-item bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-white/10 overflow-hidden shadow-sm hover:shadow-xl dark:shadow-white/5 dark:hover:shadow-white/20 transition-all duration-300 flex flex-col animate-on-load animate-slide-bottom"
-  style={`animation-delay: ${delay}s`}
+  class="project-card-item group/card bg-neutral-50 dark:bg-neutral-900 rounded-2xl
+         border border-neutral-200/60 dark:border-white/10
+         hover:border-neutral-300 dark:hover:border-white/25
+         transition-all duration-300
+         hover:shadow-xl hover:shadow-neutral-200/50
+         dark:hover:shadow-xl dark:hover:shadow-white/10
+         overflow-hidden flex flex-col h-full"
   data-title={projectData.title}
   data-desc={projectData.description}
-  data-tags={projectData.techStack?.join(' ') || ''}
+  data-tags={techStack.join(' ')}
 >
-  <div class="aspect-video bg-neutral-100 dark:bg-neutral-800 overflow-hidden relative">
+  <div class="aspect-16/10 bg-neutral-100 dark:bg-neutral-800 relative overflow-hidden">
     {projectData.image ? (
       <img
         src={projectData.image}
         alt={projectData.title}
-        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+        class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105"
         loading="lazy"
         decoding="async"
       />
     ) : (
-      <div class="w-full h-full flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
-        🖼️ No image
+      <div class="absolute inset-0 flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
+        Project Preview
       </div>
     )}
   </div>
 
-  <div class="p-4 flex-1 flex flex-col">
-    <h3 class="text-xl font-semibold text-neutral-900 dark:text-white">
+  <div class="p-6 md:p-8 flex-1 flex flex-col">
+    <h2 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-white mb-2">
       {projectData.title}
-    </h3>
-    <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1 flex-1 line-clamp-3">
+    </h2>
+
+    <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed mb-5">
       {projectData.description}
     </p>
 
-    {projectData.techStack?.length > 0 && (
-      <div class="flex flex-wrap gap-1.5 mt-3">
-        {projectData.techStack.map(tag => (
-          <span
-            key={tag}
-            class="text-xs px-2.5 py-0.5 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/5"
-          >
-            {tag}
-          </span>
-        ))}
+    {badges.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-6">
+        {badges.map((badge) =>
+          badge.type === 'badge' ? (
+            <badge.Component version={badge.version} />
+          ) : (
+            <span
+              class="inline-flex items-stretch overflow-hidden text-[10px] font-bold uppercase tracking-[0.08em] leading-none select-none opacity-60"
+              title="No badge defined — add one in tech/badges/"
+            >
+              <span class="inline-flex items-center gap-1 px-2.5 py-1.75 bg-transparent border border-dashed border-neutral-400 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400">
+                {badge.label}
+              </span>
+              {badge.version && (
+                <span class="inline-flex items-center px-2.5 py-1.75 font-bold bg-transparent border-y border-r border-dashed border-neutral-400 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400">
+                  {badge.version}
+                </span>
+              )}
+            </span>
+          )
+        )}
       </div>
     )}
 
-    <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-neutral-100 dark:border-white/5">
+    <div class="flex flex-wrap items-center gap-3 mt-auto">
       {projectData.liveUrl && (
         <a
           href={projectData.liveUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-xs px-3 py-1.5 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors focus-ring"
+          class="group/link inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
         >
           Live Demo
+          <svg
+            class="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+            fill="none" stroke="currentColor" stroke-width="2.25"
+            viewBox="0 0 24 24" aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7v8" />
+          </svg>
         </a>
       )}
+
       {projectData.githubUrl && (
         <a
           href={projectData.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-xs px-3 py-1.5 rounded-full border border-neutral-300 dark:border-white/20 hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors focus-ring"
+          class="group/link inline-flex items-center gap-1 text-sm font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
         >
-          Source Code
+          Source
+          <svg
+            class="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+            fill="none" stroke="currentColor" stroke-width="2.25"
+            viewBox="0 0 24 24" aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7v8" />
+          </svg>
         </a>
       )}
 
-      <label
-        for={`about-${projectSlug}`}
-        class="text-xs px-3 py-1.5 rounded-full border border-neutral-300 dark:border-white/20 hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors cursor-pointer ml-auto"
+      <a
+        href={`/projects/${projectSlug}`}
+        class="group/link ml-auto inline-flex items-center gap-1 text-sm font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
       >
         About
-      </label>
+        <svg
+          class="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-0.5"
+          fill="none" stroke="currentColor" stroke-width="2.25"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0l-6-6m6 6l-6 6" />
+        </svg>
+      </a>
     </div>
   </div>
 </div>

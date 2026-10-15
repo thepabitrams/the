@@ -1,33 +1,49 @@
 ---
 import Card from './Card.astro';
+import FeaturedCard from './FeaturedCard.astro';
+import { PROJECT_RENDER_ORDER } from '@/shared/config/project-order';
+import type { ProjectEntry } from '@/shared/types/project-entry';
 
 export interface Props {
-  entries: Array<{
-    slug: string;
-    data: any;
-    body?: string;
-  }>;
+  entries: ProjectEntry[];
 }
+
 const { entries } = Astro.props;
 
-const projectData = entries.map((entry) => ({
-  slug: entry.slug,
-  ...entry.data,
-  body: entry.body || '',
-}));
----
+const UNRANKED_POSITION = Number.MAX_SAFE_INTEGER;
 
-<script define:vars={{ projectData }}>
-  window.__PROJECTS_DATA = projectData;
-</script>
+const rankBySlug = new Map<string, number>(
+  PROJECT_RENDER_ORDER.map((slug, position) => [slug, position])
+);
+
+const resolveRank = (slug: string): number =>
+  rankBySlug.get(slug) ?? UNRANKED_POSITION;
+
+const rankedEntries = [...entries].sort((entryA, entryB) => {
+  const rankA = resolveRank(entryA.slug);
+  const rankB = resolveRank(entryB.slug);
+  return rankA !== rankB ? rankA - rankB : entryA.slug.localeCompare(entryB.slug);
+});
+
+const featuredEntries = rankedEntries.filter(
+  (entry) => entry.data.featured === true
+);
+
+const standardEntries = rankedEntries.filter(
+  (entry) => entry.data.featured !== true
+);
+---
 
 <div class="pb-0 mb-8 border-b border-neutral-200 dark:border-white/10"></div>
 
-<div class="animate-on-load animate-slide-bottom delay-4">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-grid">
-    {entries.map((entry, index) => {
-      const animationDelay = (index % 6 + 1) * 0.05 + 0.3;
-      return <Card project={entry} delay={animationDelay} />;
-    })}
-  </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="project-grid">
+
+  {featuredEntries.map((entry) => (
+    <FeaturedCard project={entry} />
+  ))}
+
+  {standardEntries.map((entry) => (
+    <Card project={entry} />
+  ))}
+
 </div>

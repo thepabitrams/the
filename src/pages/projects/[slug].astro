@@ -1,0 +1,74 @@
+---
+import AboutLayout from '@/shared/components/layout/AboutLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<AboutLayout
+  title={`${project.data.title} – Pabitra Mohan Singh`}
+  projectName={project.data.title}
+  description={project.data.description}
+>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
+        {project.data.title}
+      </h1>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {project.data.description}
+      </p>
+
+      {project.data.techStack && project.data.techStack.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-6">
+          {project.data.techStack.map((tech) => (
+            <span class="text-xs font-medium text-neutral-600 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 px-2.5 py-1 rounded-full">
+              {tech}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div class="flex flex-wrap items-center gap-3 mt-8">
+        {project.data.liveUrl && (
+          <a
+            href={project.data.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-sm font-medium px-4 py-2 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
+          >
+            Live Demo
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        )}
+        {project.data.githubUrl && (
+          <a
+            href={project.data.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
+          >
+            Source Code
+          </a>
+        )}
+      </div>
+    </header>
+
+    <div class="prose prose-neutral dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+  </article>
+</AboutLayout>

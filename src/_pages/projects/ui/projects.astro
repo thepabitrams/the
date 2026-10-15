@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '@/shared/components/layout/BaseLayout.astro';
 import Grid from './Grid.astro';
-import Modal from './Modal.astro';
 import { getCollection } from 'astro:content';
+import type { ProjectEntry } from '@/shared/types/project-entry';
 
 const projects = await getCollection('projects');
 
-const entries = projects.map((entry) => ({
+const entries: ProjectEntry[] = projects.map((entry) => ({
   slug: entry.id,
   data: entry.data,
   body: entry.body || '',
@@ -14,8 +14,9 @@ const entries = projects.map((entry) => ({
 ---
 
 <BaseLayout title="Projects – Pabitra Mohan Singh">
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-20 relative">
-    <div class="animate-on-load animate-slide-left delay-1 mb-10">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-12 md:pt-10 md:pb-16 relative">
+
+    <div class="animate-on-load animate-slide-left delay-1 mb-8">
       <h1 class="text-4xl md:text-5xl font-black tracking-tight text-neutral-900 dark:text-white">
         Projects
       </h1>
@@ -24,12 +25,13 @@ const entries = projects.map((entry) => ({
       </p>
     </div>
 
-    <Grid entries={entries} />
-    
+    <div class="animate-on-load animate-slide-bottom delay-2">
+      <Grid entries={entries} />
+    </div>
+
     {entries.length === 0 && (
       <p class="text-center text-red-500 mt-10">⚠️ No projects found. Check your content folder.</p>
     )}
 
-    <Modal entries={entries} />
   </section>
 </BaseLayout>
