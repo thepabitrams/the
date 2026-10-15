@@ -28,7 +28,7 @@ export const SITE_CONFIG: SiteConfig = {
   socialLinks: [
     { platform: 'GitHub', url: 'https://github.com/thepabitrams' },
     { platform: 'LinkedIn', url: 'https://www.linkedin.com/in/pabitramohansingh' },
-    { platform: 'X (Twitter)', url: 'https://x.com/thepabitrams' },
+    { platform: 'X', url: 'https://x.com/thepabitrams' },
     { platform: 'YouTube', url: 'https://youtube.com/@thepabitrams' },
     { platform: 'Instagram', url: 'https://www.instagram.com/thepabitrams' },
   ],
