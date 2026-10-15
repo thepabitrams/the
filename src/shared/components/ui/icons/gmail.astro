@@ -5,7 +5,10 @@ const { class: className = ICON_SIZE_DEFAULT } = Astro.props;
 ---
 
 <svg
-  class:list={['fill-neutral-400 dark:fill-neutral-500 transition-all duration-300 ease-out group-hover:[&>path]:fill-(--gmail-color)', className]}
+  class:list={[
+    'gmail-icon fill-neutral-400 dark:fill-neutral-500 group-hover:[&>path]:fill-(--gmail-color)',
+    className,
+  ]}
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
   aria-hidden="true"
@@ -16,3 +19,9 @@ const { class: className = ICON_SIZE_DEFAULT } = Astro.props;
   <path style="--gmail-color: #EA4335" d="M5.25 10.5v-6L12 9.45l6.75-4.95v6L12 15.45z"/>
   <path style="--gmail-color: #C5221F" d="M0 5.25v1.875L5.25 10.5v-6L3.9 3.45C2.4 2.1 0 3.225 0 5.25z"/>
 </svg>
+
+<style>
+  .gmail-icon path {
+    transition: fill 300ms ease-out;
+  }
+</style>

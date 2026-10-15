@@ -2,7 +2,7 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const projectSchema = z.object({
+export const projectSchema = z.object({
   title: z.string(),
   description: z.string(),
   techStack: z.array(z.string()).default([]),

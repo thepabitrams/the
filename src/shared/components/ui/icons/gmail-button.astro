@@ -1,4 +1,5 @@
 ---
+import { SITE_CONFIG } from '@/shared/config/site';
 import Gmail from './gmail.astro';
 
 export interface GmailButtonProps {
@@ -7,9 +8,12 @@ export interface GmailButtonProps {
   class?: string;
 }
 
+const DEFAULT_LABEL = 'Contact Me';
+const DEFAULT_HREF = `mailto:${SITE_CONFIG.email}`;
+
 const {
-  href = 'mailto:contactpabitrams@gmail.com',
-  label = 'Contact Me',
+  href = DEFAULT_HREF,
+  label = DEFAULT_LABEL,
   class: className = '',
 } = Astro.props;
 ---

@@ -1,4 +1,4 @@
-import type { z } from 'astro:content';
-import type { projectSchema } from '../content.config';  // ← changed from '../content/config'
+// src/types/project.ts
+import type { CollectionEntry } from 'astro:content';
 
-export type Project = z.infer<typeof projectSchema>;
+export type Project = CollectionEntry<'projects'>;
