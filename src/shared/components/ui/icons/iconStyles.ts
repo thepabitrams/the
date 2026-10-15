@@ -1,0 +1,2 @@
+export const ICON_BASE_CLASSES = 'fill-current text-neutral-400 dark:text-neutral-500 transition-colors duration-300 group-hover:text-[var(--brand-color)] dark:group-hover:text-[var(--brand-color-dark)]';
+export const ICON_SIZE_DEFAULT = 'w-7 h-7';

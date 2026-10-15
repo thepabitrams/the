@@ -1,0 +1,41 @@
+---
+import { SITE_CONFIG } from '@/shared/config/site';
+import {
+  GitHub,
+  LinkedIn,
+  Twitter,
+  YouTube,
+  Instagram,
+  GmailButton,
+} from '@/shared/components/ui/icons';
+
+const ICON_MAP = {
+  GitHub,
+  LinkedIn,
+  'X (Twitter)': Twitter,
+  YouTube,
+  Instagram,
+} as const;
+---
+
+<div class="flex flex-wrap items-center gap-6">
+  {SITE_CONFIG.socialLinks.map(({ platform, url }) => {
+    const Icon = ICON_MAP[platform as keyof typeof ICON_MAP];
+    if (!Icon) return null;
+
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center transition-transform duration-300 ease-out hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
+        aria-label={platform}
+        title={platform}
+      >
+        <Icon />
+      </a>
+    );
+  })}
+
+  <GmailButton href={`mailto:${SITE_CONFIG.email}`} />
+</div>

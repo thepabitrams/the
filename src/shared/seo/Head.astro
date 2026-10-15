@@ -1,0 +1,50 @@
+---
+import { SITE_CONFIG } from '@/shared/config/site';
+
+export interface HeadProps {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description = SITE_CONFIG.description,
+  ogImage = SITE_CONFIG.defaultOgImage,
+  canonicalUrl = SITE_CONFIG.domain,
+} = Astro.props;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE_CONFIG.name,
+  url: SITE_CONFIG.domain,
+  image: SITE_CONFIG.defaultOgImage,
+  jobTitle: SITE_CONFIG.jobTitle,
+  sameAs: SITE_CONFIG.socialLinks.map((link) => link.url),
+} as const;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE_CONFIG.name} />
+<meta property="og:locale" content={SITE_CONFIG.locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImage} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="canonical" href={canonicalUrl} />
+
+<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />

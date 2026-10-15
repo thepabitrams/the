@@ -1,0 +1,29 @@
+---
+import { SITE_CONFIG } from '@/shared/config/site';
+
+const PROFILE_IMAGE_SRC = '/profile/profile.webp' as const;
+
+export interface ProfileProps {
+  imageSrc?: string;
+  imageAlt?: string;
+}
+
+const {
+  imageSrc = PROFILE_IMAGE_SRC,
+  imageAlt = `Portrait of ${SITE_CONFIG.name}`,
+}: ProfileProps = Astro.props;
+---
+
+<div class="shrink-0 animate-on-load animate-slide-right delay-2">
+  <div
+    class="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden shadow-2xl ring-4 ring-primary/20 hover:ring-primary/40 transition-all duration-300 hover:scale-105"
+  >
+    <img
+      src={imageSrc}
+      alt={imageAlt}
+      class="w-full h-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+</div>

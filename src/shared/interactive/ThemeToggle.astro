@@ -1,0 +1,64 @@
+<button
+  id="theme-toggle"
+  type="button"
+  class="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950 relative"
+  aria-label="Toggle theme"
+>
+  <svg class="w-5 h-5 text-neutral-700 dark:hidden transition-transform duration-500 hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+  </svg>
+  <svg class="w-5 h-5 text-neutral-300 hidden dark:block transition-transform duration-500 hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+  </svg>
+</button>
+
+<script>
+  const THEME_STORAGE_KEY = 'theme' as const;
+  const DARK_CLASS_NAME = 'dark' as const;
+  const DARK_THEME_VALUE = 'dark' as const;
+  const LIGHT_THEME_VALUE = 'light' as const;
+
+  function applyTheme(isDark: boolean): void {
+    const rootElement = document.documentElement;
+
+    if (isDark) {
+      rootElement.classList.add(DARK_CLASS_NAME);
+      localStorage.setItem(THEME_STORAGE_KEY, DARK_THEME_VALUE);
+      return;
+    }
+
+    rootElement.classList.remove(DARK_CLASS_NAME);
+    localStorage.setItem(THEME_STORAGE_KEY, LIGHT_THEME_VALUE);
+  }
+
+  function getInitialThemePreference(): boolean {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+
+    if (savedTheme === DARK_THEME_VALUE) {
+      return true;
+    }
+
+    if (savedTheme === LIGHT_THEME_VALUE) {
+      return false;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  function initializeThemeToggle(): void {
+    const toggleButton = document.getElementById('theme-toggle');
+
+    if (!(toggleButton instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    applyTheme(getInitialThemePreference());
+
+    toggleButton.addEventListener('click', (): void => {
+      const isDarkMode = document.documentElement.classList.contains(DARK_CLASS_NAME);
+      applyTheme(!isDarkMode);
+    });
+  }
+
+  initializeThemeToggle();
+</script>
