@@ -1,0 +1,25 @@
+---
+import { BADGE_WRAPPER, BADGE_LABEL, BADGE_VERSION } from '../badgeStyles';
+import type { BadgeProps } from '../types';
+
+const { version, class: className = '' } = Astro.props;
+---
+<a
+  href="https://www.better-auth.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  class:list={[BADGE_WRAPPER, className]}
+  aria-label="Better Auth"
+>
+  <span class={BADGE_LABEL}>
+    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M0 3.39v17.22h5.783V15.06h6.434V8.939H5.783V3.39ZM12.217 8.94h5.638v6.122h-5.638v5.548H24V3.391H12.217Z"/>
+    </svg>
+    Better Auth
+  </span>
+  {version && (
+    <span class:list={[BADGE_VERSION]} style="background-color: #0a0a0a; color: #fff;">
+      {version}
+    </span>
+  )}
+</a>

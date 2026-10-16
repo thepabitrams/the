@@ -3,6 +3,10 @@ import {
   TypeScriptBadge,
   TailwindBadge,
   ViteBadge,
+  CloudflareBadge,
+  HonoBadge,
+  DrizzleBadge,
+  BetterAuthBadge,
   FallbackBadge,
 } from './badges';
 
@@ -11,6 +15,10 @@ const BADGE_MAP: Record<string, any> = {
   typescript: TypeScriptBadge,
   tailwindcss: TailwindBadge,
   vite: ViteBadge,
+  cloudflareworkers: CloudflareBadge,
+  hono: HonoBadge,
+  drizzleorm: DrizzleBadge,
+  betterauth: BetterAuthBadge,
 };
 
 export interface ResolvedBadge {

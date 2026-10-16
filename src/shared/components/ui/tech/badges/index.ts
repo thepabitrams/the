@@ -2,4 +2,8 @@ export { default as ReactBadge } from './react.astro';
 export { default as TypeScriptBadge } from './typescript.astro';
 export { default as TailwindBadge } from './tailwindcss.astro';
 export { default as ViteBadge } from './vite.astro';
+export { default as CloudflareBadge } from './cloudflare.astro';
+export { default as HonoBadge } from './hono.astro';
+export { default as DrizzleBadge } from './drizzle.astro';
+export { default as BetterAuthBadge } from './better-auth.astro';
 export { default as FallbackBadge } from './fallback.astro';
