@@ -1,0 +1,107 @@
+---
+export interface PreviewSlide {
+  mode: 'desktop' | 'mobile';
+  image: string;
+}
+
+export interface Props {
+  slides: PreviewSlide[];
+}
+
+const { slides } = Astro.props;
+const totalSlides = slides.length;
+
+let animationKeyframesCSS = '';
+let animationId = '';
+
+if (totalSlides > 0) {
+  const slotPercent = 100 / totalSlides;
+  const fadeInEndPercent = (slotPercent * 0.12).toFixed(2);
+  const fadeOutStartPercent = (slotPercent * 0.82).toFixed(2);
+  const fadeOutEndPercent = (slotPercent * 0.95).toFixed(2);
+
+  animationId = Math.random().toString(36).slice(2, 7);
+
+  animationKeyframesCSS = `
+    @keyframes preview-desktop-${animationId} {
+      0% { opacity: 0; transform: scale(1); }
+      ${fadeInEndPercent}% { opacity: 1; transform: scale(1); }
+      ${fadeOutStartPercent}% { opacity: 1; transform: scale(1.08); }
+      ${fadeOutEndPercent}% { opacity: 0; transform: scale(1.08); }
+      100% { opacity: 0; transform: scale(1); }
+    }
+    @keyframes preview-mobile-${animationId} {
+      0% { opacity: 0; background-position: center top; }
+      ${fadeInEndPercent}% { opacity: 1; background-position: center top; }
+      ${fadeOutStartPercent}% { opacity: 1; background-position: center bottom; }
+      ${fadeOutEndPercent}% { opacity: 0; background-position: center bottom; }
+      100% { opacity: 0; background-position: center top; }
+    }
+  `;
+}
+---
+
+{totalSlides > 0 && (
+  <>
+    <style is:global set:html={animationKeyframesCSS}></style>
+
+    <div class="project-preview">
+      {slides.map((slide, index) => {
+        const animationDelay = index === 0 ? 0 : -((totalSlides - index) * 4);
+        return (
+          <div
+            class={`project-preview-slide project-preview-${slide.mode}`}
+            style={`
+              background-image: url('${slide.image}');
+              animation-delay: ${animationDelay}s;
+              animation-duration: ${totalSlides * 4}s;
+              animation-name: preview-${slide.mode}-${animationId};
+            `}
+          />
+        );
+      })}
+    </div>
+  </>
+)}
+
+<style>
+  .project-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+
+  .project-preview-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    will-change: transform, opacity, background-position;
+  }
+
+  .project-preview-desktop {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .project-preview-mobile {
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center top;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-preview-slide {
+      animation: none !important;
+      opacity: 0;
+    }
+    .project-preview-slide:first-child {
+      opacity: 1;
+      transform: none;
+      background-position: center top;
+    }
+  }
+</style>

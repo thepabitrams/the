@@ -19,10 +19,12 @@ const rankBySlug = new Map<string, number>(
 const resolveRank = (slug: string): number =>
   rankBySlug.get(slug) ?? UNRANKED_POSITION;
 
-const rankedEntries = [...entries].sort((entryA, entryB) => {
-  const rankA = resolveRank(entryA.slug);
-  const rankB = resolveRank(entryB.slug);
-  return rankA !== rankB ? rankA - rankB : entryA.slug.localeCompare(entryB.slug);
+const rankedEntries = [...entries].sort((firstEntry, secondEntry) => {
+  const firstRank = resolveRank(firstEntry.slug);
+  const secondRank = resolveRank(secondEntry.slug);
+  return firstRank !== secondRank
+    ? firstRank - secondRank
+    : firstEntry.slug.localeCompare(secondEntry.slug);
 });
 
 const featuredEntries = rankedEntries.filter(

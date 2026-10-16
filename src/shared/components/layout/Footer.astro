@@ -1,16 +1,35 @@
 ---
+import { SITE_CONFIG } from '@/shared/config/site';
+
 const currentPath = Astro.url.pathname;
-const isHomePage = currentPath === '/home';
+const isHomePage = currentPath === '/' || currentPath === '/home';
+const currentYear = new Date().getFullYear();
+
+const FOOTER_PLATFORMS = ['GitHub', 'X'] as const;
+
+const footerSocials = FOOTER_PLATFORMS
+  .map((platform) => SITE_CONFIG.socialLinks.find((link) => link.platform === platform))
+  .filter((link): link is NonNullable<typeof link> => link !== undefined);
 ---
 
 <footer class="border-t border-neutral-200 dark:border-neutral-800 mt-16 py-6 text-center text-sm text-neutral-500 dark:text-neutral-400">
-  <p>© 2026 Pabitra Mohan Singh</p>
+  <p>© {currentYear} {SITE_CONFIG.name}</p>
 
   {!isHomePage && (
     <div class="flex justify-center gap-4 mt-2">
-      <a href="https://github.com/thepabitrams" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition">GitHub</a>
-      <a href="https://x.com/thepabitrams" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition">Twitter</a>
-      <a href="mailto:contactpabitrams@gmail.com" class="hover:text-primary transition">Contact Me</a>
+      {footerSocials.map((social) => (
+        <a
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-primary transition"
+        >
+          {social.platform === 'X' ? 'Twitter' : social.platform}
+        </a>
+      ))}
+      <a href={`mailto:${SITE_CONFIG.email}`} class="hover:text-primary transition">
+        Contact
+      </a>
     </div>
   )}
 </footer>

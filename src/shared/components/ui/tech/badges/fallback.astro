@@ -1,0 +1,26 @@
+---
+export interface Props {
+  label: string;
+  version?: string;
+}
+
+const { label, version } = Astro.props;
+---
+
+<span
+  class="inline-flex items-stretch overflow-hidden text-[10px] font-bold uppercase tracking-[0.08em] leading-none select-none opacity-60"
+  title="No badge defined — add one in tech/badges/"
+>
+  <span
+    class="inline-flex items-center gap-1 px-2.5 py-1.75 bg-transparent border border-dashed border-neutral-400 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400"
+  >
+    {label}
+  </span>
+  {version && (
+    <span
+      class="inline-flex items-center px-2.5 py-1.75 font-bold bg-transparent border-y border-r border-dashed border-neutral-400 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400"
+    >
+      {version}
+    </span>
+  )}
+</span>

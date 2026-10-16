@@ -1,3 +1,8 @@
+export interface PreviewSlide {
+  mode: 'desktop' | 'mobile';
+  image: string;
+}
+
 export interface ProjectEntry {
   slug: string;
   data: {
@@ -8,11 +13,7 @@ export interface ProjectEntry {
     liveUrl?: string;
     githubUrl?: string;
     featured?: boolean;
+    preview?: PreviewSlide[];
   };
   body?: string;
-}
-
-export interface ProjectCardProps {
-  project: ProjectEntry;
-  delay?: number;
 }

@@ -1,5 +1,6 @@
 ---
 import { resolveBadges } from '@/shared/components/ui/tech';
+import Preview from './Preview.astro';
 import type { ProjectEntry } from '@/shared/types/project-entry';
 
 export interface Props {
@@ -11,6 +12,7 @@ const projectData = project.data;
 const projectSlug = project.slug;
 const techStack = projectData.techStack ?? [];
 const badges = resolveBadges(techStack);
+const preview = projectData.preview ?? [];
 ---
 
 <article
@@ -44,25 +46,9 @@ const badges = resolveBadges(techStack);
 
       {badges.length > 0 && (
         <div class="flex flex-wrap items-center gap-1.5">
-          {badges.map((badge) =>
-            badge.type === 'badge' ? (
-              <badge.Component version={badge.version} />
-            ) : (
-              <span
-                class="inline-flex items-stretch overflow-hidden text-[10px] font-bold uppercase tracking-[0.08em] leading-none select-none opacity-60"
-                title="No badge defined — add one in tech/badges/"
-              >
-                <span class="inline-flex items-center gap-1 px-2.5 py-1.75 bg-transparent border border-dashed border-neutral-400 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400">
-                  {badge.label}
-                </span>
-                {badge.version && (
-                  <span class="inline-flex items-center px-2.5 py-1.75 font-bold bg-transparent border-y border-r border-dashed border-neutral-400 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400">
-                    {badge.version}
-                  </span>
-                )}
-              </span>
-            )
-          )}
+          {badges.map((badge) => (
+            <badge.Component {...badge.props} />
+          ))}
         </div>
       )}
 
@@ -117,7 +103,11 @@ const badges = resolveBadges(techStack);
     </div>
 
     <div class="relative bg-neutral-100 dark:bg-neutral-800 min-h-70 md:min-h-105 overflow-hidden order-1 md:order-2">
-      {projectData.image ? (
+      {preview.length > 0 ? (
+        <div class="absolute inset-0">
+          <Preview slides={preview} />
+        </div>
+      ) : projectData.image ? (
         <img
           src={projectData.image}
           alt={projectData.title}

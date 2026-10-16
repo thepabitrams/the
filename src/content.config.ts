@@ -1,7 +1,10 @@
-// Project case study schema — 2026 portfolio standard
-
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+
+const previewSlideSchema = z.object({
+  mode: z.enum(['desktop', 'mobile']),
+  image: z.string(),
+});
 
 export const projectSchema = z.object({
   title: z.string(),
@@ -9,6 +12,7 @@ export const projectSchema = z.object({
   techStack: z.array(z.string()).default([]),
   publishedAt: z.coerce.date(),
   featured: z.boolean().default(false),
+  status: z.enum(['new', 'in-progress', 'completed', 'archived']).optional(),
   sortOrder: z.number().default(0),
 
   githubUrl: z.string().url().optional(),
@@ -17,6 +21,8 @@ export const projectSchema = z.object({
 
   image: z.string().optional(),
   diagram: z.string().optional(),
+
+  preview: z.array(previewSlideSchema).default([]),
 
   problem: z.string().optional(),
   userPersona: z.string().optional(),

@@ -1,15 +1,30 @@
 ---
-import ThemeToggle from '../../interactive/ThemeToggle.astro';
+import { SITE_CONFIG } from '@/shared/config/site';
+import ThemeToggle from '@/shared/interactive/ThemeToggle.astro';
 
 const currentPath = Astro.url.pathname;
+const isHomePage = currentPath === '/';
+
 const navLinks = [
-  { href: '/home', label: 'Home' },
+  { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
 ];
 ---
 
 <header class="sticky top-0 z-40 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-end">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+
+    {!isHomePage ? (
+      <a
+        href="/"
+        class="text-sm font-semibold text-neutral-900 dark:text-white hover:text-primary transition-colors"
+      >
+        {SITE_CONFIG.name}
+      </a>
+    ) : (
+      <div></div>
+    )}
+
     <nav class="flex items-center gap-6 text-sm">
       {navLinks.map((link) => (
         <a
@@ -17,7 +32,7 @@ const navLinks = [
           class:list={[
             'transition',
             currentPath === link.href
-              ? 'text-primary'
+              ? 'text-primary font-medium'
               : 'text-neutral-600 dark:text-neutral-300 hover:text-primary',
           ]}
           aria-current={currentPath === link.href ? 'page' : undefined}

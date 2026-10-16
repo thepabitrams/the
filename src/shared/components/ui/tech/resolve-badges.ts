@@ -3,6 +3,7 @@ import {
   TypeScriptBadge,
   TailwindBadge,
   ViteBadge,
+  FallbackBadge,
 } from './badges';
 
 const BADGE_MAP: Record<string, any> = {
@@ -13,10 +14,11 @@ const BADGE_MAP: Record<string, any> = {
 };
 
 export interface ResolvedBadge {
-  type: 'badge' | 'fallback';
-  Component?: any;
-  label: string;
-  version?: string;
+  Component: any;
+  props: {
+    label?: string;
+    version?: string;
+  };
 }
 
 function parseTag(tag: string): { key: string; version?: string } {
@@ -28,13 +30,13 @@ function parseTag(tag: string): { key: string; version?: string } {
 export function resolveBadges(techStack: string[]): ResolvedBadge[] {
   return techStack.map((tag) => {
     const { key, version } = parseTag(tag);
-    const normalized = key.toLowerCase().replace(/\s+/g, '');
-    const Component = BADGE_MAP[normalized];
+    const normalizedKey = key.toLowerCase().replace(/\s+/g, '');
+    const Component = BADGE_MAP[normalizedKey];
 
     if (Component) {
-      return { type: 'badge', Component, label: key, version };
+      return { Component, props: { version } };
     }
 
-    return { type: 'fallback', label: key, version };
+    return { Component: FallbackBadge, props: { label: key, version } };
   });
 }
