@@ -1,0 +1,373 @@
+---
+import { resolveBadges } from '@/shared/components/ui/tech';
+
+export interface Props {
+  category: string;
+  title: string;
+  description: string;
+  role: string;
+  status: string;
+  year: number | string;
+  techStack: string[];
+  liveUrl?: string;
+  sourceUrl?: string;
+}
+
+const {
+  category,
+  title,
+  description,
+  role,
+  status,
+  year,
+  techStack,
+  liveUrl,
+  sourceUrl,
+} = Astro.props;
+
+const badges = resolveBadges(techStack);
+const hasBadges = badges.length > 0;
+const hasLiveUrl = Boolean(liveUrl);
+const hasSourceUrl = Boolean(sourceUrl);
+
+interface MetadataEntry {
+  label: string;
+  value: string | number;
+}
+
+const metadataEntries: MetadataEntry[] = [
+  { label: 'Role', value: role },
+  { label: 'Status', value: status },
+  { label: 'Year', value: year },
+];
+---
+
+<article class="project-hero" aria-label="Project overview">
+  <span class="project-hero-category">{category}</span>
+
+  <div class="project-hero-primary-row">
+    <div class="project-hero-primary-content">
+      <h1 class="project-hero-title">{title}</h1>
+      <p class="project-hero-description">{description}</p>
+    </div>
+
+    <dl class="project-hero-metadata-list">
+      {metadataEntries.map((entry) => (
+        <div class="project-hero-metadata-item">
+          <dt class="project-hero-metadata-label">{entry.label}</dt>
+          <dd class="project-hero-metadata-value">{entry.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+
+  {hasBadges && (
+    <div class="project-hero-technology-list" aria-label="Technologies used">
+      {badges.map((badge) => (
+        <badge.Component {...badge.props} />
+      ))}
+    </div>
+  )}
+
+  <div class="project-hero-actions">
+    <a href="/projects" class="project-hero-button project-hero-button-secondary">
+      <svg
+        width="13"
+        height="13"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+      Projects
+    </a>
+
+    <div class="project-hero-secondary-actions">
+      {hasLiveUrl && (
+        <a
+          href={liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Live demo (opens in new tab)"
+          class="project-hero-button project-hero-button-primary"
+        >
+          Live Demo
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      )}
+
+      {hasSourceUrl && (
+        <a
+          href={sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Source code (opens in new tab)"
+          class="project-hero-button project-hero-button-secondary"
+        >
+          Source Code
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M7 17L17 7M17 7H9M17 7v8" />
+          </svg>
+        </a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .project-hero {
+    background: #FFFFFF;
+    border: 1px solid #E8EAED;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 8px 24px rgba(0, 0, 0, 0.03);
+  }
+
+  :global(.dark) .project-hero {
+    background: #202124;
+    border-color: #3C4043;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .project-hero-category {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1A73E8;
+    margin-bottom: 16px;
+  }
+
+  :global(.dark) .project-hero-category {
+    color: #4A90F0;
+  }
+
+  .project-hero-primary-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: start;
+    margin-bottom: 28px;
+  }
+
+  .project-hero-title {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    line-height: 1.1;
+    color: #0A0A0A;
+    margin-bottom: 14px;
+  }
+
+  :global(.dark) .project-hero-title {
+    color: #FAFAFA;
+  }
+
+  .project-hero-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #525252;
+    max-width: 520px;
+  }
+
+  :global(.dark) .project-hero-description {
+    color: #A3A3A3;
+  }
+
+  .project-hero-metadata-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: right;
+    padding-top: 4px;
+    flex-shrink: 0;
+    min-width: 140px;
+    margin: 0;
+  }
+
+  .project-hero-metadata-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .project-hero-metadata-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #80868B;
+    margin: 0;
+  }
+
+  :global(.dark) .project-hero-metadata-label {
+    color: #9AA0A6;
+  }
+
+  .project-hero-metadata-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #202124;
+    margin: 0;
+  }
+
+  :global(.dark) .project-hero-metadata-value {
+    color: #E8EAED;
+  }
+
+  .project-hero-technology-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 32px;
+  }
+
+  .project-hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #E8EAED;
+    flex-wrap: wrap;
+  }
+
+  :global(.dark) .project-hero-actions {
+    border-color: #3C4043;
+  }
+
+  .project-hero-secondary-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .project-hero-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .project-hero-button-primary {
+    background: #202124;
+    color: #FFFFFF;
+    border: 1px solid #202124;
+  }
+
+  .project-hero-button-primary:hover {
+    background: #3C4043;
+    border-color: #3C4043;
+    transform: translateY(-1px);
+  }
+
+  :global(.dark) .project-hero-button-primary {
+    background: #FFFFFF;
+    color: #202124;
+    border-color: #FFFFFF;
+  }
+
+  :global(.dark) .project-hero-button-primary:hover {
+    background: #E8EAED;
+    border-color: #E8EAED;
+  }
+
+  .project-hero-button-secondary {
+    background: #FFFFFF;
+    color: #202124;
+    border: 1px solid #E8EAED;
+  }
+
+  .project-hero-button-secondary:hover {
+    background: #FAFAFA;
+    border-color: #DADCE0;
+    transform: translateY(-1px);
+  }
+
+  :global(.dark) .project-hero-button-secondary {
+    background: #2A2A2D;
+    color: #E8EAED;
+    border-color: #3C4043;
+  }
+
+  :global(.dark) .project-hero-button-secondary:hover {
+    background: #35353A;
+    border-color: #5F6368;
+  }
+
+  @media (max-width: 640px) {
+    .project-hero {
+      padding: 28px 24px;
+      border-radius: 16px;
+    }
+
+    .project-hero-primary-row {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .project-hero-metadata-list {
+      text-align: left;
+      flex-direction: row;
+      gap: 32px;
+      padding-top: 0;
+      min-width: 0;
+    }
+
+    .project-hero-title {
+      font-size: 34px;
+    }
+
+    .project-hero-actions {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .project-hero-secondary-actions {
+      width: 100%;
+    }
+
+    .project-hero-secondary-actions .project-hero-button {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+</style>

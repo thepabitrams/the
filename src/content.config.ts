@@ -6,30 +6,28 @@ const previewSlideSchema = z.object({
   image: z.string(),
 });
 
-export const projectSchema = z.object({
+const sharedProjectSchema = {
   title: z.string(),
   description: z.string().max(160),
   techStack: z.array(z.string()).default([]),
   publishedAt: z.coerce.date(),
   featured: z.boolean().default(false),
-  status: z.enum(['new', 'in-progress', 'completed', 'archived']).optional(),
-
   githubUrl: z.string().url().optional(),
   liveUrl: z.string().url().optional(),
   demoVideoId: z.string().optional(),
-
   image: z.string().optional(),
   diagram: z.string().optional(),
-
   preview: z.array(previewSlideSchema).default([]),
-});
+};
 
 export const projects = defineCollection({
   loader: glob({
     pattern: '**/card.mdx',
     base: './src/content/projects',
   }),
-  schema: projectSchema,
+  schema: z.object({
+    ...sharedProjectSchema,
+  }),
 });
 
 export const projectDetails = defineCollection({
@@ -37,7 +35,13 @@ export const projectDetails = defineCollection({
     pattern: '**/about.mdx',
     base: './src/content/projects',
   }),
-  schema: projectSchema,
+  schema: z.object({
+    ...sharedProjectSchema,
+    category: z.string(),
+    role: z.string(),
+    status: z.string().default('Completed'),
+    year: z.number(),
+  }),
 });
 
 export const collections = { projects, projectDetails };
