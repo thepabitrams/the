@@ -99,7 +99,7 @@ const editorId = `code-editor-${
 <style is:global>
   .code-editor {
     margin: 24px 0;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
     border: 1px solid #E1E4E8;
     background: #FFFFFF;
@@ -120,7 +120,7 @@ const editorId = `code-editor-${
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 11px 14px;
+    padding: 10px 14px;
     background: #F6F8FA;
     border-bottom: 1px solid #E1E4E8;
   }
@@ -137,8 +137,8 @@ const editorId = `code-editor-${
   }
 
   .code-editor-dot {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 999px;
   }
 
@@ -271,16 +271,23 @@ const editorId = `code-editor-${
     background: #4A4A4A;
   }
 
-  .code-editor-body .astro-code,
-  .code-editor-body .astro-code span {
+  .code-editor-body .astro-code {
     color: var(--shiki-light);
-    background-color: var(--shiki-light-bg);
   }
 
-  .dark .code-editor-body .astro-code,
+  .code-editor-body .astro-code span {
+    color: var(--shiki-light);
+    background-color: transparent;
+  }
+
+  .dark .code-editor-body .astro-code {
+    color: var(--shiki-dark) !important;
+    background-color: #24292e !important;
+  }
+
   .dark .code-editor-body .astro-code span {
-    color: var(--shiki-dark);
-    background-color: var(--shiki-dark-bg);
+    color: var(--shiki-dark) !important;
+    background-color: transparent !important;
   }
 
   .typewriter-character {
