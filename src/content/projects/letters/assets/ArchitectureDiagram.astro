@@ -1,0 +1,157 @@
+<div class="architecture-diagram">
+  <svg class="arch-svg" viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arch-arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0 1 L7 4 L0 7 Z" fill="var(--md-comp-arch-diagram-connector-color)" />
+      </marker>
+    </defs>
+
+    <rect class="arch-box" x="370" y="8" width="160" height="56" rx="10" />
+    <text class="arch-text-root" x="450" y="43" text-anchor="middle">src/</text>
+
+    <path class="arch-line" d="M450 64 L450 100" />
+    <path class="arch-line" d="M120 100 L780 100" />
+
+    <path class="arch-line" d="M120 100 L120 132" marker-end="url(#arch-arr)" />
+    <path class="arch-line" d="M340 100 L340 132" marker-end="url(#arch-arr)" />
+    <path class="arch-line" d="M560 100 L560 132" marker-end="url(#arch-arr)" />
+    <path class="arch-line" d="M780 100 L780 132" marker-end="url(#arch-arr)" />
+
+    <rect class="arch-box-fill" x="55" y="138" width="130" height="64" rx="10" />
+    <text class="arch-text-folder" x="120" y="176" text-anchor="middle">pages/</text>
+
+    <rect class="arch-box-fill" x="275" y="138" width="130" height="64" rx="10" />
+    <text class="arch-text-folder" x="340" y="176" text-anchor="middle">letter/</text>
+
+    <rect class="arch-box-fill" x="495" y="138" width="130" height="64" rx="10" />
+    <text class="arch-text-folder" x="560" y="176" text-anchor="middle">core/</text>
+
+    <rect class="arch-box-fill" x="715" y="138" width="130" height="64" rx="10" />
+    <text class="arch-text-folder" x="780" y="176" text-anchor="middle">db/</text>
+
+    <path class="arch-line" d="M190 170 L265 170" marker-end="url(#arch-arr)" />
+    <path class="arch-line" d="M410 170 L485 170" marker-end="url(#arch-arr)" />
+    <path class="arch-line" d="M630 170 L705 170" marker-end="url(#arch-arr)" />
+
+    <path class="arch-pulse arch-pulse-pages"  pathLength="100" d="M450 64 L450 100 L120 100 L120 138" />
+    <path class="arch-pulse arch-pulse-letter" pathLength="100" d="M450 64 L450 100 L340 100 L340 138" />
+    <path class="arch-pulse arch-pulse-core"   pathLength="100" d="M450 64 L450 100 L560 100 L560 138" />
+    <path class="arch-pulse arch-pulse-db"     pathLength="100" d="M450 64 L450 100 L780 100 L780 138" />
+
+    <path class="arch-pulse arch-chain-pages-letter" pathLength="100" d="M190 170 L265 170" />
+    <path class="arch-pulse arch-chain-letter-core"  pathLength="100" d="M410 170 L485 170" />
+    <path class="arch-pulse arch-chain-core-db"      pathLength="100" d="M630 170 L705 170" />
+  </svg>
+</div>
+
+<style is:global>
+  .architecture-diagram {
+    --md-comp-arch-diagram-container-color: #FFFFFF;
+    --md-comp-arch-diagram-container-color-alt: #F1F3F4;
+    --md-comp-arch-diagram-outline-color: #C8CDD3;
+    --md-comp-arch-diagram-connector-color: #B0B8C0;
+    --md-comp-arch-diagram-on-container-color: #202124;
+
+    --md-comp-arch-diagram-container-shape: 10px;
+    --md-comp-arch-diagram-outline-width: 1.3px;
+    --md-comp-arch-diagram-connector-width: 1.2px;
+    --md-comp-arch-diagram-pulse-width: 2.6px;
+    --md-comp-arch-diagram-root-label-text-size: 20px;
+    --md-comp-arch-diagram-folder-label-text-size: 18px;
+    --md-comp-arch-diagram-label-text-weight: 600;
+
+    --md-sys-motion-duration-cycle: 5s;
+    --md-sys-motion-easing-emphasized: ease-in-out;
+    --md-sys-motion-delay-phase: 1s;
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+  }
+
+  .dark .architecture-diagram {
+    --md-comp-arch-diagram-container-color: #141414;
+    --md-comp-arch-diagram-container-color-alt: #1E1E1E;
+    --md-comp-arch-diagram-outline-color: #555555;
+    --md-comp-arch-diagram-connector-color: #555555;
+    --md-comp-arch-diagram-on-container-color: #F0F0F0;
+  }
+
+  .architecture-diagram .arch-svg {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    display: block;
+  }
+
+  .architecture-diagram .arch-line {
+    fill: none;
+    stroke: var(--md-comp-arch-diagram-connector-color);
+    stroke-width: var(--md-comp-arch-diagram-connector-width);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .architecture-diagram .arch-box {
+    fill: var(--md-comp-arch-diagram-container-color);
+    stroke: var(--md-comp-arch-diagram-on-container-color);
+    stroke-width: var(--md-comp-arch-diagram-outline-width);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .architecture-diagram .arch-box-fill {
+    fill: var(--md-comp-arch-diagram-container-color-alt);
+    stroke: var(--md-comp-arch-diagram-on-container-color);
+    stroke-width: var(--md-comp-arch-diagram-outline-width);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .architecture-diagram .arch-text-root {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--md-comp-arch-diagram-root-label-text-size);
+    font-weight: var(--md-comp-arch-diagram-label-text-weight);
+    fill: var(--md-comp-arch-diagram-on-container-color);
+  }
+
+  .architecture-diagram .arch-text-folder {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--md-comp-arch-diagram-folder-label-text-size);
+    font-weight: var(--md-comp-arch-diagram-label-text-weight);
+    fill: var(--md-comp-arch-diagram-on-container-color);
+  }
+
+  .architecture-diagram .arch-pulse {
+    stroke: var(--md-comp-arch-diagram-on-container-color);
+    stroke-width: var(--md-comp-arch-diagram-pulse-width);
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 20 1000;
+    stroke-dashoffset: 20;
+    opacity: 0;
+    animation: arch-pulse-run var(--md-sys-motion-duration-cycle) var(--md-sys-motion-easing-emphasized) infinite;
+  }
+
+  .architecture-diagram .arch-pulse-pages        { animation-delay: 0s; }
+  .architecture-diagram .arch-chain-pages-letter { animation-delay: var(--md-sys-motion-delay-phase); }
+  .architecture-diagram .arch-pulse-letter       { animation-delay: var(--md-sys-motion-delay-phase); }
+  .architecture-diagram .arch-chain-letter-core  { animation-delay: calc(var(--md-sys-motion-delay-phase) * 2); }
+  .architecture-diagram .arch-pulse-core         { animation-delay: calc(var(--md-sys-motion-delay-phase) * 2); }
+  .architecture-diagram .arch-chain-core-db      { animation-delay: calc(var(--md-sys-motion-delay-phase) * 3); }
+  .architecture-diagram .arch-pulse-db           { animation-delay: calc(var(--md-sys-motion-delay-phase) * 3); }
+
+  @keyframes arch-pulse-run {
+    0%   { stroke-dashoffset: 20; opacity: 0; }
+    3%   { opacity: 1; }
+    17%  { stroke-dashoffset: -80; opacity: 1; }
+    20%  { stroke-dashoffset: -80; opacity: 0; }
+    25%  { stroke-dashoffset: 20; opacity: 0; }
+    100% { stroke-dashoffset: 20; opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .architecture-diagram .arch-pulse {
+      animation: none !important;
+      opacity: 0;
+    }
+  }
+</style>

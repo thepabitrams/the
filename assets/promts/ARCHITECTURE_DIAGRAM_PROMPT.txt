@@ -1,0 +1,156 @@
+# ARCHITECTURE DIAGRAM COMPONENT
+
+## PURPOSE
+
+Animated blueprint-style dependency diagram for project detail pages.
+Shows folder structure under src/ with synchronized pulse animation.
+Stack: Astro component. Self-contained CSS. Zero dependencies.
+
+## FILE LOCATION
+
+src/content/projects/[project-slug]/assets/ArchitectureDiagram.astro
+
+## INTEGRATION
+
+In about.mdx at the top:
+  import ArchitectureDiagram from './assets/ArchitectureDiagram.astro';
+
+Inside the Architecture accordion:
+  <Accordion title="Architecture">
+
+  The codebase is split into clear layers:
+
+  <ArchitectureDiagram />
+
+  **Flow:** `pages → letter → core → db`
+
+  Nothing skips layers. Nothing imports backward.
+
+  </Accordion>
+
+## WHAT IT RENDERS
+
+Single SVG containing:
+- 1 root box: src/
+- 4 folder boxes: pages/, letter/, core/, db/
+- Trunk line from src/ down to horizontal bar
+- 4 vertical lines from bar to each folder with arrowheads
+- 3 chain arrows between folders
+- 7 animated pulses (4 fan-out + 3 chain)
+
+## ANIMATION TIMING
+
+5-second loop, 4 phases, each phase 1 second:
+
+Phase 1 (0s-1s):  src → pages/
+Phase 2 (1s-2s):  pages → letter/  AND  src → letter/   arrive together
+Phase 3 (2s-3s):  letter → core/  AND  src → core/     arrive together
+Phase 4 (3s-4s):  core → db/      AND  src → db/       arrive together
+Phase 5 (4s-5s):  pause, restart loop
+
+Implementation via animation-delay tokens:
+  --md-sys-motion-delay-phase: 1s
+
+  .arch-pulse-pages        { animation-delay: 0s; }
+  .arch-chain-pages-letter { animation-delay: var(--md-sys-motion-delay-phase); }
+  .arch-pulse-letter       { animation-delay: var(--md-sys-motion-delay-phase); }
+  .arch-chain-letter-core  { animation-delay: calc(var(--md-sys-motion-delay-phase) * 2); }
+  .arch-pulse-core         { animation-delay: calc(var(--md-sys-motion-delay-phase) * 2); }
+  .arch-chain-core-db      { animation-delay: calc(var(--md-sys-motion-delay-phase) * 3); }
+  .arch-pulse-db           { animation-delay: calc(var(--md-sys-motion-delay-phase) * 3); }
+
+## DESIGN TOKENS (Material Design 3)
+
+Light mode on .architecture-diagram:
+  --md-comp-arch-diagram-container-color:           #FFFFFF
+  --md-comp-arch-diagram-container-color-alt:       #F1F3F4
+  --md-comp-arch-diagram-outline-color:             #C8CDD3
+  --md-comp-arch-diagram-connector-color:           #B0B8C0
+  --md-comp-arch-diagram-on-container-color:        #202124
+  --md-comp-arch-diagram-container-shape:           10px
+  --md-comp-arch-diagram-outline-width:             1.3px
+  --md-comp-arch-diagram-connector-width:           1.2px
+  --md-comp-arch-diagram-pulse-width:               2.6px
+  --md-comp-arch-diagram-root-label-text-size:      20px
+  --md-comp-arch-diagram-folder-label-text-size:    18px
+  --md-comp-arch-diagram-label-text-weight:         600
+
+Dark mode on .dark .architecture-diagram:
+  --md-comp-arch-diagram-container-color:           #141414
+  --md-comp-arch-diagram-container-color-alt:       #1E1E1E
+  --md-comp-arch-diagram-outline-color:             #555555
+  --md-comp-arch-diagram-connector-color:           #555555
+  --md-comp-arch-diagram-on-container-color:        #F0F0F0
+
+Motion tokens:
+  --md-sys-motion-duration-cycle:                   5s
+  --md-sys-motion-easing-emphasized:                ease-in-out
+  --md-sys-motion-delay-phase:                      1s
+
+## ADAPTING FOR A NEW PROJECT
+
+Change these elements when folder structure differs:
+
+1. FOLDER NAMES
+   Update SVG <text> contents to match new folder names.
+
+2. FOLDER COUNT
+   4 folders: default layout works as-is
+   5 folders: reduce box width to 110px, adjust x positions
+   3 folders: widen boxes to 140px, adjust x positions
+   2 folders: widen to 160px, remove middle chain arrow
+
+3. X POSITIONS
+   Root src/ centered at x=450 in 900-wide viewBox.
+   Distribute 4 folders evenly: 120, 340, 560, 780.
+   Recalculate if count differs.
+
+4. PULSE PATHS
+   Each pulse path d attribute must start at src/ trunk,
+   follow the horizontal bar, then drop to folder center.
+   Chain pulses go from right edge of one folder to left edge of next.
+
+5. COLOR PALETTE
+   If project uses different colors, change only the two
+   color blocks (light + dark). Keep token names identical.
+
+## CONSTRAINTS
+
+- No CSS comments anywhere
+- No self-referencing system tokens
+- No inline styles outside SVG
+- No hardcoded hex values outside token definition blocks
+- Must respect prefers-reduced-motion
+- Must work in light and dark with zero JavaScript
+
+## AI INSTRUCTION
+
+When this file is shared with a new project's folder structure:
+
+Output:
+1. Full updated ArchitectureDiagram.astro
+2. Corrected x-positions for the folder count
+3. Corrected pulse path d attributes
+4. Corrected animation-delay assignments
+5. Integration steps for that project's about.mdx
+
+Preserve:
+- All MD3 token names
+- All animation timing logic
+- The synchronized "arrive together" behavior
+- Zero comments in output
+- Light and dark mode support
+
+Do not:
+- Simplify the structure
+- Add explanatory comments
+- Rename tokens
+- Change the 5-second loop duration
+
+## REFERENCE PROJECT
+
+Project: Letters
+URL: pabitramohansingh.com/projects/letters
+Folders: pages/, letter/, core/, db/
+Flow: pages → letter → core → db
+Status: Working in production, light and dark verified.

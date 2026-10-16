@@ -32,6 +32,7 @@ preview:
 
 import Accordion from '@/shared/components/ui/Accordion.astro';
 import CodeEditor from '@/shared/components/ui/CodeEditor.astro';
+import ArchitectureDiagram from './assets/ArchitectureDiagram.astro';
 
 <Accordion title="Why I built this">
 
@@ -86,20 +87,11 @@ Keeping these two renderers in sync was the single biggest engineering problem.
 
 The codebase is split into clear layers:
 
-<CodeEditor
-  filename="architecture.txt"
-  language="text"
-  maxHeightPx={220}
-  code={`src/
-├── core/          # Shared infrastructure
-├── db/            # Drizzle schema
-├── letter/        # Letter rendering system
-└── pages/         # Routes`}
-/>
+<ArchitectureDiagram />
 
 **Flow:** `pages → letter → core → db`
 
-Nothing skips layers. Nothing imports upward.
+Nothing skips layers. Nothing imports backward.
 
 </Accordion>
 
