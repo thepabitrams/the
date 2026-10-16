@@ -31,6 +31,7 @@ preview:
 ---
 
 import Accordion from '@/shared/components/ui/Accordion.astro';
+import CodeEditor from '@/shared/components/ui/CodeEditor.astro';
 
 <Accordion title="Why I built this">
 
@@ -64,15 +65,18 @@ Letters has to render identically in two completely different environments:
 
 **2. The downloaded HTML** — plain HTML, CSS, and vanilla JavaScript
 
-```ts
-export default {
+<CodeEditor
+  filename="patterns/confetti-burst.ts"
+  language="ts"
+  maxHeightPx={300}
+  code={`export default {
   id: 'confetti-burst',
   component: () => ( /* React */ ),
   standalone: {
-    script: `/* vanilla JS */`,
+    script: \`/* vanilla JS */\`,
   },
-}
-```
+}`}
+/>
 
 Keeping these two renderers in sync was the single biggest engineering problem.
 
@@ -80,13 +84,18 @@ Keeping these two renderers in sync was the single biggest engineering problem.
 
 <Accordion title="Architecture">
 
-```
-src/
+The codebase is split into clear layers:
+
+<CodeEditor
+  filename="architecture.txt"
+  language="text"
+  maxHeightPx={220}
+  code={`src/
 ├── core/          # Shared infrastructure
 ├── db/            # Drizzle schema
 ├── letter/        # Letter rendering system
-└── pages/         # Routes
-```
+└── pages/         # Routes`}
+/>
 
 **Flow:** `pages → letter → core → db`
 
