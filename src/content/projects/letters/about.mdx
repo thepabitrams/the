@@ -1,0 +1,118 @@
+---
+title: "Letters"
+description: "Beautiful, self-destructing letters for the people who matter."
+techStack:
+  - "React 19.X"
+  - "TypeScript 7.X"
+  - "Tailwind CSS 4.X"
+  - "Vite 6.X"
+  - "Cloudflare Workers"
+  - "Hono"
+  - "Drizzle ORM"
+  - "Better Auth"
+publishedAt: 2026-02-01
+featured: true
+status: completed
+sortOrder: 1
+githubUrl: "https://github.com/thepabitrams/letters"
+liveUrl: "https://letters.pabitramohansingh.com"
+image: "/letters/letters.gif"
+preview:
+  - mode: desktop
+    image: "/letters/desktop-dark.webp"
+  - mode: mobile
+    image: "/letters/mobile-dark.webp"
+  - mode: desktop
+    image: "/letters/desktop-light.webp"
+  - mode: mobile
+    image: "/letters/mobile-light.webp"
+---
+
+import Accordion from '@/shared/components/ui/Accordion.astro';
+
+<Accordion title="Why I built this">
+
+Most of what we send each other online is disposable. Hundreds of messages a day, none of them meaning much. The things that actually matter get buried in the noise.
+
+I wanted to build the opposite. A place where you write one message to one person, share it as a single link, and know it will disappear. The impermanence is the point.
+
+Letters started as something much smaller — a personal tool for a personal moment. But I realized early that a tool designed for one person isn't really a tool. It's a gift. And gifts are fragile. If the one person doesn't want it, the whole thing falls apart.
+
+</Accordion>
+
+<Accordion title="What it does">
+
+Letters lets you write one message to one person and share it as a link. The recipient opens it, reads it, and can reply. Then it disappears.
+
+You can customize every part of the letter — the background, the font, the message box, the buttons. Add motion effects: hearts, confetti, snow, fireworks.
+
+Every letter lives on a progressive timer:
+
+- **7 days** from creation
+- **3.5 days** after it's been opened
+- **1.75 days** after it's been replied to
+
+</Accordion>
+
+<Accordion title="The hardest problem">
+
+Letters has to render identically in two completely different environments:
+
+**1. The live app** — React 19, Motion, Tailwind CSS, TypeScript
+
+**2. The downloaded HTML** — plain HTML, CSS, and vanilla JavaScript
+
+```ts
+export default {
+  id: 'confetti-burst',
+  component: () => ( /* React */ ),
+  standalone: {
+    script: `/* vanilla JS */`,
+  },
+}
+```
+
+Keeping these two renderers in sync was the single biggest engineering problem.
+
+</Accordion>
+
+<Accordion title="Architecture">
+
+```
+src/
+├── core/          # Shared infrastructure
+├── db/            # Drizzle schema
+├── letter/        # Letter rendering system
+└── pages/         # Routes
+```
+
+**Flow:** `pages → letter → core → db`
+
+Nothing skips layers. Nothing imports upward.
+
+</Accordion>
+
+<Accordion title="Trade-offs I made">
+
+| Decision | Why | Trade-off |
+|---|---|---|
+| **Cloudflare Workers** | Global edge, no servers | No full Node APIs |
+| **Drizzle over Prisma** | Smaller bundle, better TS | Fewer tutorials |
+| **Better Auth** | Self-hosted, free | More setup |
+
+</Accordion>
+
+<Accordion title="What I learned">
+
+Reading code is a different skill from writing code. I can read what AI generates now — spot what's wrong, what's missing, what needs to change.
+
+The distance between "it works on my machine" and "it works for the person who needs it" is the whole project.
+
+</Accordion>
+
+<Accordion title="Links">
+
+- **Live Demo:** [letters.pabitramohansingh.com](https://letters.pabitramohansingh.com)
+- **Source Code:** [github.com/thepabitrams/letters](https://github.com/thepabitrams/letters)
+
+</Accordion>

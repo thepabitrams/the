@@ -7,7 +7,7 @@ import type { ProjectEntry } from '@/shared/types/project-entry';
 const projects = await getCollection('projects');
 
 const entries: ProjectEntry[] = projects.map((entry) => ({
-  slug: entry.id,
+  slug: entry.id.replace(/\/card$/, ''),
   data: entry.data,
   body: entry.body || '',
 }));

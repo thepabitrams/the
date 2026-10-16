@@ -6,6 +6,10 @@ techStack:
   - "TypeScript 7.X"
   - "Tailwind CSS 4.X"
   - "Vite 6.X"
+  - "Zustand"
+  - "IndexedDB"
+  - "OPFS"
+  - "Hugging Face Transformers"
 publishedAt: 2026-01-15
 featured: false
 status: completed
@@ -20,9 +24,9 @@ preview:
     image: "/toolpabitrams/mobile-1.webp"
 ---
 
-import Section from '@/shared/components/ui/Section.astro';
+import Accordion from '@/shared/components/ui/Accordion.astro';
 
-<Section title="Why I built this">
+<Accordion title="Why I built this">
 
 The internet is flooded with online utilities, but almost all of them require uploading your files to a server.
 
@@ -32,9 +36,9 @@ This project started as a simple PDF merger, but quickly evolved into a full-fle
 
 The real goal wasn't just to build a few tools—it was to build a **scaffolding** that lets me drop in new utilities effortlessly, day by day, as I have free time.
 
-</Section>
+</Accordion>
 
-<Section title="Architecture (The Immutable Core)">
+<Accordion title="Architecture (The Immutable Core)">
 
 This diagram shows the runtime data flow. Notice how the **Core Engine** (UI, State, Storage, Registry) is completely isolated from the actual tools.
 
@@ -55,9 +59,9 @@ This separation guarantees that no matter how many tools I add, the foundation s
 - **Dynamic Registration:** New tools auto-register via `import.meta.glob`. Zero boilerplate per tool.
 - **Persistent Storage:** OPFS + IndexedDB provide unlimited local storage (bypassing localStorage's 5MB cap).
 
-</Section>
+</Accordion>
 
-<Section title="Trade-offs I Made">
+<Accordion title="Trade-offs I Made">
 
 | Decision | Why I Chose It | The Trade-off |
 | :--- | :--- | :--- |
@@ -65,9 +69,9 @@ This separation guarantees that no matter how many tools I add, the foundation s
 | **OPFS + IndexedDB vs localStorage** | Handles large files (MBs) and offers unlimited storage. Users keep files across sessions. | Async APIs and more complex code. Accepted this for the privacy-first value proposition. |
 | **Dynamic imports (`import.meta.glob`)** | Lazy loading keeps initial load lightning fast. New tools are auto-discovered. | Build process is more complex. But for a growing toolkit, the scalability is essential. |
 
-</Section>
+</Accordion>
 
-<Section title="The Hardest Bug">
+<Accordion title="The Hardest Bug">
 
 **The Problem:** Service workers. I wanted to cache the core app for offline use, but still allow new tools to be loaded dynamically.
 
@@ -82,9 +86,9 @@ The service worker would either cache too much (making updates slow) or too litt
 
 This means users get the core app instantly offline, while tools are served from cache but silently updated in the background. Best of both worlds.
 
-</Section>
+</Accordion>
 
-<Section title="What I'd do differently">
+<Accordion title="What I'd do differently">
 
 If I rebuilt this today, I would make these architectural improvements:
 
@@ -102,9 +106,9 @@ If I rebuilt this today, I would make these architectural improvements:
 
    Currently, testing is manual. I'd add Vitest for unit tests and Playwright for end-to-end flows to catch regressions as the toolkit grows.
 
-</Section>
+</Accordion>
 
-<Section title="Key Features">
+<Accordion title="Key Features">
 
 - **Privacy-first:** All processing runs locally—zero server uploads, zero data collection.
 - **Modular architecture:** Add new utilities without touching existing code.
@@ -113,14 +117,14 @@ If I rebuilt this today, I would make these architectural improvements:
 - **Persistent storage:** Files stay saved via OPFS/IndexedDB until manually removed.
 - **Growing daily:** New tools added regularly as I find free time.
 
-</Section>
+</Accordion>
 
-<Section title="Links">
+<Accordion title="Links">
 
-- **Live Demo:** <a href="https://toolpabitrams.pages.dev/" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">ToolPabitraMS</a>
-- **Source Code:** <a href="https://github.com/thepabitrams/toolpabitrams" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">GitHub</a>
+- **Live Demo:** [ToolPabitraMS](https://toolpabitrams.pages.dev/)
+- **Source Code:** [GitHub](https://github.com/thepabitrams/toolpabitrams)
 - **Built with:** React 19, TypeScript, Vite, Tailwind CSS, Zustand, IndexedDB, OPFS, Hugging Face Transformers
 
 *This is a living project. I add new tools whenever I get free time—so check back often.* 🚀
 
-</Section>
+</Accordion>

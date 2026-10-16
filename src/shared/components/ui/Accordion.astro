@@ -1,0 +1,193 @@
+---
+export interface Props {
+  title: string;
+  isOpen?: boolean;
+}
+
+const { title, isOpen = true } = Astro.props;
+
+const accordionId = `accordion-${
+  globalThis.crypto?.randomUUID?.() ??
+  Math.random().toString(36).slice(2, 11)
+}`;
+---
+
+<div
+  class:list={['accordion-item', isOpen && 'open']}
+  data-accordion-item
+>
+  <button
+    type="button"
+    class="accordion-header"
+    data-accordion-header
+    aria-expanded={isOpen}
+    aria-controls={accordionId}
+  >
+    <span class="accordion-title">{title}</span>
+    <svg
+      class="accordion-chevron"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  </button>
+
+  <div
+    class="accordion-body"
+    id={accordionId}
+    aria-hidden={!isOpen}
+  >
+    <div class="accordion-body-inner">
+      <div class="accordion-content">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .accordion-item {
+    margin-bottom: 16px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #E8EAED;
+    transition: border-color 0.2s;
+    overflow-anchor: none;
+  }
+
+  :global(.dark) .accordion-item {
+    border-color: #3C4043;
+  }
+
+  .accordion-item:hover {
+    border-color: #DADCE0;
+  }
+
+  :global(.dark) .accordion-item:hover {
+    border-color: #5F6368;
+  }
+
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 24px;
+    background: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+
+  :global(.dark) .accordion-header {
+    background: #202124;
+  }
+
+  .accordion-header:hover {
+    background: #FAFAFA;
+  }
+
+  :global(.dark) .accordion-header:hover {
+    background: #292A2D;
+  }
+
+  .accordion-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #202124;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  :global(.dark) .accordion-title {
+    color: #E8EAED;
+  }
+
+  .accordion-chevron {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: #9AA0A6;
+    transition:
+      transform 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+      color 0.15s;
+  }
+
+  .accordion-item.open .accordion-chevron {
+    transform: rotate(180deg);
+    color: #202124;
+  }
+
+  :global(.dark) .accordion-item.open .accordion-chevron {
+    color: #E8EAED;
+  }
+
+  .accordion-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    overflow-anchor: none;
+  }
+
+  .accordion-item.open .accordion-body {
+    grid-template-rows: 1fr;
+  }
+
+  .accordion-body-inner {
+    overflow: hidden;
+    background: #F1F3F4;
+    border-top: 1px solid #E8EAED;
+  }
+
+  :global(.dark) .accordion-body-inner {
+    background: #2A2A2D;
+    border-top-color: #3C4043;
+  }
+
+  .accordion-content {
+    padding: 24px;
+  }
+</style>
+
+<script>
+  const initializeAccordionHeader = (
+    headerElement: HTMLElement,
+  ): void => {
+    if (headerElement.dataset.initialized === 'true') return;
+    headerElement.dataset.initialized = 'true';
+
+    headerElement.addEventListener('click', (event: MouseEvent) => {
+      const accordionItem = headerElement.closest<HTMLElement>(
+        '[data-accordion-item]',
+      );
+      if (!accordionItem) return;
+
+      const isNowOpen = accordionItem.classList.toggle('open');
+      headerElement.setAttribute('aria-expanded', String(isNowOpen));
+
+      const accordionBody = accordionItem.querySelector<HTMLElement>(
+        '.accordion-body',
+      );
+      accordionBody?.setAttribute('aria-hidden', String(!isNowOpen));
+
+      if (event.detail === 0) {
+        headerElement.focus({ preventScroll: true });
+      }
+    });
+  };
+
+  const accordionHeaders = document.querySelectorAll<HTMLElement>(
+    '[data-accordion-header]',
+  );
+
+  accordionHeaders.forEach(initializeAccordionHeader);
+</script>

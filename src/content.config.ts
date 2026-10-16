@@ -13,7 +13,6 @@ export const projectSchema = z.object({
   publishedAt: z.coerce.date(),
   featured: z.boolean().default(false),
   status: z.enum(['new', 'in-progress', 'completed', 'archived']).optional(),
-  sortOrder: z.number().default(0),
 
   githubUrl: z.string().url().optional(),
   liveUrl: z.string().url().optional(),
@@ -23,44 +22,22 @@ export const projectSchema = z.object({
   diagram: z.string().optional(),
 
   preview: z.array(previewSlideSchema).default([]),
-
-  problem: z.string().optional(),
-  userPersona: z.string().optional(),
-  constraints: z.string().optional(),
-  ownership: z.string().optional(),
-  contribution: z.string().optional(),
-  firstVersion: z.string().optional(),
-  architectureNotes: z.string().optional(),
-
-  keyDecisions: z.array(z.string()).optional(),
-  tradeOffs: z.string().optional(),
-  hardestBug: z.string().optional(),
-
-  metrics: z.string().optional(),
-  testCoverage: z.string().optional(),
-  evaluation: z.string().optional(),
-  beforeAfter: z.object({
-    before: z.string(),
-    after: z.string(),
-    improvement: z.string(),
-  }).optional(),
-
-  limitations: z.string().optional(),
-  lessonsLearned: z.string().optional(),
-  whatIdDoDifferently: z.string().optional(),
-
-  nextSteps: z.array(z.string()).optional(),
-  features: z.array(z.string()).optional(),
-
-  aiUsage: z.string().optional(),
 });
 
 export const projects = defineCollection({
   loader: glob({
-    pattern: '**/index.mdx',
+    pattern: '**/card.mdx',
     base: './src/content/projects',
   }),
   schema: projectSchema,
 });
 
-export const collections = { projects };
+export const projectDetails = defineCollection({
+  loader: glob({
+    pattern: '**/about.mdx',
+    base: './src/content/projects',
+  }),
+  schema: projectSchema,
+});
+
+export const collections = { projects, projectDetails };
