@@ -102,21 +102,19 @@ const preview = projectData.preview ?? [];
 
     </div>
 
-    <div class="relative bg-neutral-100 dark:bg-neutral-800 min-h-70 md:min-h-105 overflow-hidden order-1 md:order-2">
+    <div class="relative bg-neutral-100 dark:bg-neutral-800 overflow-hidden order-1 md:order-2 flex items-center justify-center">
       {preview.length > 0 ? (
-        <div class="absolute inset-0">
-          <Preview slides={preview} />
-        </div>
+        <Preview slides={preview} />
       ) : projectData.image ? (
         <img
           src={projectData.image}
           alt={projectData.title}
-          class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+          class="w-full h-auto object-cover"
           loading="lazy"
           decoding="async"
         />
       ) : (
-        <div class="absolute inset-0 flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
+        <div class="w-full aspect-16/10 flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
           Project Preview
         </div>
       )}

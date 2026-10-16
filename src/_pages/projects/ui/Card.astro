@@ -27,25 +27,25 @@ const preview = projectData.preview ?? [];
   data-desc={projectData.description}
   data-tags={techStack.join(' ')}
 >
-  {preview.length > 0 ? (
-    <Preview slides={preview} />
-  ) : (
-    <div class="aspect-16/10 bg-neutral-100 dark:bg-neutral-800 relative overflow-hidden">
-      {projectData.image ? (
-        <img
-          src={projectData.image}
-          alt={projectData.title}
-          class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105"
-          loading="lazy"
-          decoding="async"
-        />
-      ) : (
-        <div class="absolute inset-0 flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
-          Project Preview
-        </div>
-      )}
-    </div>
-  )}
+  <div class="aspect-4/3 bg-neutral-100 dark:bg-neutral-800 relative overflow-hidden flex items-center justify-center">
+    {preview.length > 0 ? (
+      <div class="w-full">
+        <Preview slides={preview} />
+      </div>
+    ) : projectData.image ? (
+      <img
+        src={projectData.image}
+        alt={projectData.title}
+        class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="absolute inset-0 flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
+        Project Preview
+      </div>
+    )}
+  </div>
 
   <div class="p-6 md:p-8 flex-1 flex flex-col">
     <h2 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-white mb-2">
