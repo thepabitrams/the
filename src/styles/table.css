@@ -1,0 +1,132 @@
+:root {
+  --md-sys-color-outline:                 #d0d7de;
+  --md-sys-color-outline-variant:         #b1b8c0;
+  --md-sys-color-surface:                 #ffffff;
+  --md-sys-color-surface-container:       #f6f8fa;
+  --md-sys-color-surface-container-high:  #eef1f4;
+  --md-sys-color-surface-variant:         rgba(175, 184, 193, 0.25);
+  --md-sys-color-on-surface:              #1f2328;
+  --md-sys-color-on-surface-variant:      #656d76;
+  --md-sys-color-primary:                 #1a73e8;
+
+  --md-sys-shape-corner-small:  6px;
+  --md-sys-shape-corner-medium: 8px;
+
+  --md-sys-typescale-body-medium-size:        14px;
+  --md-sys-typescale-body-medium-line-height: 1.5;
+  --md-sys-typescale-label-small-size:        0.85em;
+
+  --md-comp-data-table-container-color:             var(--md-sys-color-surface);
+  --md-comp-data-table-outline-color:               var(--md-sys-color-outline);
+  --md-comp-data-table-outline-width:               1px;
+  --md-comp-data-table-container-shape:             var(--md-sys-shape-corner-medium);
+  --md-comp-data-table-header-container-color:      var(--md-sys-color-surface-container);
+  --md-comp-data-table-header-label-text-color:     var(--md-sys-color-on-surface);
+  --md-comp-data-table-header-label-text-weight:    600;
+  --md-comp-data-table-row-zebra-container-color:   var(--md-sys-color-surface-container);
+  --md-comp-data-table-row-hover-container-color:   var(--md-sys-color-surface-container-high);
+  --md-comp-data-table-cell-label-text-color:       var(--md-sys-color-on-surface);
+  --md-comp-data-table-cell-padding-block:          11px;
+  --md-comp-data-table-cell-padding-inline:         16px;
+  --md-comp-data-table-body-label-text-size:        var(--md-sys-typescale-body-medium-size);
+  --md-comp-data-table-body-label-text-line-height: var(--md-sys-typescale-body-medium-line-height);
+  --md-comp-data-table-code-container-color:        var(--md-sys-color-surface-variant);
+  --md-comp-data-table-code-container-shape:        var(--md-sys-shape-corner-small);
+  --md-comp-data-table-link-label-text-color:       var(--md-sys-color-primary);
+}
+
+.dark {
+  --md-sys-color-outline:                 #30363d;
+  --md-sys-color-outline-variant:         #484f58;
+  --md-sys-color-surface:                 #0d1117;
+  --md-sys-color-surface-container:       #161b22;
+  --md-sys-color-surface-container-high:  #1c2128;
+  --md-sys-color-surface-variant:         rgba(110, 118, 129, 0.4);
+  --md-sys-color-on-surface:              #e6edf3;
+  --md-sys-color-on-surface-variant:      #8b949e;
+  --md-sys-color-primary:                 #4a90f0;
+}
+
+.accordion-content table,
+.prose table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--md-comp-data-table-container-color);
+  border: var(--md-comp-data-table-outline-width) solid var(--md-comp-data-table-outline-color);
+  border-radius: var(--md-comp-data-table-container-shape);
+  overflow: hidden;
+  font-size: var(--md-comp-data-table-body-label-text-size);
+  line-height: var(--md-comp-data-table-body-label-text-line-height);
+  margin: 0;
+}
+
+.accordion-content thead,
+.prose thead {
+  background: var(--md-comp-data-table-header-container-color);
+}
+
+.accordion-content th,
+.prose th {
+  padding: var(--md-comp-data-table-cell-padding-block) var(--md-comp-data-table-cell-padding-inline);
+  text-align: left;
+  font-weight: var(--md-comp-data-table-header-label-text-weight);
+  color: var(--md-comp-data-table-header-label-text-color);
+  white-space: nowrap;
+  border-bottom: var(--md-comp-data-table-outline-width) solid var(--md-comp-data-table-outline-color);
+  border-right: var(--md-comp-data-table-outline-width) solid var(--md-comp-data-table-outline-color);
+}
+
+.accordion-content th:last-child,
+.prose th:last-child {
+  border-right: none;
+}
+
+.accordion-content td,
+.prose td {
+  padding: var(--md-comp-data-table-cell-padding-block) var(--md-comp-data-table-cell-padding-inline);
+  vertical-align: middle;
+  color: var(--md-comp-data-table-cell-label-text-color);
+  border-bottom: var(--md-comp-data-table-outline-width) solid var(--md-comp-data-table-outline-color);
+  border-right: var(--md-comp-data-table-outline-width) solid var(--md-comp-data-table-outline-color);
+}
+
+.accordion-content td:last-child,
+.prose td:last-child {
+  border-right: none;
+}
+
+.accordion-content tbody tr:last-child td,
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.accordion-content tbody tr:nth-child(even),
+.prose tbody tr:nth-child(even) {
+  background: var(--md-comp-data-table-row-zebra-container-color);
+}
+
+.accordion-content tbody tr:hover,
+.prose tbody tr:hover {
+  background: var(--md-comp-data-table-row-hover-container-color);
+}
+
+.accordion-content table code,
+.prose table code {
+  background: var(--md-comp-data-table-code-container-color);
+  padding: 2px 6px;
+  border-radius: var(--md-comp-data-table-code-container-shape);
+  font-size: var(--md-sys-typescale-label-small-size);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.accordion-content table a,
+.prose table a {
+  color: var(--md-comp-data-table-link-label-text-color);
+  text-decoration: none;
+}
+
+.accordion-content table a:hover,
+.prose table a:hover {
+  text-decoration: underline;
+}

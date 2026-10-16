@@ -1,37 +1,45 @@
 @import "tailwindcss";
 @import "./animations.css";
+@import "./table.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #1A73E8;
-  --color-primary-light: #4A90F0;
-  --color-primary-dark: #1557B0;
+  --color-primary:        #1A73E8;
+  --color-primary-light:  #4A90F0;
+  --color-primary-dark:   #1557B0;
 
-  --color-neutral-50: #F8F9FA;
-  --color-neutral-100: #F1F3F4;
-  --color-neutral-200: #E8EAED;
-  --color-neutral-300: #DADCE0;
-  --color-neutral-400: #BDC1C6;
-  --color-neutral-500: #9AA0A6;
-  --color-neutral-600: #80868B;
-  --color-neutral-700: #5F6368;
-  --color-neutral-800: #3C4043;
-  --color-neutral-900: #202124;
-  --color-neutral-950: #171717;
+  --color-neutral-50:     #F8F9FA;
+  --color-neutral-100:    #F1F3F4;
+  --color-neutral-200:    #E8EAED;
+  --color-neutral-300:    #DADCE0;
+  --color-neutral-400:    #BDC1C6;
+  --color-neutral-500:    #9AA0A6;
+  --color-neutral-600:    #80868B;
+  --color-neutral-700:    #5F6368;
+  --color-neutral-800:    #3C4043;
+  --color-neutral-900:    #202124;
+  --color-neutral-950:    #171717;
 
   --font-family-sans: 'Inter', system-ui, sans-serif;
 }
 
 @layer base {
-  html { @apply antialiased; }
+  html {
+    @apply antialiased;
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100;
     font-family: 'Inter', system-ui, sans-serif;
   }
-  html { scroll-behavior: smooth; }
+
   @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
