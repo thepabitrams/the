@@ -1,0 +1,101 @@
+---
+import type { GitHubEvent } from '@/shared/lib/github';
+
+export interface Props {
+  events: GitHubEvent[];
+}
+
+const { events } = Astro.props;
+
+if (events.length === 0) {
+  return null;
+}
+
+const ICONS: Record<string, string> = {
+  commit: 'M11.93 8.5a4.002 4.002 0 01-7.86 0H.75a.75.75 0 010-1.5h3.32a4.002 4.002 0 017.86 0h3.32a.75.75 0 010 1.5h-3.32zM8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z',
+  star: 'M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z',
+  fork: 'M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-.878a2.25 2.25 0 111.5 0v.878a2.25 2.25 0 01-2.25 2.25h-1.5v2.128a2.251 2.251 0 11-1.5 0V8.5h-1.5A2.25 2.25 0 013.5 6.25v-.878a2.25 2.25 0 111.5 0zM5 3.25a.75.75 0 10-1.5 0 .75.75 0 001.5 0zm6.75.75a.75.75 0 100-1.5.75.75 0 000 1.5zm-3 8.75a.75.75 0 10-1.5 0 .75.75 0 001.5 0z',
+  release: 'M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.752 1.752 0 011 7.775zm5.5-2.275a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z',
+  merged: 'M5.45 5.154A4.25 4.25 0 0010.5 8.5h1.25a.75.75 0 010 1.5H10.5a5.75 5.75 0 01-5.05-2.99V9.5a.75.75 0 01-1.5 0V6.75c0-.414.336-.75.75-.75h2.5a.75.75 0 010 1.5H5.45V5.154zM2 3.75a1.75 1.75 0 113.5 0 1.75 1.75 0 01-3.5 0zm9.5 8.5a1.75 1.75 0 113.5 0 1.75 1.75 0 01-3.5 0z',
+  issue: 'M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z',
+};
+---
+
+<ul class="gh-activity-list">
+  {events.map((event) => (
+    <li class="gh-activity-item">
+      <span
+        class={`gh-activity-icon gh-activity-icon-${event.variant}`}
+        aria-hidden="true"
+      >
+        <svg viewBox="0 0 16 16" fill="currentColor" width="15" height="15">
+          <path d={ICONS[event.icon] ?? ICONS.commit} />
+        </svg>
+      </span>
+      <div class="gh-activity-body">
+        <p class="gh-activity-title">{event.title}</p>
+        <p class="gh-activity-subtitle">{event.subtitle}</p>
+      </div>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .gh-activity-list { list-style: none; padding: 0; margin: 0; }
+
+  .gh-activity-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid #E8EAED;
+    align-items: flex-start;
+  }
+
+  .gh-activity-item:first-child { border-top: none; padding-top: 0; }
+  .gh-activity-item:last-child { padding-bottom: 0; }
+
+  :global(.dark) .gh-activity-item { border-color: #3C4043; }
+
+  .gh-activity-icon {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gh-activity-icon-blue   { background: rgba(9, 105, 218, 0.12);   color: #0969da; }
+  .gh-activity-icon-green  { background: rgba(26, 127, 55, 0.12);   color: #1a7f37; }
+  .gh-activity-icon-purple { background: rgba(130, 80, 223, 0.12);  color: #8250df; }
+  .gh-activity-icon-yellow { background: rgba(154, 103, 0, 0.12);   color: #9a6700; }
+
+  :global(.dark) .gh-activity-icon-blue   { background: rgba(56, 139, 253, 0.15);  color: #58a6ff; }
+  :global(.dark) .gh-activity-icon-green  { background: rgba(63, 185, 80, 0.15);   color: #3fb950; }
+  :global(.dark) .gh-activity-icon-purple { background: rgba(163, 113, 247, 0.15); color: #a371f7; }
+  :global(.dark) .gh-activity-icon-yellow { background: rgba(187, 128, 9, 0.15);   color: #d29922; }
+
+  .gh-activity-body { flex: 1; min-width: 0; }
+
+  .gh-activity-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #202124;
+    margin: 0 0 3px;
+    line-height: 1.45;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  :global(.dark) .gh-activity-title { color: #E8EAED; }
+
+  .gh-activity-subtitle {
+    font-size: 12px;
+    color: #80868B;
+    margin: 0;
+  }
+
+  :global(.dark) .gh-activity-subtitle { color: #8b949e; }
+</style>

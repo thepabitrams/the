@@ -1,7 +1,14 @@
 ---
 import AboutLayout from '@/shared/components/layout/AboutLayout.astro';
 import ProjectHero from '@/shared/components/ui/ProjectHero.astro';
+import Accordion from '@/shared/components/ui/Accordion.astro';
+import GitHubActivity from '@/shared/components/ui/GitHubActivity.astro';
 import { getCollection, render } from 'astro:content';
+import {
+  fetchRepoActivity,
+  parseGitHubUrl,
+  type GitHubEvent,
+} from '@/shared/lib/github';
 
 export async function getStaticPaths() {
   const projectDetails = await getCollection('projectDetails');
@@ -13,6 +20,16 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+const { githubUrl } = entry.data;
+
+let activity: GitHubEvent[] = [];
+if (githubUrl) {
+  const parsed = parseGitHubUrl(githubUrl);
+  if (parsed) {
+    activity = await fetchRepoActivity(parsed.owner, parsed.repo, 5);
+  }
+}
 ---
 
 <AboutLayout
@@ -35,6 +52,12 @@ const { Content } = await render(entry);
 
     <div class="project-page-content">
       <Content />
+
+      {activity.length > 0 && (
+        <Accordion title="GitHub Recent Activity">
+          <GitHubActivity events={activity} />
+        </Accordion>
+      )}
     </div>
   </div>
 </AboutLayout>

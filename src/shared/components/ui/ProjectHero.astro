@@ -70,24 +70,6 @@ const metadataEntries: MetadataEntry[] = [
   )}
 
   <div class="project-hero-actions">
-    <a href="/projects" class="project-hero-button project-hero-button-secondary">
-      <svg
-        width="13"
-        height="13"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <polyline points="15 18 9 12 15 6" />
-      </svg>
-      Projects
-    </a>
-
     <div class="project-hero-secondary-actions">
       {hasLiveUrl && (
         <a
@@ -256,7 +238,7 @@ const metadataEntries: MetadataEntry[] = [
   .project-hero-actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 24px;
     padding-top: 24px;
     border-top: 1px solid #E8EAED;
@@ -357,17 +339,23 @@ const metadataEntries: MetadataEntry[] = [
 
     .project-hero-actions {
       flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
+      align-items: stretch;
+      gap: 16px;
     }
 
     .project-hero-secondary-actions {
       width: 100%;
+      gap: 10px;
     }
 
     .project-hero-secondary-actions .project-hero-button {
-      flex: 1;
+      flex: 1 1 0;
+      min-width: 0;
+      width: 0;
       justify-content: center;
+      padding: 11px 14px;
+      font-size: 13px;
+      white-space: nowrap;
     }
   }
 </style>
