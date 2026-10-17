@@ -7,4 +7,3 @@ export { default as X } from './x.astro';
 export { default as YouTube } from './youtube.astro';
 export { default as Instagram } from './instagram.astro';
 export { default as Gmail } from './gmail.astro';
-export { default as GmailButton } from './gmail-button.astro';

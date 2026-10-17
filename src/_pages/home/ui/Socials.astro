@@ -1,13 +1,7 @@
 ---
 import { SITE_CONFIG } from '@/shared/config/site';
-import {
-  GitHub,
-  LinkedIn,
-  X,
-  YouTube,
-  Instagram,
-  GmailButton,
-} from '@/shared/components/ui/icons';
+import { GitHub, LinkedIn, X, YouTube, Instagram, Gmail } from '@/shared/components/ui/icons';
+import LinkButton from '@/shared/components/ui/LinkButton.astro';
 
 const ICON_MAP = {
   GitHub,
@@ -18,7 +12,7 @@ const ICON_MAP = {
 } as const;
 ---
 
-<div class="flex flex-wrap items-center gap-6">
+<div class="flex flex-wrap items-center gap-5">
   {SITE_CONFIG.socialLinks.map(({ platform, url }) => {
     const Icon = ICON_MAP[platform as keyof typeof ICON_MAP];
     if (!Icon) return null;
@@ -37,5 +31,7 @@ const ICON_MAP = {
     );
   })}
 
-  <GmailButton href={`mailto:${SITE_CONFIG.email}`} />
+  <LinkButton href={`mailto:${SITE_CONFIG.email}`} label="Contact Me">
+    <Gmail slot="icon" class="w-4 h-4" />
+  </LinkButton>
 </div>
