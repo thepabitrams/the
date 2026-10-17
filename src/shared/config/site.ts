@@ -21,7 +21,7 @@ export const SITE_CONFIG: SiteConfig = {
   description:
     'Building clean, scalable, and user-focused applications',
   domain: 'https://pabitramohansingh.com',
-  defaultOgImage: '/profile/pabitra-banner.png',
+  defaultOgImage: 'https://pabitramohansingh.com/profile/pabitra-banner.png',
   locale: 'en_US',
   jobTitle: 'Software Engineer',
   email: 'contactpabitrams@gmail.com',
