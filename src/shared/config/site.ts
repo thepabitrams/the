@@ -17,13 +17,13 @@ export interface SiteConfig {
 
 export const SITE_CONFIG: SiteConfig = {
   name: 'Pabitra Mohan Singh',
-  title: 'Pabitra Mohan Singh – MS Computer Science Student',
+  title: 'Pabitra Mohan Singh – Software Engineer',
   description:
-    'MS Computer Science Student passionate about software engineering and AI.',
+    'Building clean, scalable, and user-focused applications',
   domain: 'https://pabitramohansingh.com',
-  defaultOgImage: 'https://pabitramohansingh.com/og-image.png',
+  defaultOgImage: '/profile/pabitra-banner.png',
   locale: 'en_US',
-  jobTitle: 'MS Computer Science Student',
+  jobTitle: 'Software Engineer',
   email: 'contactpabitrams@gmail.com',
   socialLinks: [
     { platform: 'GitHub', url: 'https://github.com/thepabitrams' },

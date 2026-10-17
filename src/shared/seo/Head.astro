@@ -4,14 +4,14 @@ import { SITE_CONFIG } from '@/shared/config/site';
 export interface HeadProps {
   title: string;
   description?: string;
-  ogImage?: string;
+  openGraphImage?: string;
   canonicalUrl?: string;
 }
 
 const {
   title,
   description = SITE_CONFIG.description,
-  ogImage = SITE_CONFIG.defaultOgImage,
+  openGraphImage = SITE_CONFIG.defaultOgImage,
   canonicalUrl = SITE_CONFIG.domain,
 } = Astro.props;
 
@@ -38,13 +38,19 @@ const personSchema = {
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalUrl} />
-<meta property="og:image" content={ogImage} />
+<meta property="og:image" content={openGraphImage} />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image" content={openGraphImage} />
 
 <link rel="canonical" href={canonicalUrl} />
+
+<link rel="icon" type="image/svg+xml" href="/icons/pabitra-avatar-black.svg" media="(prefers-color-scheme: light)" />
+<link rel="icon" type="image/svg+xml" href="/icons/pabitra-avatar-white.svg" media="(prefers-color-scheme: dark)" />
+
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171717" />
 
 <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
