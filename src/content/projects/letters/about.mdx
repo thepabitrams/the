@@ -35,6 +35,13 @@ import CodeEditor from '@/shared/components/ui/CodeEditor.astro';
 import ArchitectureDiagram from './_components/ArchitectureDiagram.astro';
 import CleanupDiagram from './_components/CleanupDiagram.astro';
 import LifetimeGraph from './_components/LifetimeGraph.astro';
+import DataFlowDiagram from './_components/DataFlowDiagram.astro';
+
+<Accordion title="Project Overview">
+
+Letters is a full-stack application built to handle self-destructing messages. It uses a modern edge-native stack: React 19 on the frontend, Hono running on Cloudflare Workers for the backend, and Drizzle ORM with Cloudflare D1 for the database. Every design decision was made to prioritize speed, privacy, and impermanence.
+
+</Accordion>
 
 <Accordion title="Why I built this">
 
@@ -103,6 +110,16 @@ Nothing skips layers. Nothing imports backward.
 
 </Accordion>
 
+<Accordion title="Data Flow">
+
+Here is the exact lifecycle of a request. When a user creates a letter, the data travels down from the React client, into the Hono API, and finally queries the Cloudflare D1 database. 
+
+Once the database confirms the write, the JSON payload travels back up, arches through the API layer, and renders the final response to the user.
+
+<DataFlowDiagram />
+
+</Accordion>
+
 <Accordion title="Backend & Data Lifecycle">
 
 Because letters have to self-destruct, the database needs a strict cleanup routine so it doesn't fill up with dead data. 
@@ -136,12 +153,5 @@ This ensures the database stays healthy and prevents Cloudflare from hitting its
 Reading code is a different skill from writing code. I can read what AI generates now — spot what's wrong, what's missing, what needs to change.
 
 The distance between "it works on my machine" and "it works for the person who needs it" is the whole project.
-
-</Accordion>
-
-<Accordion title="Links">
-
-- **Live Demo:** [letters.pabitramohansingh.com](https://letters.pabitramohansingh.com)
-- **Source Code:** [github.com/thepabitrams/letters](https://github.com/thepabitrams/letters)
 
 </Accordion>
