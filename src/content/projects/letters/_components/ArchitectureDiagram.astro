@@ -1,68 +1,66 @@
 <div class="architecture-diagram">
-  <svg class="arch-svg" viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg">
+  <svg class="architecture-diagram__canvas" viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <marker id="arch-arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
-        <path d="M0 1 L7 4 L0 7 Z" fill="var(--md-comp-arch-diagram-connector-color)" />
+      <marker id="architecture-arrowhead" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0 1 L7 4 L0 7 Z" fill="var(--arch-color-connector)" />
       </marker>
     </defs>
 
-    <rect class="arch-box" x="370" y="8" width="160" height="56" rx="10" />
-    <text class="arch-text-root" x="450" y="43" text-anchor="middle">src/</text>
+    <rect class="architecture-diagram__node" x="370" y="8" width="160" height="56" rx="10" />
+    <text class="architecture-diagram__title--root" x="450" y="43" text-anchor="middle">src/</text>
 
-    <path class="arch-line" d="M450 64 L450 100" />
-    <path class="arch-line" d="M120 100 L780 100" />
+    <path class="architecture-diagram__edge" d="M450 64 L450 100" />
+    <path class="architecture-diagram__edge" d="M120 100 L780 100" />
 
-    <path class="arch-line" d="M120 100 L120 132" marker-end="url(#arch-arr)" />
-    <path class="arch-line" d="M340 100 L340 132" marker-end="url(#arch-arr)" />
-    <path class="arch-line" d="M560 100 L560 132" marker-end="url(#arch-arr)" />
-    <path class="arch-line" d="M780 100 L780 132" marker-end="url(#arch-arr)" />
+    <path class="architecture-diagram__edge" d="M120 100 L120 132" marker-end="url(#architecture-arrowhead)" />
+    <path class="architecture-diagram__edge" d="M340 100 L340 132" marker-end="url(#architecture-arrowhead)" />
+    <path class="architecture-diagram__edge" d="M560 100 L560 132" marker-end="url(#architecture-arrowhead)" />
+    <path class="architecture-diagram__edge" d="M780 100 L780 132" marker-end="url(#architecture-arrowhead)" />
 
-    <rect class="arch-box-fill" x="55" y="138" width="130" height="64" rx="10" />
-    <text class="arch-text-folder" x="120" y="176" text-anchor="middle">pages/</text>
+    <rect class="architecture-diagram__node--filled" x="55" y="138" width="130" height="64" rx="10" />
+    <text class="architecture-diagram__title--folder" x="120" y="176" text-anchor="middle">pages/</text>
 
-    <rect class="arch-box-fill" x="275" y="138" width="130" height="64" rx="10" />
-    <text class="arch-text-folder" x="340" y="176" text-anchor="middle">letter/</text>
+    <rect class="architecture-diagram__node--filled" x="275" y="138" width="130" height="64" rx="10" />
+    <text class="architecture-diagram__title--folder" x="340" y="176" text-anchor="middle">letter/</text>
 
-    <rect class="arch-box-fill" x="495" y="138" width="130" height="64" rx="10" />
-    <text class="arch-text-folder" x="560" y="176" text-anchor="middle">core/</text>
+    <rect class="architecture-diagram__node--filled" x="495" y="138" width="130" height="64" rx="10" />
+    <text class="architecture-diagram__title--folder" x="560" y="176" text-anchor="middle">core/</text>
 
-    <rect class="arch-box-fill" x="715" y="138" width="130" height="64" rx="10" />
-    <text class="arch-text-folder" x="780" y="176" text-anchor="middle">db/</text>
+    <rect class="architecture-diagram__node--filled" x="715" y="138" width="130" height="64" rx="10" />
+    <text class="architecture-diagram__title--folder" x="780" y="176" text-anchor="middle">db/</text>
 
-    <path class="arch-line" d="M190 170 L265 170" marker-end="url(#arch-arr)" />
-    <path class="arch-line" d="M410 170 L485 170" marker-end="url(#arch-arr)" />
-    <path class="arch-line" d="M630 170 L705 170" marker-end="url(#arch-arr)" />
+    <path class="architecture-diagram__edge" d="M190 170 L265 170" marker-end="url(#architecture-arrowhead)" />
+    <path class="architecture-diagram__edge" d="M410 170 L485 170" marker-end="url(#architecture-arrowhead)" />
+    <path class="architecture-diagram__edge" d="M630 170 L705 170" marker-end="url(#architecture-arrowhead)" />
 
-    <path class="arch-pulse arch-pulse-pages"  pathLength="100" d="M450 64 L450 100 L120 100 L120 138" />
-    <path class="arch-pulse arch-pulse-letter" pathLength="100" d="M450 64 L450 100 L340 100 L340 138" />
-    <path class="arch-pulse arch-pulse-core"   pathLength="100" d="M450 64 L450 100 L560 100 L560 138" />
-    <path class="arch-pulse arch-pulse-db"     pathLength="100" d="M450 64 L450 100 L780 100 L780 138" />
+    <path class="architecture-diagram__pulse architecture-diagram__pulse--pages"           pathLength="100" d="M450 64 L450 100 L120 100 L120 138" />
+    <path class="architecture-diagram__pulse architecture-diagram__pulse--letter"          pathLength="100" d="M450 64 L450 100 L340 100 L340 138" />
+    <path class="architecture-diagram__pulse architecture-diagram__pulse--core"            pathLength="100" d="M450 64 L450 100 L560 100 L560 138" />
+    <path class="architecture-diagram__pulse architecture-diagram__pulse--db"              pathLength="100" d="M450 64 L450 100 L780 100 L780 138" />
 
-    <path class="arch-pulse arch-chain-pages-letter" pathLength="100" d="M190 170 L265 170" />
-    <path class="arch-pulse arch-chain-letter-core"  pathLength="100" d="M410 170 L485 170" />
-    <path class="arch-pulse arch-chain-core-db"      pathLength="100" d="M630 170 L705 170" />
+    <path class="architecture-diagram__pulse architecture-diagram__pulse--pages-to-letter" pathLength="100" d="M190 170 L265 170" />
+    <path class="architecture-diagram__pulse architecture-diagram__pulse--letter-to-core"  pathLength="100" d="M410 170 L485 170" />
+    <path class="architecture-diagram__pulse architecture-diagram__pulse--core-to-db"      pathLength="100" d="M630 170 L705 170" />
   </svg>
 </div>
 
 <style is:global>
   .architecture-diagram {
-    --md-comp-arch-diagram-container-color: #FFFFFF;
-    --md-comp-arch-diagram-container-color-alt: #F1F3F4;
-    --md-comp-arch-diagram-outline-color: #C8CDD3;
-    --md-comp-arch-diagram-connector-color: #B0B8C0;
-    --md-comp-arch-diagram-on-container-color: #202124;
+    --arch-color-surface: #FFFFFF;
+    --arch-color-surface-variant: #F1F3F4;
+    --arch-color-connector: #B0B8C0;
+    --arch-color-on-surface: #202124;
 
-    --md-comp-arch-diagram-container-shape: 10px;
-    --md-comp-arch-diagram-outline-width: 1.3px;
-    --md-comp-arch-diagram-connector-width: 1.2px;
-    --md-comp-arch-diagram-pulse-width: 2.6px;
-    --md-comp-arch-diagram-root-label-text-size: 20px;
-    --md-comp-arch-diagram-folder-label-text-size: 18px;
-    --md-comp-arch-diagram-label-text-weight: 600;
+    --arch-stroke-width: 1.3px;
+    --arch-stroke-width-connector: 1.2px;
+    --arch-stroke-width-pulse: 2.6px;
+    --arch-font-size-root: 20px;
+    --arch-font-size-folder: 18px;
+    --arch-font-weight: 600;
 
-    --md-sys-motion-duration-cycle: 5s;
-    --md-sys-motion-easing-emphasized: ease-in-out;
-    --md-sys-motion-delay-phase: 1s;
+    --arch-motion-duration: 5s;
+    --arch-motion-easing: ease-in-out;
+    --arch-motion-delay: 1s;
 
     width: 100%;
     display: flex;
@@ -71,75 +69,66 @@
   }
 
   .dark .architecture-diagram {
-    --md-comp-arch-diagram-container-color: #141414;
-    --md-comp-arch-diagram-container-color-alt: #1E1E1E;
-    --md-comp-arch-diagram-outline-color: #555555;
-    --md-comp-arch-diagram-connector-color: #555555;
-    --md-comp-arch-diagram-on-container-color: #F0F0F0;
+    --arch-color-surface: #141414;
+    --arch-color-surface-variant: #1E1E1E;
+    --arch-color-connector: #555555;
+    --arch-color-on-surface: #F0F0F0;
   }
 
-  .architecture-diagram .arch-svg {
+  .architecture-diagram .architecture-diagram__canvas {
     width: 100%;
     max-width: 900px;
     height: auto;
     display: block;
   }
 
-  .architecture-diagram .arch-line {
+  .architecture-diagram .architecture-diagram__edge {
     fill: none;
-    stroke: var(--md-comp-arch-diagram-connector-color);
-    stroke-width: var(--md-comp-arch-diagram-connector-width);
+    stroke: var(--arch-color-connector);
+    stroke-width: var(--arch-stroke-width-connector);
     vector-effect: non-scaling-stroke;
   }
 
-  .architecture-diagram .arch-box {
-    fill: var(--md-comp-arch-diagram-container-color);
-    stroke: var(--md-comp-arch-diagram-on-container-color);
-    stroke-width: var(--md-comp-arch-diagram-outline-width);
+  .architecture-diagram .architecture-diagram__node,
+  .architecture-diagram .architecture-diagram__node--filled {
+    stroke: var(--arch-color-on-surface);
+    stroke-width: var(--arch-stroke-width);
     vector-effect: non-scaling-stroke;
   }
 
-  .architecture-diagram .arch-box-fill {
-    fill: var(--md-comp-arch-diagram-container-color-alt);
-    stroke: var(--md-comp-arch-diagram-on-container-color);
-    stroke-width: var(--md-comp-arch-diagram-outline-width);
-    vector-effect: non-scaling-stroke;
-  }
+  .architecture-diagram .architecture-diagram__node          { fill: var(--arch-color-surface); }
+  .architecture-diagram .architecture-diagram__node--filled { fill: var(--arch-color-surface-variant); }
 
-  .architecture-diagram .arch-text-root {
+  .architecture-diagram .architecture-diagram__title--root,
+  .architecture-diagram .architecture-diagram__title--folder {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: var(--md-comp-arch-diagram-root-label-text-size);
-    font-weight: var(--md-comp-arch-diagram-label-text-weight);
-    fill: var(--md-comp-arch-diagram-on-container-color);
+    font-weight: var(--arch-font-weight);
+    fill: var(--arch-color-on-surface);
   }
 
-  .architecture-diagram .arch-text-folder {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: var(--md-comp-arch-diagram-folder-label-text-size);
-    font-weight: var(--md-comp-arch-diagram-label-text-weight);
-    fill: var(--md-comp-arch-diagram-on-container-color);
-  }
+  .architecture-diagram .architecture-diagram__title--root   { font-size: var(--arch-font-size-root); }
+  .architecture-diagram .architecture-diagram__title--folder { font-size: var(--arch-font-size-folder); }
 
-  .architecture-diagram .arch-pulse {
-    stroke: var(--md-comp-arch-diagram-on-container-color);
-    stroke-width: var(--md-comp-arch-diagram-pulse-width);
+  .architecture-diagram .architecture-diagram__pulse {
+    stroke: var(--arch-color-on-surface);
+    stroke-width: var(--arch-stroke-width-pulse);
     fill: none;
     stroke-linecap: round;
     stroke-dasharray: 20 1000;
     stroke-dashoffset: 20;
     opacity: 0;
-    animation: arch-pulse-run var(--md-sys-motion-duration-cycle) var(--md-sys-motion-easing-emphasized) infinite;
+    animation: architecture-pulse-run var(--arch-motion-duration) var(--arch-motion-easing) infinite;
   }
 
-  .architecture-diagram .arch-pulse-pages        { animation-delay: 0s; }
-  .architecture-diagram .arch-chain-pages-letter { animation-delay: var(--md-sys-motion-delay-phase); }
-  .architecture-diagram .arch-pulse-letter       { animation-delay: var(--md-sys-motion-delay-phase); }
-  .architecture-diagram .arch-chain-letter-core  { animation-delay: calc(var(--md-sys-motion-delay-phase) * 2); }
-  .architecture-diagram .arch-pulse-core         { animation-delay: calc(var(--md-sys-motion-delay-phase) * 2); }
-  .architecture-diagram .arch-chain-core-db      { animation-delay: calc(var(--md-sys-motion-delay-phase) * 3); }
-  .architecture-diagram .arch-pulse-db           { animation-delay: calc(var(--md-sys-motion-delay-phase) * 3); }
+  .architecture-diagram .architecture-diagram__pulse--pages           { animation-delay: 0s; }
+  .architecture-diagram .architecture-diagram__pulse--pages-to-letter { animation-delay: var(--arch-motion-delay); }
+  .architecture-diagram .architecture-diagram__pulse--letter          { animation-delay: var(--arch-motion-delay); }
+  .architecture-diagram .architecture-diagram__pulse--letter-to-core  { animation-delay: calc(var(--arch-motion-delay) * 2); }
+  .architecture-diagram .architecture-diagram__pulse--core            { animation-delay: calc(var(--arch-motion-delay) * 2); }
+  .architecture-diagram .architecture-diagram__pulse--core-to-db      { animation-delay: calc(var(--arch-motion-delay) * 3); }
+  .architecture-diagram .architecture-diagram__pulse--db              { animation-delay: calc(var(--arch-motion-delay) * 3); }
 
-  @keyframes arch-pulse-run {
+  @keyframes architecture-pulse-run {
     0%   { stroke-dashoffset: 20; opacity: 0; }
     3%   { opacity: 1; }
     17%  { stroke-dashoffset: -80; opacity: 1; }
@@ -149,7 +138,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .architecture-diagram .arch-pulse {
+    .architecture-diagram .architecture-diagram__pulse {
       animation: none !important;
       opacity: 0;
     }
