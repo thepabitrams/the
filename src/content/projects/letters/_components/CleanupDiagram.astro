@@ -1,0 +1,202 @@
+<div class="cleanup-diagram">
+  <svg class="cleanup-diagram__canvas" viewBox="0 0 1000 850" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="cleanup-arrowhead" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0 1 L7 4 L0 7 Z" fill="var(--cleanup-color-outline)" />
+      </marker>
+
+      <path id="edge-cloudflare-to-cron"    d="M500 120 L500 160 L300 160 L300 200" />
+      <path id="edge-cloudflare-to-letters" d="M500 120 L500 160 L700 160 L700 200" />
+      <path id="edge-cron-to-run"           d="M300 280 L300 320 L500 320 L500 360" />
+      <path id="edge-letters-to-run"        d="M700 280 L700 320 L500 320 L500 360" />
+      <path id="edge-run-to-normal"         d="M500 440 L500 480" />
+      <path id="edge-normal-to-check"       d="M500 570 L500 610" />
+      <path id="edge-check-to-pressure"     d="M500 710 L500 740" />
+    </defs>
+
+    <!-- Cloudflare -->
+    <rect class="cleanup-diagram__node--filled" x="320" y="40" width="360" height="80" rx="12" />
+    <text class="cleanup-diagram__title" x="500" y="74" text-anchor="middle">Cloudflare</text>
+    <text class="cleanup-diagram__body"  x="500" y="100" text-anchor="middle">Worker</text>
+
+    <use href="#edge-cloudflare-to-cron"    class="cleanup-diagram__edge" marker-end="url(#cleanup-arrowhead)" />
+    <use href="#edge-cloudflare-to-letters" class="cleanup-diagram__edge" marker-end="url(#cleanup-arrowhead)" />
+
+    <!-- Triggers -->
+    <text class="cleanup-diagram__label" x="120" y="185" text-anchor="start">trigger 1</text>
+    <rect class="cleanup-diagram__node" x="120" y="200" width="360" height="80" rx="12" />
+    <text class="cleanup-diagram__title" x="300" y="234" text-anchor="middle">Cron</text>
+    <text class="cleanup-diagram__body"  x="300" y="260" text-anchor="middle">3 AM daily</text>
+
+    <text class="cleanup-diagram__label" x="880" y="185" text-anchor="end">trigger 2</text>
+    <rect class="cleanup-diagram__node" x="520" y="200" width="360" height="80" rx="12" />
+    <text class="cleanup-diagram__title" x="700" y="234" text-anchor="middle">POST /letters</text>
+    <text class="cleanup-diagram__body"  x="700" y="260" text-anchor="middle">user threshold</text>
+
+    <use href="#edge-cron-to-run"    class="cleanup-diagram__edge" marker-end="url(#cleanup-arrowhead)" />
+    <use href="#edge-letters-to-run" class="cleanup-diagram__edge" marker-end="url(#cleanup-arrowhead)" />
+
+    <!-- runCleanup -->
+    <rect class="cleanup-diagram__node--emphasis" x="320" y="360" width="360" height="80" rx="12" />
+    <text class="cleanup-diagram__title--inverse" x="500" y="394" text-anchor="middle">runCleanup()</text>
+    <text class="cleanup-diagram__title--inverse" x="500" y="420" text-anchor="middle" style="font-size:16px; opacity:0.8;">always runs first</text>
+
+    <use href="#edge-run-to-normal" class="cleanup-diagram__edge" marker-end="url(#cleanup-arrowhead)" />
+
+    <!-- Normal Cleanup -->
+    <rect class="cleanup-diagram__node--filled" x="320" y="480" width="360" height="90" rx="12" />
+    <text class="cleanup-diagram__title" x="500" y="514" text-anchor="middle">Normal Cleanup</text>
+    <text class="cleanup-diagram__body"  x="500" y="540" text-anchor="middle">deletes expired letters</text>
+    <text class="cleanup-diagram__body"  x="500" y="562" text-anchor="middle">sessions + orphan users</text>
+
+    <use href="#edge-normal-to-check" class="cleanup-diagram__edge" marker-end="url(#cleanup-arrowhead)" />
+
+    <!-- Storage Check -->
+    <polygon class="cleanup-diagram__decision" points="500,610 650,660 500,710 350,660" />
+    <text class="cleanup-diagram__title" x="500" y="666" text-anchor="middle">Storage ≥ 90%?</text>
+
+    <use href="#edge-check-to-pressure" class="cleanup-diagram__edge" marker-end="url(#cleanup-arrowhead)" />
+
+    <!-- FIXED: "yes" now labels the real downward edge, not empty space right of the diamond -->
+    <text class="cleanup-diagram__label" x="515" y="728" text-anchor="start">yes</text>
+
+    <!-- Pressure Cleanup -->
+    <rect class="cleanup-diagram__node--filled" x="320" y="740" width="360" height="90" rx="12" />
+    <text class="cleanup-diagram__title" x="500" y="774" text-anchor="middle">Pressure Cleanup</text>
+    <text class="cleanup-diagram__body"  x="500" y="800" text-anchor="middle">deletes oldest letters</text>
+    <text class="cleanup-diagram__body"  x="500" y="822" text-anchor="middle">and inactive users</text>
+
+    <!-- Pulse animations -->
+    <path class="cleanup-diagram__pulse cleanup-diagram__pulse--cf-cron"        pathLength="100" d="M500 120 L500 160 L300 160 L300 200" />
+    <path class="cleanup-diagram__pulse cleanup-diagram__pulse--cf-letters"     pathLength="100" d="M500 120 L500 160 L700 160 L700 200" />
+    <path class="cleanup-diagram__pulse cleanup-diagram__pulse--cron-run"       pathLength="100" d="M300 280 L300 320 L500 320 L500 360" />
+    <path class="cleanup-diagram__pulse cleanup-diagram__pulse--letters-run"    pathLength="100" d="M700 280 L700 320 L500 320 L500 360" />
+    <path class="cleanup-diagram__pulse cleanup-diagram__pulse--run-normal"     pathLength="100" d="M500 440 L500 480" />
+    <path class="cleanup-diagram__pulse cleanup-diagram__pulse--normal-check"   pathLength="100" d="M500 570 L500 610" />
+    <path class="cleanup-diagram__pulse cleanup-diagram__pulse--check-pressure" pathLength="100" d="M500 710 L500 740" />
+  </svg>
+</div>
+
+<style is:global>
+  .cleanup-diagram {
+    --cleanup-color-surface: #FFFFFF;
+    --cleanup-color-surface-variant: #F5F5F5;
+    --cleanup-color-on-surface: #1A1A1A;
+    --cleanup-color-on-surface-muted: #555555;
+    --cleanup-color-outline: #C4C4C4;
+    --cleanup-color-pulse: #1A1A1A;
+
+    --cleanup-stroke-width: 1.8px;
+    --cleanup-font-size-title: 22px;
+    --cleanup-font-size-body: 16px;
+    --cleanup-font-size-label: 14px;
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+  }
+
+  .dark .cleanup-diagram {
+    --cleanup-color-surface: #0F0F0F;
+    --cleanup-color-surface-variant: #1A1A1A;
+    --cleanup-color-on-surface: #F0F0F0;
+    --cleanup-color-on-surface-muted: #A0A0A0;
+    --cleanup-color-outline: #3A3A3A;
+    --cleanup-color-pulse: #F0F0F0;
+  }
+
+  .cleanup-diagram .cleanup-diagram__canvas {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .cleanup-diagram .cleanup-diagram__node,
+  .cleanup-diagram .cleanup-diagram__node--filled,
+  .cleanup-diagram .cleanup-diagram__node--emphasis,
+  .cleanup-diagram .cleanup-diagram__decision {
+    stroke: var(--cleanup-color-on-surface);
+    stroke-width: var(--cleanup-stroke-width);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cleanup-diagram .cleanup-diagram__node         { fill: var(--cleanup-color-surface); }
+  .cleanup-diagram .cleanup-diagram__node--filled { fill: var(--cleanup-color-surface-variant); }
+  .cleanup-diagram .cleanup-diagram__node--emphasis { fill: var(--cleanup-color-on-surface); }
+  .cleanup-diagram .cleanup-diagram__decision     { fill: var(--cleanup-color-surface); }
+
+  .cleanup-diagram .cleanup-diagram__edge {
+    fill: none;
+    stroke: var(--cleanup-color-outline);
+    stroke-width: var(--cleanup-stroke-width);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cleanup-diagram .cleanup-diagram__title {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--cleanup-font-size-title);
+    font-weight: 700;
+    fill: var(--cleanup-color-on-surface);
+  }
+
+  .cleanup-diagram .cleanup-diagram__title--inverse {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--cleanup-font-size-title);
+    font-weight: 700;
+    fill: var(--cleanup-color-surface);
+  }
+
+  .cleanup-diagram .cleanup-diagram__body {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--cleanup-font-size-body);
+    font-weight: 500;
+    fill: var(--cleanup-color-on-surface-muted);
+  }
+
+  .cleanup-diagram .cleanup-diagram__label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--cleanup-font-size-label);
+    font-weight: 700;
+    fill: var(--cleanup-color-on-surface-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .cleanup-diagram .cleanup-diagram__pulse {
+    stroke: var(--cleanup-color-pulse);
+    stroke-width: 3px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 20 1000;
+    stroke-dashoffset: 20;
+    opacity: 0;
+    animation: cleanup-pulse-run 5s ease-in-out infinite;
+  }
+
+  .cleanup-diagram .cleanup-diagram__pulse--cf-cron        { animation-delay: 0s; }
+  .cleanup-diagram .cleanup-diagram__pulse--cf-letters     { animation-delay: 0s; }
+  .cleanup-diagram .cleanup-diagram__pulse--cron-run       { animation-delay: 1s; }
+  .cleanup-diagram .cleanup-diagram__pulse--letters-run    { animation-delay: 1s; }
+  .cleanup-diagram .cleanup-diagram__pulse--run-normal     { animation-delay: 2s; }
+  .cleanup-diagram .cleanup-diagram__pulse--normal-check   { animation-delay: 3s; }
+  .cleanup-diagram .cleanup-diagram__pulse--check-pressure { animation-delay: 4s; }
+
+  @keyframes cleanup-pulse-run {
+    0%   { stroke-dashoffset: 20; opacity: 0; }
+    3%   { opacity: 1; }
+    17%  { stroke-dashoffset: -80; opacity: 1; }
+    20%  { stroke-dashoffset: -80; opacity: 0; }
+    25%  { stroke-dashoffset: 20; opacity: 0; }
+    100% { stroke-dashoffset: 20; opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cleanup-diagram .cleanup-diagram__pulse {
+      animation: none !important;
+      opacity: 0;
+    }
+  }
+</style>

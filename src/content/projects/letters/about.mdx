@@ -33,6 +33,7 @@ preview:
 import Accordion from '@/shared/components/ui/Accordion.astro';
 import CodeEditor from '@/shared/components/ui/CodeEditor.astro';
 import ArchitectureDiagram from './_components/ArchitectureDiagram.astro';
+import CleanupDiagram from './_components/CleanupDiagram.astro';
 
 <Accordion title="Why I built this">
 
@@ -92,6 +93,24 @@ The codebase is split into clear layers:
 **Flow:** `pages → letter → core → db`
 
 Nothing skips layers. Nothing imports backward.
+
+</Accordion>
+
+<Accordion title="Backend & Data Lifecycle">
+
+Because letters have to self-destruct, the database needs a strict cleanup routine so it doesn't fill up with dead data. 
+
+The system relies on two triggers:
+1. **A Cron job** that runs every day at 3 AM.
+2. **A User Threshold** that triggers when there are over 100 users or letters.
+
+Whenever either of these triggers fires, it runs the exact same logic: **Normal Cleanup** always runs first, followed by a storage check. If the database is over 90% full, it runs an aggressive **Pressure Cleanup**.
+
+<CleanupDiagram />
+
+**Flow:** `Trigger → runCleanup() → Normal → Check 90% → Pressure`
+
+This ensures the database stays healthy and prevents Cloudflare from hitting its storage limits.
 
 </Accordion>
 
