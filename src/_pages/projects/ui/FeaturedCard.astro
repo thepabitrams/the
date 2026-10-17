@@ -29,7 +29,8 @@ const preview = projectData.preview ?? [];
 >
   <div class="grid md:grid-cols-2 gap-0">
 
-    <div class="p-8 md:p-12 order-2 md:order-1 flex flex-col gap-6">
+    <!-- Text Content: Fixed padding on mobile to match standard card -->
+    <div class="p-6 md:p-12 order-2 md:order-1 flex flex-col gap-6">
 
       <div class="flex flex-col gap-3">
         <span class="inline-flex w-fit items-center text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">
@@ -45,14 +46,14 @@ const preview = projectData.preview ?? [];
       </p>
 
       {badges.length > 0 && (
-        <div class="flex flex-wrap items-center gap-1.5">
+        <div class="flex flex-wrap items-center gap-1.5 mb-2">
           {badges.map((badge) => (
             <badge.Component {...badge.props} />
           ))}
         </div>
       )}
 
-      <div class="flex flex-wrap items-center gap-4 mt-auto pt-4">
+      <div class="flex flex-wrap items-center gap-4 mt-auto pt-4 border-t border-neutral-100 dark:border-white/5">
         {projectData.liveUrl && (
           <a
             href={projectData.liveUrl}
@@ -102,19 +103,22 @@ const preview = projectData.preview ?? [];
 
     </div>
 
-    <div class="relative bg-neutral-100 dark:bg-neutral-800 overflow-hidden order-1 md:order-2 flex items-center justify-center">
+    <!-- Image Container: Forced to aspect-4/3 on mobile to match standard card, and removed on desktop -->
+    <div class="relative aspect-4/3 md:aspect-auto bg-neutral-100 dark:bg-neutral-800 overflow-hidden order-1 md:order-2 flex items-center justify-center">
       {preview.length > 0 ? (
-        <Preview slides={preview} />
+        <div class="w-full h-full flex items-center justify-center">
+          <Preview slides={preview} />
+        </div>
       ) : projectData.image ? (
         <img
           src={projectData.image}
           alt={projectData.title}
-          class="w-full h-auto object-cover"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105"
           loading="lazy"
           decoding="async"
         />
       ) : (
-        <div class="w-full aspect-16/10 flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
+        <div class="absolute inset-0 flex items-center justify-center text-neutral-400 dark:text-neutral-600 text-sm">
           Project Preview
         </div>
       )}
