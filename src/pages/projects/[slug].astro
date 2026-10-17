@@ -1,5 +1,5 @@
 ---
-import AboutLayout from '@/shared/components/layout/AboutLayout.astro';
+import { ProjectLayout } from '@/layouts/';
 import ProjectHero from '@/shared/components/ui/ProjectHero.astro';
 import Accordion from '@/shared/components/ui/Accordion.astro';
 import GitHubActivity from '@/shared/components/ui/GitHubActivity.astro';
@@ -32,7 +32,7 @@ if (githubUrl) {
 }
 ---
 
-<AboutLayout
+<ProjectLayout
   title={`${entry.data.title} – Pabitra Mohan Singh`}
   projectName={entry.data.title}
   description={entry.data.description}
@@ -60,7 +60,7 @@ if (githubUrl) {
       )}
     </div>
   </div>
-</AboutLayout>
+</ProjectLayout>
 
 <style>
   .project-page {

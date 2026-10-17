@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '@/shared/components/layout/BaseLayout.astro';
+import { ProjectLayout } from '@/layouts/';
 import Grid from './Grid.astro';
 import { getCollection } from 'astro:content';
 import type { ProjectEntry } from '@/shared/types/project-entry';
@@ -13,7 +13,7 @@ const entries: ProjectEntry[] = projects.map((entry) => ({
 }));
 ---
 
-<BaseLayout title="Projects – Pabitra Mohan Singh">
+<ProjectLayout title="Projects – Pabitra Mohan Singh">
   <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-12 md:pt-10 md:pb-16 relative">
 
     <div class="animate-on-load animate-slide-left delay-1 mb-8">
@@ -34,4 +34,4 @@ const entries: ProjectEntry[] = projects.map((entry) => ({
     )}
 
   </section>
-</BaseLayout>
+</ProjectLayout>

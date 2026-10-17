@@ -1,0 +1,29 @@
+---
+import Base from './Base.astro';
+import { HomeHeader } from '@/shared/components/header';
+import { ProjectFooter } from '@/shared/components/footer';
+
+export interface Props {
+  title: string;
+  description?: string;
+  projectName?: string;
+  backHref?: string;
+  backLabel?: string;
+}
+
+const {
+  title,
+  description,
+  projectName = title,
+  backHref = '/projects',
+  backLabel = 'Back to Projects',
+} = Astro.props;
+---
+
+<Base {title} {description}>
+  <HomeHeader {projectName} {backHref} {backLabel} />
+  <main id="main-content" class="flex-1">
+    <slot />
+  </main>
+  <ProjectFooter />
+</Base>

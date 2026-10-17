@@ -1,0 +1,28 @@
+---
+const currentYear = new Date().getFullYear();
+const legalLinks = [
+  { href: '/privacy', label: 'Privacy' },
+  { href: '/terms', label: 'Terms' },
+];
+---
+
+<footer class="border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950">
+  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-neutral-500 sm:flex-row sm:px-6 dark:text-neutral-400">
+    
+    <p>&copy; {currentYear} Pabitra Mohan Singh</p>
+    
+    <ul class="flex items-center gap-6">
+      {legalLinks.map((link) => (
+        <li>
+          <a 
+            href={link.href} 
+            class="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</footer>

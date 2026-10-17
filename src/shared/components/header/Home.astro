@@ -1,0 +1,35 @@
+---
+import ThemeToggle from '@/shared/interactive/ThemeToggle.astro';
+
+const navigationLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+];
+
+const currentPath = Astro.url.pathname;
+const isCurrentPath = (href: string) => (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+---
+
+<header class="sticky top-0 z-40 border-b border-neutral-200/70 bg-neutral-50/80 backdrop-blur-md dark:border-neutral-800/70 dark:bg-neutral-950/80">
+  <nav aria-label="Main navigation" class="mx-auto flex max-w-6xl items-center justify-end gap-6 px-4 py-4 sm:px-6">
+    <ul class="flex items-center gap-6 text-sm">
+      {navigationLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            aria-current={isCurrentPath(link.href) ? 'page' : undefined}
+            class:list={[
+              'transition-colors hover:text-blue-600 dark:hover:text-blue-400',
+              isCurrentPath(link.href)
+                ? 'font-medium text-blue-600 dark:text-blue-400'
+                : 'text-neutral-500 dark:text-neutral-400',
+            ]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <ThemeToggle />
+  </nav>
+</header>

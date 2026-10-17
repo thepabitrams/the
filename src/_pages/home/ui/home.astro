@@ -1,12 +1,12 @@
 ---
-import BaseLayout from '@/shared/components/layout/BaseLayout.astro';
+import { HomeLayout } from '@/layouts/';
 import Bio from './Bio.astro';
 import Profile from './Profile.astro';
 import WhatIDo from './WhatIDo.astro';
 import Socials from './Socials.astro';
 ---
 
-<BaseLayout title="Pabitra Mohan Singh – MS Computer Science Student">
+<HomeLayout title="Pabitra Mohan Singh – MS Computer Science Student">
   <section class="py-16 md:py-24 max-w-6xl mx-auto px-4 sm:px-6">
     <div class="flex flex-col-reverse md:flex-row items-center gap-12 md:gap-16">
       <Bio />
@@ -21,4 +21,4 @@ import Socials from './Socials.astro';
       <WhatIDo />
     </div>
   </section>
-</BaseLayout>
+</HomeLayout>
