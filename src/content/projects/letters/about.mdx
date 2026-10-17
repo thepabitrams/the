@@ -34,6 +34,7 @@ import Accordion from '@/shared/components/ui/Accordion.astro';
 import CodeEditor from '@/shared/components/ui/CodeEditor.astro';
 import ArchitectureDiagram from './_components/ArchitectureDiagram.astro';
 import CleanupDiagram from './_components/CleanupDiagram.astro';
+import LifetimeGraph from './_components/LifetimeGraph.astro';
 
 <Accordion title="Why I built this">
 
@@ -56,6 +57,12 @@ Every letter lives on a progressive timer:
 - **7 days** from creation
 - **3.5 days** after it's been opened
 - **1.75 days** after it's been replied to
+
+<LifetimeGraph />
+
+**Why halve the time?** It's a design choice for speed and space. Every interaction cuts the letter's life in half, forcing it to die faster. This keeps the database clean and saves storage space on Cloudflare D1.
+
+Even if a letter is completely ignored (never opened or replied to), it doesn't matter. The original 7-day timer always runs out, meaning the space is guaranteed to be reclaimed automatically. Nothing lives forever here.
 
 </Accordion>
 

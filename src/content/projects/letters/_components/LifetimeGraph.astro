@@ -1,0 +1,191 @@
+<div class="lifetime-graph">
+  <svg 
+    class="lifetime-graph__canvas" 
+    viewBox="0 0 800 400" 
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-label="Graph showing how letters expire faster when opened and replied to"
+  >
+    <defs>
+      <mask id="lifetime-mask-created" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="400">
+        <rect x="0" y="0" width="800" height="400" fill="black"/>
+        <rect x="100" y="0" width="0" height="400" fill="white">
+          <animate attributeName="width" values="0; 0; 600; 600; 0; 0" keyTimes="0; 0.05; 0.85; 0.95; 0.96; 1" dur="3s" repeatCount="indefinite"/>
+        </rect>
+      </mask>
+
+      <mask id="lifetime-mask-opened" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="400">
+        <rect x="0" y="0" width="800" height="400" fill="black"/>
+        <rect x="300" y="0" width="0" height="400" fill="white">
+          <animate attributeName="width" values="0; 0; 0; 400; 400; 0; 0" keyTimes="0; 0.05; 0.316; 0.85; 0.95; 0.96; 1" dur="3s" repeatCount="indefinite"/>
+        </rect>
+      </mask>
+
+      <mask id="lifetime-mask-replied" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="400">
+        <rect x="0" y="0" width="800" height="400" fill="black"/>
+        <rect x="500" y="0" width="0" height="400" fill="white">
+          <animate attributeName="width" values="0; 0; 0; 200; 200; 0; 0" keyTimes="0; 0.05; 0.583; 0.85; 0.95; 0.96; 1" dur="3s" repeatCount="indefinite"/>
+        </rect>
+      </mask>
+    </defs>
+
+    <path class="lifetime-graph__guide" d="M100 50 L100 280" />
+    <path class="lifetime-graph__guide" d="M300 50 L300 280" />
+    <path class="lifetime-graph__guide" d="M500 50 L500 280" />
+    <path class="lifetime-graph__guide lifetime-graph__guide--expired" d="M700 50 L700 280" />
+
+    <path class="lifetime-graph__axis" d="M100 280 L700 280" />
+
+    <text class="lifetime-graph__event-label" x="100" y="330" text-anchor="middle">Created</text>
+    <text class="lifetime-graph__event-label" x="300" y="330" text-anchor="middle">Opened</text>
+    <text class="lifetime-graph__event-label" x="500" y="330" text-anchor="middle">Replied</text>
+    <text class="lifetime-graph__event-label" x="700" y="330" text-anchor="middle">Expired</text>
+
+    <path class="lifetime-graph__projection" d="M100 50 L700 50" mask="url(#lifetime-mask-created)" />
+    <path class="lifetime-graph__projection" d="M300 150 L700 150" mask="url(#lifetime-mask-opened)" />
+    <path class="lifetime-graph__projection" d="M500 200 L700 200" mask="url(#lifetime-mask-replied)" />
+
+    <path class="lifetime-graph__progress" pathLength="100" d="M100 50 L300 150 L500 200 L700 280" />
+
+    <text class="lifetime-graph__value-label lifetime-graph__value-label--created" x="115" y="45" text-anchor="start">7.0 days</text>
+    <text class="lifetime-graph__value-label lifetime-graph__value-label--opened"  x="315" y="145" text-anchor="start">3.5 days</text>
+    <text class="lifetime-graph__value-label lifetime-graph__value-label--replied" x="515" y="195" text-anchor="start">1.75 days</text>
+  </svg>
+</div>
+
+<style is:global>
+  :root {
+    --md-sys-color-surface: #FFFFFF;
+    --md-sys-color-on-surface: #1A1A1A;
+    --md-sys-color-on-surface-variant: #555555;
+    --md-sys-color-outline: #C4C4C4;
+    --md-sys-color-outline-variant: #999999;
+  }
+
+  .dark {
+    --md-sys-color-surface: #0F0F0F;
+    --md-sys-color-on-surface: #F0F0F0;
+    --md-sys-color-on-surface-variant: #A0A0A0;
+    --md-sys-color-outline: #3A3A3A;
+    --md-sys-color-outline-variant: #666666;
+  }
+
+  .lifetime-graph {
+    --md-comp-lifetime-graph-line-color: var(--md-sys-color-on-surface);
+    --md-comp-lifetime-graph-guide-color: var(--md-sys-color-outline);
+    --md-comp-lifetime-graph-projection-color: var(--md-sys-color-outline-variant);
+    --md-comp-lifetime-graph-text-color: var(--md-sys-color-on-surface);
+    --md-comp-lifetime-graph-background-color: var(--md-sys-color-surface);
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+  }
+
+  .lifetime-graph .lifetime-graph__canvas {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .lifetime-graph .lifetime-graph__axis {
+    fill: none;
+    stroke: var(--md-comp-lifetime-graph-guide-color);
+    stroke-width: 2px;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .lifetime-graph .lifetime-graph__event-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 20px;
+    font-weight: 700;
+    fill: var(--md-comp-lifetime-graph-text-color);
+  }
+
+  .lifetime-graph .lifetime-graph__guide {
+    fill: none;
+    stroke: var(--md-comp-lifetime-graph-guide-color);
+    stroke-width: 2px;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .lifetime-graph .lifetime-graph__guide--expired {
+    stroke-width: 4px;
+    stroke-linecap: round;
+  }
+
+  .lifetime-graph .lifetime-graph__projection {
+    fill: none;
+    stroke: var(--md-comp-lifetime-graph-projection-color);
+    stroke-width: 3px;
+    stroke-dasharray: 5 7;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .lifetime-graph .lifetime-graph__progress {
+    fill: none;
+    stroke: var(--md-comp-lifetime-graph-line-color);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: lifetime-progress-draw 3s linear infinite;
+  }
+
+  @keyframes lifetime-progress-draw {
+    0%, 5%    { stroke-dashoffset: 100; opacity: 1; }
+    85%, 95%  { stroke-dashoffset: 0; opacity: 1; }
+    96%, 100% { stroke-dashoffset: 100; opacity: 0; }
+  }
+
+  .lifetime-graph .lifetime-graph__value-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 14px;
+    font-weight: 700;
+    fill: var(--md-comp-lifetime-graph-text-color);
+    opacity: 0;
+  }
+
+  .lifetime-graph .lifetime-graph__value-label--created {
+    animation: lifetime-label-created 3s linear infinite;
+  }
+  .lifetime-graph .lifetime-graph__value-label--opened {
+    animation: lifetime-label-opened 3s linear infinite;
+  }
+  .lifetime-graph .lifetime-graph__value-label--replied {
+    animation: lifetime-label-replied 3s linear infinite;
+  }
+
+  @keyframes lifetime-label-created {
+    0%, 5%    { opacity: 0; }
+    8%        { opacity: 1; }
+    95%       { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+  @keyframes lifetime-label-opened {
+    0%, 31.6% { opacity: 0; }
+    34.6%     { opacity: 1; }
+    95%       { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+  @keyframes lifetime-label-replied {
+    0%, 58.3% { opacity: 0; }
+    61.3%     { opacity: 1; }
+    95%       { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lifetime-graph .lifetime-graph__progress,
+    .lifetime-graph .lifetime-graph__value-label {
+      animation: none !important;
+      opacity: 1 !important;
+      stroke-dashoffset: 0 !important;
+    }
+  }
+</style>
