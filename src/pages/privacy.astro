@@ -1,0 +1,138 @@
+---
+import HomeLayout from '@/layouts/Home.astro';
+
+const lastUpdated = "January 2026";
+---
+
+<HomeLayout
+  title="Privacy Policy — Pabitra Mohan Singh"
+  description="Privacy policy for pabitramohansingh.com. How your data is handled."
+>
+  <div class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+
+    <header class="mb-12 border-b border-neutral-200 pb-8 dark:border-neutral-800">
+      <h1 class="text-4xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-5xl">
+        Privacy Policy
+      </h1>
+      <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">
+        Last updated: {lastUpdated}
+      </p>
+    </header>
+
+    <article class="space-y-10 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">1. Data Controller</h2>
+        <p>
+          This website (pabitramohansingh.com) is a personal portfolio operated by Pabitra Mohan Singh, an individual based in India. For any privacy-related questions or to exercise your data rights, you can reach me at:
+        </p>
+        <p class="font-medium text-neutral-900 dark:text-white">
+          <a href="mailto:support@pabitramohansingh.com" class="text-blue-600 hover:underline dark:text-blue-400">
+            support@pabitramohansingh.com
+          </a>
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">2. Information Collected</h2>
+        <p>
+          This is a static portfolio. It does not use analytics, tracking pixels, advertising cookies, or third-party trackers. There are no user accounts, login systems, or newsletter subscriptions. Personal information is processed only in the following limited ways:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Cloudflare Server Logs:</strong> My hosting provider automatically generates standard server logs (IP address, browser type, timestamp) at the infrastructure level for security and operational reliability. I do not configure, directly access, or use these logs.</li>
+          <li><strong>Email Correspondence:</strong> If you email me, I receive your email address and the contents of your message.</li>
+          <li><strong>Local Storage:</strong> Your light/dark theme preference is saved in your browser's local storage. This is not a cookie, never touches a server, and is used solely to remember your UI choice.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">3. Lawful Basis for Processing (GDPR)</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Server Logs:</strong> Processed under <strong>Legitimate Interest</strong> (Article 6(1)(f)) to ensure network and information security.</li>
+          <li><strong>Email Correspondence:</strong> Processed under <strong>Consent</strong> (Article 6(1)(a)). You consent by choosing to email me, and you may withdraw this consent at any time.</li>
+          <li><strong>Local Storage:</strong> Classified as <strong>Strictly Necessary</strong>. It is exempt from consent requirements under the ePrivacy Directive because it is required to deliver the interface you explicitly selected.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">4. Cookies and Local Storage</h2>
+        <p>
+          This website does <strong>not</strong> use cookies. It uses browser local storage exclusively for the theme toggle. You can clear this data at any time via your browser settings, though doing so will reset your theme preference on your next visit.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">5. Data Retention</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Server Logs:</strong> Retained by Cloudflare for a maximum of <strong>3 days on Free plans</strong> and <strong>7 days on Paid plans</strong>. I do not control, archive, or export these logs.</li>
+          <li><strong>Emails:</strong> Retained only as long as necessary to resolve your inquiry, after which they are deleted.</li>
+          <li><strong>Local Storage:</strong> Remains in your browser until you manually clear it.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">6. Your Data Rights</h2>
+        <p>
+          Depending on your location (EEA, UK, or California), you have specific rights over your personal data:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Right to Access:</strong> Request a copy of the personal data I hold about you.</li>
+          <li><strong>Right to Rectification:</strong> Request correction of inaccurate data.</li>
+          <li><strong>Right to Erasure:</strong> Request deletion of your data.</li>
+          <li><strong>Right to Restrict Processing:</strong> Request limits on how your data is used.</li>
+          <li><strong>Right to Object:</strong> Object to processing based on legitimate interest.</li>
+        </ul>
+        <p>
+          To exercise any of these rights, email me at <a href="mailto:support@pabitramohansingh.com" class="text-blue-600 hover:underline dark:text-blue-400">support@pabitramohansingh.com</a>. I will respond within one month.
+        </p>
+        <p>
+          <strong>CCPA Notice:</strong> I do <strong>not</strong> sell or share your personal information for monetary or other valuable consideration. Therefore, no "Do Not Sell My Personal Information" opt-out link is required.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">7. Do Not Track (DNT) Signals</h2>
+        <p>
+          Under CalOPPA, I must disclose how I respond to browser DNT signals. This website does not respond to DNT signals. However, because the site does not engage in tracking, behavioral advertising, or cross-site profiling, DNT signals have no practical effect. The only automated processing is standard Cloudflare server logging for security purposes.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">8. Third-Party Links</h2>
+        <p>
+          This site links to external platforms (such as GitHub, LinkedIn, or Buy Me a Coffee). Once you leave this site, their privacy policies apply. I am not responsible for the data practices of those external sites.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">9. International Data Transfers</h2>
+        <p>
+          The site is accessible globally, and Cloudflare operates a global infrastructure network. Cloudflare maintains its own compliance measures (such as Standard Contractual Clauses) for any cross-border data transfers required for its infrastructure.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">10. Children's Privacy</h2>
+        <p>
+          This site is not directed at children under 13 (or 16 in the EU). I do not knowingly collect personal information from children. If you believe a child has provided data, please contact me immediately so I can delete it.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">11. Complaints</h2>
+        <p>
+          If you are in the EEA or UK and believe your data has been mishandled, you have the right to lodge a complaint with your local supervisory authority (e.g., the <strong>Information Commissioner's Office (ICO)</strong> in the UK). I encourage you to contact me first at the email above so we can resolve the issue directly.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-semibold text-neutral-900 dark:text-white">12. Changes to This Policy</h2>
+        <p>
+          This policy may be updated to reflect legal or operational changes. The "Last updated" date at the top of this page will reflect any revisions. Continued use of the site after changes are posted constitutes acceptance of the revised policy.
+        </p>
+      </section>
+
+    </article>
+
+  </div>
+</HomeLayout>
