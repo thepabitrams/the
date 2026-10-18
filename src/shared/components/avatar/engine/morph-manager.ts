@@ -6,12 +6,13 @@ import { buildFibonacciSphere, rotateAroundY } from './sphere-geometry';
 export class MorphManager {
   public static prepareGlobe(
     particles: Particle[], 
-    portalCenter: { x: number, y: number }
+    portalCenter: { x: number, y: number },
+    anchorSize: number
   ): void {
     const currentRadius = window.innerWidth < 768 ? CONFIG.globeRadius * 0.6 : CONFIG.globeRadius;
-    const dynamicSize = getDynamicParticleSize();
+    const dynamicSize = getDynamicParticleSize(anchorSize);
 
-    syncCountTo(particles, CONFIG.globeParticleCount, portalCenter);
+    syncCountTo(particles, CONFIG.globeParticleCount, portalCenter, anchorSize);
     const bases = buildFibonacciSphere(particles.length);
     
     for (let i = 0; i < particles.length; i++) {
@@ -35,10 +36,11 @@ export class MorphManager {
   public static prepareImage(
     particles: Particle[], 
     points: Point[], 
-    portalCenter: { x: number, y: number }
+    portalCenter: { x: number, y: number },
+    anchorSize: number
   ): void {
-    const dynamicSize = getDynamicParticleSize();
-    syncCountTo(particles, points.length, portalCenter);
+    const dynamicSize = getDynamicParticleSize(anchorSize);
+    syncCountTo(particles, points.length, portalCenter, anchorSize);
     
     for (let i = 0; i < particles.length; i++) {
       const point = points[i];

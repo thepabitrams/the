@@ -22,7 +22,9 @@ export class CanvasManager {
     if (!anchor) return;
 
     const rect = anchor.getBoundingClientRect();
-    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    
+    // Retina Fix: Cap at 2x for sharpness and performance balance
+    const ratio = Math.min(Math.max(window.devicePixelRatio || 1, 1), 2);
     
     this.localCanvas.width = Math.floor(rect.width * ratio);
     this.localCanvas.height = Math.floor(rect.height * ratio);
@@ -33,7 +35,7 @@ export class CanvasManager {
   }
 
   public resizeBlast(): void {
-    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const ratio = Math.min(Math.max(window.devicePixelRatio || 1, 1), 2);
     this.blastCanvas.width = Math.floor(window.innerWidth * ratio);
     this.blastCanvas.height = Math.floor(window.innerHeight * ratio);
     this.blastContext.setTransform(ratio, 0, 0, ratio, 0, 0);

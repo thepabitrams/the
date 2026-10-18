@@ -1,16 +1,16 @@
 import { CONFIG } from '../config';
 import type { Particle, Point } from '../types';
 
-export const getDynamicParticleSize = (): number => {
-  if (typeof window === 'undefined') return CONFIG.particleSize;
+export const getDynamicParticleSize = (anchorSize: number): number => {
+  const dynamicGap = Math.max(2, Math.min(4, Math.round(anchorSize / 150)));
   
-  const screenRatio = window.innerWidth / CONFIG.referenceScreenWidth;
-  const safeRatio = Math.max(0.4, Math.min(2, screenRatio));
-  return Math.max(0.8, CONFIG.particleSize * safeRatio);
+  const calculatedSize = dynamicGap * 0.85;
+  
+  return Math.max(1.2, Math.min(2.2, calculatedSize));
 };
 
-export function createParticle(x: number, y: number): Particle {
-  const size = getDynamicParticleSize();
+export function createParticle(x: number, y: number, anchorSize: number): Particle {
+  const size = getDynamicParticleSize(anchorSize);
   return {
     x,
     y,
@@ -29,14 +29,15 @@ export function createParticle(x: number, y: number): Particle {
   };
 }
 
-export function createParticlesFromPoints(points: Point[]): Particle[] {
-  return points.map((point) => createParticle(point.x, point.y));
+export function createParticlesFromPoints(points: Point[], anchorSize: number): Particle[] {
+  return points.map((point) => createParticle(point.x, point.y, anchorSize));
 }
 
 export function syncCountTo(
   particles: Particle[],
   targetCount: number,
-  spawn: { x: number; y: number }
+  spawn: { x: number; y: number },
+  anchorSize: number
 ): void {
   if (particles.length > targetCount) {
     particles.length = targetCount;
@@ -44,6 +45,6 @@ export function syncCountTo(
   }
   
   while (particles.length < targetCount) {
-    particles.push(createParticle(spawn.x, spawn.y));
+    particles.push(createParticle(spawn.x, spawn.y, anchorSize));
   }
 }

@@ -7,14 +7,17 @@ export const extractPointsFromImage = async (
   centerX: number,
   centerY: number
 ): Promise<Point[]> => {
-  const shapeSize = anchorSize;
+  const supersampleScale = 2;
+  const renderSize = anchorSize * supersampleScale;
+  
+  const dynamicGap = Math.max(2, Math.min(4, Math.round(anchorSize / 150)));
   
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   if (!context) return [];
 
-  canvas.width = Math.floor(shapeSize);
-  canvas.height = Math.floor(shapeSize);
+  canvas.width = Math.floor(renderSize);
+  canvas.height = Math.floor(renderSize);
 
   const imageData = await new Promise<ImageData | null>((resolve) => {
     const img = new Image();
@@ -50,21 +53,21 @@ export const extractPointsFromImage = async (
 
   if (!imageData) return [];
 
-  const offsetX = centerX - canvas.width / 2;
-  const offsetY = centerY - canvas.height / 2;
+  const offsetX = centerX - (canvas.width / supersampleScale) / 2;
+  const offsetY = centerY - (canvas.height / supersampleScale) / 2;
   
   const points: Point[] = [];
   const data = imageData.data;
 
-  for (let y = 0; y < canvas.height; y += CONFIG.imageGap) {
-    for (let x = 0; x < canvas.width; x += CONFIG.imageGap) {
+  for (let y = 0; y < canvas.height; y += dynamicGap) {
+    for (let x = 0; x < canvas.width; x += dynamicGap) {
       const index = (y * canvas.width + x) * 4;
       const alpha = data[index + 3];
 
       if (alpha > CONFIG.alphaThreshold) {
         points.push({
-          x: x + offsetX + (Math.random() - 0.5) * CONFIG.jitter,
-          y: y + offsetY + (Math.random() - 0.5) * CONFIG.jitter,
+          x: (x / supersampleScale) + offsetX + (Math.random() - 0.5) * CONFIG.jitter,
+          y: (y / supersampleScale) + offsetY + (Math.random() - 0.5) * CONFIG.jitter,
         });
       }
     }

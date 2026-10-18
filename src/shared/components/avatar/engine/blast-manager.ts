@@ -31,7 +31,7 @@ export class BlastManager {
     return setTimeout(() => {
       canvasManager.switchToLocalView();
       const newAnchorRect = canvasManager.getAnchorRect();
-      const dynamicParticleSize = getDynamicParticleSize();
+      const dynamicParticleSize = getDynamicParticleSize(canvasManager.anchorSize);
 
       for (let index = 0; index < particles.length; index++) {
         const particle = particles[index];

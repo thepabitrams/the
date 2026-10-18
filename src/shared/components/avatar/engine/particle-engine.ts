@@ -68,7 +68,7 @@ export class ParticleEngine {
       return;
     }
 
-    syncCountTo(this.particles, points.length, this.canvasManager.portalCenter);
+    syncCountTo(this.particles, points.length, this.canvasManager.portalCenter, this.canvasManager.anchorSize);
     
     for (let index = 0; index < this.particles.length; index++) {
       this.particles[index].targetX = points[index].x;
@@ -91,7 +91,7 @@ export class ParticleEngine {
     
     if (points.length === 0) return;
 
-    this.particles = createParticlesFromPoints(points);
+    this.particles = createParticlesFromPoints(points, this.canvasManager.anchorSize);
     this.lastImageOrigins = points;
     this.transitionScale = 1;
     this.state = 'IDLE';
@@ -120,10 +120,10 @@ export class ParticleEngine {
 
   private handleCollapseComplete = (): void => {
     if (this.expansionTarget === 'GLOBE') {
-      MorphManager.prepareGlobe(this.particles, this.canvasManager.portalCenter);
+      MorphManager.prepareGlobe(this.particles, this.canvasManager.portalCenter, this.canvasManager.anchorSize);
       this.rotationAngle = 0;
     } else if (this.expansionTarget === 'IMAGE') {
-      MorphManager.prepareImage(this.particles, this.lastImageOrigins, this.canvasManager.portalCenter);
+      MorphManager.prepareImage(this.particles, this.lastImageOrigins, this.canvasManager.portalCenter, this.canvasManager.anchorSize);
     }
     this.state = 'EXPANDING';
   };
@@ -163,10 +163,10 @@ export class ParticleEngine {
     if (this.state === 'BLASTING') return;
 
     const wasGlobe = this.state !== 'IDLE';
-    const dynamicSize = getDynamicParticleSize();
+    const dynamicSize = getDynamicParticleSize(this.canvasManager.anchorSize);
 
     if (wasGlobe && this.lastImageOrigins.length > 0) {
-      syncCountTo(this.particles, this.lastImageOrigins.length, this.canvasManager.portalCenter);
+      syncCountTo(this.particles, this.lastImageOrigins.length, this.canvasManager.portalCenter, this.canvasManager.anchorSize);
       for (let index = 0; index < this.particles.length; index++) {
         this.particles[index].targetX = this.lastImageOrigins[index].x;
         this.particles[index].targetY = this.lastImageOrigins[index].y;
@@ -207,8 +207,10 @@ export class ParticleEngine {
     }
 
     const color = document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000';
-    const width = isBlasting ? window.innerWidth : this.canvasManager.localCanvas.width / (window.devicePixelRatio || 1);
-    const height = isBlasting ? window.innerHeight : this.canvasManager.localCanvas.height / (window.devicePixelRatio || 1);
+    
+    const rect = this.canvasManager.getAnchorRect();
+    const width = isBlasting ? window.innerWidth : rect.width;
+    const height = isBlasting ? window.innerHeight : rect.height;
 
     if (this.state === 'COLLAPSING') {
       this.transitionScale -= CONFIG.transitionSpeed * timeScale;
@@ -237,7 +239,6 @@ export class ParticleEngine {
     const currentEase = (isGlobeShape && !isTransitioning) ? 0.15 : CONFIG.ease;
     const currentRadius = window.innerWidth < 768 ? CONFIG.globeRadius * 0.6 : CONFIG.globeRadius;
 
-    const rect = this.canvasManager.getAnchorRect();
     const activePointer = { ...this.pointer };
     if (!isBlasting && activePointer.active) {
       activePointer.x -= rect.left;

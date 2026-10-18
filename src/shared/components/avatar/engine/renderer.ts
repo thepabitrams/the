@@ -12,10 +12,13 @@ export function drawParticles(
 
   context.fillStyle = color;
   
+  const path = new Path2D();
+  
   for (const particle of particles) {
     if (particle.size <= 0.1) continue;
-    context.beginPath();
-    context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-    context.fill();
+    path.moveTo(particle.x + particle.size, particle.y);
+    path.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
   }
+  
+  context.fill(path);
 }

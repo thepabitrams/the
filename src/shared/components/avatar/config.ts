@@ -4,7 +4,7 @@ export const CONFIG = {
   particleSize: 2.0,
   referenceScreenWidth: 1440,
   
-  alphaThreshold: 100,
+  alphaThreshold: 80,
   jitter: 0,
   
   ease: 0.04,
