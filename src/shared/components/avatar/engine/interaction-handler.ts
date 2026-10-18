@@ -11,9 +11,7 @@ export class InteractionHandler {
   private callbacks: InteractionCallbacks;
   private localCanvas: HTMLCanvasElement;
   
-  private longPressTimer: ReturnType<typeof setTimeout> | null = null;
   private pointerDownPosition = { x: 0, y: 0 };
-  private isLongPressHandled = false;
   private isAborted = false;
   private isPointerDown = false;
   private observer: MutationObserver | null = null;
@@ -43,16 +41,8 @@ export class InteractionHandler {
 
   private onPointerDown = (event: PointerEvent): void => {
     this.isPointerDown = true;
-    this.isLongPressHandled = false;
     this.isAborted = false;
     this.pointerDownPosition = { x: event.clientX, y: event.clientY };
-
-    if (this.longPressTimer) clearTimeout(this.longPressTimer);
-    
-    this.longPressTimer = setTimeout(() => {
-      this.isLongPressHandled = true;
-      this.callbacks.onHover({ x: event.clientX, y: event.clientY, active: true });
-    }, 350);
   };
 
   private onPointerMove = (event: PointerEvent): void => {
@@ -69,52 +59,31 @@ export class InteractionHandler {
     const distanceY = Math.abs(event.clientY - this.pointerDownPosition.y);
     
     if (distanceX > 10 || distanceY > 10) {
-      if (this.longPressTimer) {
-        clearTimeout(this.longPressTimer);
-        this.longPressTimer = null;
-      }
       this.isAborted = true;
-      this.isLongPressHandled = false;
       this.callbacks.onHover({ x: -9999, y: -9999, active: false });
-      return;
-    }
-
-    if (this.isLongPressHandled) {
-      this.callbacks.onHover({ x: event.clientX, y: event.clientY, active: true });
     }
   };
 
-  private onPointerUp = (): void => {
+  private onPointerUp = (event: PointerEvent): void => {
     if (!this.isPointerDown) return;
     this.isPointerDown = false;
 
-    if (this.longPressTimer) {
-      clearTimeout(this.longPressTimer);
-      this.longPressTimer = null;
+    if (event.pointerType === 'mouse') {
+      this.callbacks.onHover({ x: -9999, y: -9999, active: false });
     }
-    
-    this.callbacks.onHover({ x: -9999, y: -9999, active: false });
 
-    if (!this.isLongPressHandled && !this.isAborted) {
+    if (!this.isAborted) {
       this.callbacks.onBlast();
     }
   };
 
   private onPointerCancel = (): void => {
     this.isPointerDown = false;
-
-    if (this.longPressTimer) {
-      clearTimeout(this.longPressTimer);
-      this.longPressTimer = null;
-    }
     this.isAborted = true;
-    this.isLongPressHandled = false;
     this.callbacks.onHover({ x: -9999, y: -9999, active: false });
   };
 
   public destroy = (): void => {
-    if (this.longPressTimer) clearTimeout(this.longPressTimer);
-    
     this.localCanvas.removeEventListener('pointerdown', this.onPointerDown);
     window.removeEventListener('pointermove', this.onPointerMove);
     window.removeEventListener('pointerup', this.onPointerUp);

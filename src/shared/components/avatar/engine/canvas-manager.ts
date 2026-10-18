@@ -22,8 +22,6 @@ export class CanvasManager {
     if (!anchor) return;
 
     const rect = anchor.getBoundingClientRect();
-    
-    // Retina Fix: Cap at 2x for sharpness and performance balance
     const ratio = Math.min(Math.max(window.devicePixelRatio || 1, 1), 2);
     
     this.localCanvas.width = Math.floor(rect.width * ratio);
