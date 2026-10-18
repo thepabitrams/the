@@ -1,5 +1,5 @@
 export const CONFIG = {
-  imageGap: 1,
+  imageGap: 2,
   globeParticleCount: 4000,
   particleSize: 1.8,
   referenceScreenWidth: 1440,

@@ -2,6 +2,7 @@ export class CanvasManager {
   public canvas: HTMLCanvasElement;
   public context: CanvasRenderingContext2D;
   public portalCenter = { x: 0, y: 0 };
+  public anchorSize = 300;
   private anchorId: string;
 
   constructor(canvas: HTMLCanvasElement, anchorId: string) {
@@ -29,11 +30,13 @@ export class CanvasManager {
         x: rect.left + rect.width / 2, 
         y: rect.top + rect.height / 2 
       };
+      this.anchorSize = Math.min(rect.width, rect.height);
     } else {
       this.portalCenter = { 
         x: window.innerWidth / 2, 
         y: window.innerHeight / 2 
       };
+      this.anchorSize = 300;
     }
   }
 

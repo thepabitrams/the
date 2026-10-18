@@ -20,11 +20,13 @@ const myDarkImages = [
   title="Sponsor My Work — Pabitra Mohan Singh" 
   description="Sponsor my open-source work via GitHub or Buy Me a Coffee."
 >
-  <ParticleAvatar lightImages={myLightImages} darkImages={myDarkImages} />
-
   <div class="w-full max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center flex-1 gap-8 md:gap-20 py-12 relative z-10 pointer-events-none">
     
-    <div id="particle-avatar-anchor" class="w-full md:w-1/2 h-80 md:h-125 pointer-events-none"></div>
+    <ParticleAvatar 
+      lightImages={myLightImages} 
+      darkImages={myDarkImages} 
+      class="w-full md:w-1/2 h-80 md:h-125" 
+    />
 
     <div class="w-full md:w-1/2 max-w-md flex flex-col gap-8 pointer-events-auto mt-4 md:mt-0">
       

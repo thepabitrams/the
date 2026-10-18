@@ -3,12 +3,11 @@ import type { Point } from '../types';
 
 export async function prepareNextImage(
   url: string,
-  viewportWidth: number,
-  viewportHeight: number,
+  anchorSize: number,
   centerX: number,
   centerY: number
 ): Promise<Point[] | null> {
-  const points = await extractPointsFromImage(url, viewportWidth, viewportHeight, centerX, centerY);
+  const points = await extractPointsFromImage(url, anchorSize, centerX, centerY);
   if (points.length === 0) return null;
   return points;
 }

@@ -78,7 +78,8 @@ export class ParticleEngine {
   private loadInitialImage = async (): Promise<void> => {
     const url = this.getCurrentImageUrl();
     const { x, y } = this.canvasManager.portalCenter;
-    const points = await extractPointsFromImage(url, window.innerWidth, window.innerHeight, x, y);
+    const size = this.canvasManager.anchorSize;
+    const points = await extractPointsFromImage(url, size, x, y);
     
     this.particles = createParticlesFromPoints(points);
     this.lastImageOrigins = points.map((p) => ({ x: p.x, y: p.y }));
@@ -136,7 +137,8 @@ export class ParticleEngine {
     this.currentIndex++;
     const url = this.getCurrentImageUrl();
     const { x, y } = this.canvasManager.portalCenter;
-    const points = await prepareNextImage(url, window.innerWidth, window.innerHeight, x, y);
+    const size = this.canvasManager.anchorSize;
+    const points = await prepareNextImage(url, size, x, y);
 
     if (this.state !== 'ROTATING_GLOBE') return;
 
