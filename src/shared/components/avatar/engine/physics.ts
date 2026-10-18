@@ -7,12 +7,12 @@ export interface PointerState {
   active: boolean;
 }
 
-export function applyAttraction(particle: Particle, ease: number): void {
-  particle.velocityX += (particle.originX - particle.x) * ease;
-  particle.velocityY += (particle.originY - particle.y) * ease;
+export function applyAttraction(particle: Particle, ease: number, timeScale: number): void {
+  particle.velocityX += (particle.originX - particle.x) * ease * timeScale;
+  particle.velocityY += (particle.originY - particle.y) * ease * timeScale;
 }
 
-export function applyHover(particle: Particle, pointer: PointerState): void {
+export function applyHover(particle: Particle, pointer: PointerState, timeScale: number): void {
   if (!pointer.active) return;
   const deltaX = particle.x - pointer.x;
   const deltaY = particle.y - pointer.y;
@@ -22,16 +22,17 @@ export function applyHover(particle: Particle, pointer: PointerState): void {
 
   const distance = Math.sqrt(distanceSquared);
   const force = (CONFIG.hoverRadius - distance) / CONFIG.hoverRadius;
-  particle.velocityX += (deltaX / distance) * force * CONFIG.hoverForce;
-  particle.velocityY += (deltaY / distance) * force * CONFIG.hoverForce;
+  particle.velocityX += (deltaX / distance) * force * CONFIG.hoverForce * timeScale;
+  particle.velocityY += (deltaY / distance) * force * CONFIG.hoverForce * timeScale;
 }
 
-export function integrate(particle: Particle, isBlasting: boolean): void {
+export function integrate(particle: Particle, isBlasting: boolean, timeScale: number): void {
   const friction = isBlasting ? CONFIG.frictionBlast : CONFIG.frictionIdle;
-  particle.velocityX *= friction;
-  particle.velocityY *= friction;
-  particle.x += particle.velocityX;
-  particle.y += particle.velocityY;
+  const scaledFriction = Math.pow(friction, timeScale);
+  particle.velocityX *= scaledFriction;
+  particle.velocityY *= scaledFriction;
+  particle.x += particle.velocityX * timeScale;
+  particle.y += particle.velocityY * timeScale;
 }
 
 export function applyBoundaries(particle: Particle, width: number, height: number): void {

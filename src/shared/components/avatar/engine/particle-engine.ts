@@ -25,13 +25,13 @@ export class ParticleEngine {
   private stateTimer: ReturnType<typeof setTimeout> | null = null;
   private animationFrameId = 0;
   private rotationAngle = 0;
+  private lastTimestamp = 0;
 
   private lastImageOrigins: { x: number; y: number }[] = [];
   private pendingImageOrigins: Point[] | null = null;
   private expansionTarget: 'IMAGE' | 'GLOBE' = 'IMAGE';
   private transitionScale = 1;
   
-  private previousPortalY = 0;
   private themeRequestId = 0;
 
   constructor(localCanvas: HTMLCanvasElement, blastCanvas: HTMLCanvasElement, imagesLight: string[], imagesDark: string[], anchorId: string) {
@@ -44,17 +44,15 @@ export class ParticleEngine {
       onHover: (pointerState) => { this.pointer = pointerState; },
       onBlast: () => this.triggerBlast(),
       onResize: () => this.handleResize(),
-      onScroll: () => this.handleScroll(),
       onThemeChange: () => { void this.handleThemeChange(); }
     });
   }
 
   public init(): void {
     this.canvasManager.resizeLocal();
-    this.previousPortalY = this.canvasManager.portalCenter.y;
     this.interactions.init();
     void this.loadInitialImage();
-    this.animate();
+    this.animationFrameId = requestAnimationFrame(this.animate);
   }
 
   private handleThemeChange = async (): Promise<void> => {
@@ -85,23 +83,6 @@ export class ParticleEngine {
   private handleResize = (): void => {
     this.canvasManager.resizeLocal();
     this.canvasManager.resizeBlast();
-    this.previousPortalY = this.canvasManager.portalCenter.y;
-  };
-
-  private handleScroll = (): void => {
-    const rect = this.canvasManager.getAnchorRect();
-    const currentY = rect.top + rect.height / 2;
-    const scrollDeltaY = currentY - this.previousPortalY;
-    this.previousPortalY = currentY;
-
-    if (scrollDeltaY !== 0) {
-      for (const particle of this.particles) {
-        particle.targetY += scrollDeltaY;
-      }
-      for (const origin of this.lastImageOrigins) {
-        origin.y += scrollDeltaY;
-      }
-    }
   };
 
   private loadInitialImage = async (): Promise<void> => {
@@ -210,7 +191,13 @@ export class ParticleEngine {
     );
   };
 
-  private animate = (): void => {
+  private animate = (timestamp: number): void => {
+    if (!this.lastTimestamp) this.lastTimestamp = timestamp;
+    const deltaTime = Math.min(timestamp - this.lastTimestamp, 50);
+    this.lastTimestamp = timestamp;
+    
+    const timeScale = deltaTime / 16.667;
+
     const isBlasting = this.state === 'BLASTING';
     
     if (isBlasting) {
@@ -224,13 +211,13 @@ export class ParticleEngine {
     const height = isBlasting ? window.innerHeight : this.canvasManager.localCanvas.height / (window.devicePixelRatio || 1);
 
     if (this.state === 'COLLAPSING') {
-      this.transitionScale -= CONFIG.transitionSpeed;
+      this.transitionScale -= CONFIG.transitionSpeed * timeScale;
       if (this.transitionScale <= 0) { 
         this.transitionScale = 0; 
         this.handleCollapseComplete(); 
       }
     } else if (this.state === 'EXPANDING') {
-      this.transitionScale += CONFIG.transitionSpeed;
+      this.transitionScale += CONFIG.transitionSpeed * timeScale;
       if (this.transitionScale >= 1) { 
         this.transitionScale = 1; 
         this.handleExpansionComplete(); 
@@ -244,7 +231,7 @@ export class ParticleEngine {
     const isRotating = this.state === 'ROTATING_GLOBE' || 
       (this.state === 'EXPANDING' && this.expansionTarget === 'GLOBE');
 
-    if (isRotating) this.rotationAngle += CONFIG.globeRotationSpeed;
+    if (isRotating) this.rotationAngle += CONFIG.globeRotationSpeed * timeScale;
 
     const isTransitioning = this.state === 'COLLAPSING' || this.state === 'EXPANDING';
     const currentEase = (isGlobeShape && !isTransitioning) ? 0.15 : CONFIG.ease;
@@ -279,9 +266,9 @@ export class ParticleEngine {
         particle.velocityX = 0;
         particle.velocityY = 0;
       } else {
-        applyAttraction(particle, currentEase * (isBlasting ? 0.3 : 1));
-        applyHover(particle, activePointer);
-        integrate(particle, isBlasting);
+        applyAttraction(particle, currentEase * (isBlasting ? 0.3 : 1), timeScale);
+        applyHover(particle, activePointer, timeScale);
+        integrate(particle, isBlasting, timeScale);
         if (isBlasting) applyBoundaries(particle, width, height);
       }
     }

@@ -4,7 +4,6 @@ export interface InteractionCallbacks {
   onHover: (pointer: PointerState) => void;
   onBlast: () => void;
   onResize: () => void;
-  onScroll: () => void;
   onThemeChange: () => void;
 }
 
@@ -15,6 +14,7 @@ export class InteractionHandler {
   private pointerDownPosition = { x: 0, y: 0 };
   private isLongPressHandled = false;
   private isPointerOnUI = false;
+  private isAborted = false;
   private observer: MutationObserver | null = null;
 
   constructor(callbacks: InteractionCallbacks) {
@@ -25,8 +25,8 @@ export class InteractionHandler {
     window.addEventListener('pointerdown', this.onPointerDown);
     window.addEventListener('pointermove', this.onPointerMove);
     window.addEventListener('pointerup', this.onPointerUp);
+    window.addEventListener('pointercancel', this.onPointerCancel);
     window.addEventListener('resize', this.callbacks.onResize);
-    window.addEventListener('scroll', this.callbacks.onScroll, { passive: true });
 
     this.observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
@@ -45,6 +45,7 @@ export class InteractionHandler {
     if (this.isPointerOnUI) return;
 
     this.isLongPressHandled = false;
+    this.isAborted = false;
     this.pointerDownPosition = { x: event.clientX, y: event.clientY };
 
     if (this.longPressTimer) clearTimeout(this.longPressTimer);
@@ -56,22 +57,25 @@ export class InteractionHandler {
   };
 
   private onPointerMove = (event: PointerEvent): void => {
-    if (this.isPointerOnUI) return;
+    if (this.isPointerOnUI || this.isAborted) return;
 
     if (event.pointerType === 'mouse') {
       this.callbacks.onHover({ x: event.clientX, y: event.clientY, active: true });
       return;
     }
 
-    if (this.longPressTimer) {
-      const distanceX = Math.abs(event.clientX - this.pointerDownPosition.x);
-      const distanceY = Math.abs(event.clientY - this.pointerDownPosition.y);
-      
-      if (distanceX > 10 || distanceY > 10) {
+    const distanceX = Math.abs(event.clientX - this.pointerDownPosition.x);
+    const distanceY = Math.abs(event.clientY - this.pointerDownPosition.y);
+    
+    if (distanceX > 10 || distanceY > 10) {
+      if (this.longPressTimer) {
         clearTimeout(this.longPressTimer);
         this.longPressTimer = null;
-        this.isLongPressHandled = true;
       }
+      this.isAborted = true;
+      this.isLongPressHandled = false;
+      this.callbacks.onHover({ x: -9999, y: -9999, active: false });
+      return;
     }
 
     if (this.isLongPressHandled) {
@@ -79,7 +83,7 @@ export class InteractionHandler {
     }
   };
 
-  private onPointerUp = (event: PointerEvent): void => {
+  private onPointerUp = (): void => {
     if (this.isPointerOnUI) {
       this.isPointerOnUI = false;
       return;
@@ -92,9 +96,19 @@ export class InteractionHandler {
     
     this.callbacks.onHover({ x: -9999, y: -9999, active: false });
 
-    if (!this.isLongPressHandled) {
+    if (!this.isLongPressHandled && !this.isAborted) {
       this.callbacks.onBlast();
     }
+  };
+
+  private onPointerCancel = (): void => {
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+      this.longPressTimer = null;
+    }
+    this.isAborted = true;
+    this.isLongPressHandled = false;
+    this.callbacks.onHover({ x: -9999, y: -9999, active: false });
   };
 
   public destroy = (): void => {
@@ -103,8 +117,8 @@ export class InteractionHandler {
     window.removeEventListener('pointerdown', this.onPointerDown);
     window.removeEventListener('pointermove', this.onPointerMove);
     window.removeEventListener('pointerup', this.onPointerUp);
+    window.removeEventListener('pointercancel', this.onPointerCancel);
     window.removeEventListener('resize', this.callbacks.onResize);
-    window.removeEventListener('scroll', this.callbacks.onScroll);
 
     if (this.observer) {
       this.observer.disconnect();

@@ -15,20 +15,18 @@ const uniqueAnchorId = `particle-anchor-${Math.random().toString(36).substring(2
 ---
 
 <div id={uniqueAnchorId} class:list={["relative pointer-events-none overflow-hidden", className]}>
-  <!-- 1. Local Canvas (Inside the div) -->
   <canvas
     id={`canvas-local-${uniqueAnchorId}`}
-    class="absolute inset-0 w-full h-full pointer-events-none"
+    class="absolute inset-0 w-full h-full pointer-events-none transform-gpu will-change-transform"
     data-light-images={JSON.stringify(lightImages)}
     data-dark-images={JSON.stringify(darkImages)}
     data-anchor-id={uniqueAnchorId}
   ></canvas>
 </div>
 
-<!-- 2. Blast Canvas (Full screen, hidden by default) -->
 <canvas
   id={`canvas-blast-${uniqueAnchorId}`}
-  class="fixed inset-0 w-screen h-screen pointer-events-none hidden z-[9999]"
+  class="fixed inset-0 w-screen h-screen pointer-events-none hidden z-9999 transform-gpu will-change-transform"
 ></canvas>
 
 <script>
@@ -51,7 +49,6 @@ const uniqueAnchorId = `particle-anchor-${Math.random().toString(36).substring(2
 
     if (lightImages.length === 0 || darkImages.length === 0 || !anchorId || !blastCanvas) return;
 
-    // Note: We pass BOTH canvases to the engine now
     engineInstance = new ParticleEngine(htmlLocalCanvas, blastCanvas, lightImages, darkImages, anchorId);
     engineInstance.init();
 

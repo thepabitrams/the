@@ -11,6 +11,7 @@ export function drawParticles(
   }
 
   context.fillStyle = color;
+  
   for (const particle of particles) {
     if (particle.size <= 0.1) continue;
     context.beginPath();
