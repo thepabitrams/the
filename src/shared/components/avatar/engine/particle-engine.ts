@@ -31,6 +31,7 @@ export class ParticleEngine {
   private transitionScale = 1;
   
   private previousPortalY = 0;
+  private themeRequestId = 0;
 
   constructor(canvas: HTMLCanvasElement, imagesLight: string[], imagesDark: string[], anchorId: string) {
     this.imagesLight = imagesLight;
@@ -43,7 +44,7 @@ export class ParticleEngine {
       onBlast: () => this.triggerBlast(),
       onResize: () => this.handleResize(),
       onScroll: () => this.handleScroll(),
-      onThemeChange: () => { this.currentIndex = 0; void this.loadInitialImage(); }
+      onThemeChange: () => { void this.handleThemeChange(); }
     });
   }
 
@@ -54,6 +55,31 @@ export class ParticleEngine {
     void this.loadInitialImage();
     this.animate();
   }
+
+  private handleThemeChange = async (): Promise<void> => {
+    const requestId = ++this.themeRequestId;
+    const url = this.getCurrentImageUrl();
+    const { x, y } = this.canvasManager.portalCenter;
+    const size = this.canvasManager.anchorSize;
+    const points = await extractPointsFromImage(url, size, x, y);
+
+    if (requestId !== this.themeRequestId) return;
+    if (points.length === 0) return;
+
+    if (this.state !== 'IDLE') {
+      this.lastImageOrigins = points.map((p) => ({ x: p.x, y: p.y }));
+      return;
+    }
+
+    syncCountTo(this.particles, points.length, this.canvasManager.portalCenter);
+    
+    for (let i = 0; i < this.particles.length; i++) {
+      this.particles[i].targetX = points[i].x;
+      this.particles[i].targetY = points[i].y;
+    }
+    
+    this.lastImageOrigins = points.map((p) => ({ x: p.x, y: p.y }));
+  };
 
   private handleResize = (): void => {
     this.canvasManager.resize();
