@@ -14,16 +14,16 @@ export function applyAttraction(particle: Particle, ease: number): void {
 
 export function applyHover(particle: Particle, pointer: PointerState): void {
   if (!pointer.active) return;
-  const dx = particle.x - pointer.x;
-  const dy = particle.y - pointer.y;
+  const deltaX = particle.x - pointer.x;
+  const deltaY = particle.y - pointer.y;
   const radiusSquared = CONFIG.hoverRadius * CONFIG.hoverRadius;
-  const distanceSquared = dx * dx + dy * dy;
+  const distanceSquared = deltaX * deltaX + deltaY * deltaY;
   if (distanceSquared === 0 || distanceSquared >= radiusSquared) return;
 
   const distance = Math.sqrt(distanceSquared);
   const force = (CONFIG.hoverRadius - distance) / CONFIG.hoverRadius;
-  particle.velocityX += (dx / distance) * force * CONFIG.hoverForce;
-  particle.velocityY += (dy / distance) * force * CONFIG.hoverForce;
+  particle.velocityX += (deltaX / distance) * force * CONFIG.hoverForce;
+  particle.velocityY += (deltaY / distance) * force * CONFIG.hoverForce;
 }
 
 export function integrate(particle: Particle, isBlasting: boolean): void {
@@ -32,6 +32,26 @@ export function integrate(particle: Particle, isBlasting: boolean): void {
   particle.velocityY *= friction;
   particle.x += particle.velocityX;
   particle.y += particle.velocityY;
+}
+
+export function applyBoundaries(particle: Particle, width: number, height: number): void {
+  const size = particle.size;
+  
+  if (particle.x - size < 0) {
+    particle.x = size;
+    particle.velocityX *= -0.4;
+  } else if (particle.x + size > width) {
+    particle.x = width - size;
+    particle.velocityX *= -0.4;
+  }
+
+  if (particle.y - size < 0) {
+    particle.y = size;
+    particle.velocityY *= -0.4;
+  } else if (particle.y + size > height) {
+    particle.y = height - size;
+    particle.velocityY *= -0.4;
+  }
 }
 
 export function applyBlastImpulse(particle: Particle, maxSpeed: number): void {

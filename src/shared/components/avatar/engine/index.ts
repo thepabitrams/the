@@ -1,1 +1,1 @@
-export { ParticleEngine } from './ParticleEngine';
+export { ParticleEngine } from './particle-engine';

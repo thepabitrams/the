@@ -38,28 +38,12 @@ export function syncCountTo(
   targetCount: number,
   spawn: { x: number; y: number }
 ): void {
-  const size = getDynamicParticleSize();
-  
   if (particles.length > targetCount) {
     particles.length = targetCount;
     return;
   }
+  
   while (particles.length < targetCount) {
-    const p = createParticle(spawn.x, spawn.y);
-    p.x = spawn.x;
-    p.y = spawn.y;
-    p.targetX = spawn.x;
-    p.targetY = spawn.y;
-    p.originX = spawn.x;
-    p.originY = spawn.y;
-    particles.push(p);
-  }
-}
-
-export function resetParticleSizes(particles: Particle[]): void {
-  const size = getDynamicParticleSize();
-  for (const particle of particles) {
-    particle.size = size;
-    particle.baseSize = size;
+    particles.push(createParticle(spawn.x, spawn.y));
   }
 }
