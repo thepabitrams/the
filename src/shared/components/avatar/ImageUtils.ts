@@ -10,7 +10,7 @@ export const extractPointsFromImage = async (
   const supersampleScale = 2;
   const renderSize = anchorSize * supersampleScale;
   
-  const dynamicGap = Math.max(2, Math.min(4, Math.round(anchorSize / 150)));
+  const dynamicGap = Math.max(3, Math.min(5, Math.round(anchorSize / 100)));
   
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
