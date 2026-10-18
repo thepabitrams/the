@@ -4,9 +4,12 @@ import type { Point } from './types';
 export const extractPointsFromImage = async (
   url: string,
   viewportWidth: number,
-  viewportHeight: number
+  viewportHeight: number,
+  centerX: number,
+  centerY: number
 ): Promise<Point[]> => {
   const shapeSize = Math.min(viewportWidth, viewportHeight) * 0.55;
+  
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   if (!context) return [];
@@ -48,8 +51,9 @@ export const extractPointsFromImage = async (
 
   if (!imageData) return [];
 
-  const offsetX = viewportWidth * 0.25 - canvas.width / 2;
-  const offsetY = viewportHeight / 2 - canvas.height / 2;
+  const offsetX = centerX - canvas.width / 2;
+  const offsetY = centerY - canvas.height / 2;
+  
   const points: Point[] = [];
   const data = imageData.data;
 

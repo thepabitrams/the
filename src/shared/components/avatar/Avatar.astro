@@ -2,11 +2,13 @@
 export interface Props {
   lightImages?: string[];
   darkImages?: string[];
+  anchorId?: string;
 }
 
 const {
   lightImages = ['/icons/pabitra-avatar-suit-black.svg'],
   darkImages = ['/icons/pabitra-avatar-suit-white.svg'],
+  anchorId = 'particle-avatar-anchor',
 } = Astro.props;
 ---
 
@@ -15,6 +17,7 @@ const {
   class="fixed inset-0 z-0 pointer-events-none"
   data-light-images={JSON.stringify(lightImages)}
   data-dark-images={JSON.stringify(darkImages)}
+  data-anchor-id={anchorId}
 ></canvas>
 
 <script>
@@ -38,10 +41,11 @@ const {
 
     const lightImages: string[] = JSON.parse(canvas.dataset.lightImages || '[]');
     const darkImages: string[] = JSON.parse(canvas.dataset.darkImages || '[]');
+    const anchorId: string = canvas.dataset.anchorId || 'particle-avatar-anchor';
 
     if (lightImages.length === 0 || darkImages.length === 0) return;
 
-    engineInstance = new ParticleEngine(canvas, lightImages, darkImages);
+    engineInstance = new ParticleEngine(canvas, lightImages, darkImages, anchorId);
     engineInstance.init();
   };
 

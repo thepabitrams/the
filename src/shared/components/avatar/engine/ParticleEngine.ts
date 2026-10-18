@@ -26,6 +26,7 @@ export class ParticleEngine {
 
   private imagesLight: string[];
   private imagesDark: string[];
+  private anchorId: string;
 
   private currentIndex = 0;
   private state: EngineState = 'IDLE';
@@ -40,11 +41,12 @@ export class ParticleEngine {
   private transitionScale = 1;
   private observer: MutationObserver | null = null;
 
-  constructor(canvas: HTMLCanvasElement, imagesLight: string[], imagesDark: string[]) {
+  constructor(canvas: HTMLCanvasElement, imagesLight: string[], imagesDark: string[], anchorId: string) {
     this.canvas = canvas;
     this.context = canvas.getContext('2d')!;
     this.imagesLight = imagesLight;
     this.imagesDark = imagesDark;
+    this.anchorId = anchorId;
     this.updatePortalCenter();
   }
 
@@ -56,7 +58,19 @@ export class ParticleEngine {
   }
 
   private updatePortalCenter = (): void => {
-    this.portalCenter = { x: window.innerWidth * 0.25, y: window.innerHeight / 2 };
+    const anchor = document.getElementById(this.anchorId);
+    if (anchor) {
+      const rect = anchor.getBoundingClientRect();
+      this.portalCenter = { 
+        x: rect.left + rect.width / 2, 
+        y: rect.top + rect.height / 2 
+      };
+    } else {
+      this.portalCenter = { 
+        x: window.innerWidth / 2, 
+        y: window.innerHeight / 2 
+      };
+    }
   };
 
   private resizeCanvas = (): void => {
@@ -84,7 +98,13 @@ export class ParticleEngine {
 
   private loadInitialImage = async (): Promise<void> => {
     const url = this.getCurrentImageUrl();
-    const points = await extractPointsFromImage(url, window.innerWidth, window.innerHeight);
+    const points = await extractPointsFromImage(
+      url, 
+      window.innerWidth, 
+      window.innerHeight, 
+      this.portalCenter.x, 
+      this.portalCenter.y
+    );
     this.particles = createParticlesFromPoints(points);
     this.lastImageOrigins = points.map((point) => ({ x: point.x, y: point.y }));
     this.transitionScale = 1;
@@ -107,6 +127,8 @@ export class ParticleEngine {
   };
 
   private handleCollapseComplete = (): void => {
+    const currentRadius = window.innerWidth < 768 ? CONFIG.globeRadius * 0.6 : CONFIG.globeRadius;
+
     if (this.expansionTarget === 'GLOBE') {
       syncCountTo(this.particles, CONFIG.globeParticleCount, this.portalCenter);
       const bases = buildFibonacciSphere(this.particles.length);
@@ -120,8 +142,8 @@ export class ParticleEngine {
         particle.baseSize = CONFIG.particleSize;
         
         const rotated = rotateAroundY(particle, 0);
-        particle.targetX = this.portalCenter.x + rotated.x * CONFIG.globeRadius;
-        particle.targetY = this.portalCenter.y + rotated.y * CONFIG.globeRadius;
+        particle.targetX = this.portalCenter.x + rotated.x * currentRadius;
+        particle.targetY = this.portalCenter.y + rotated.y * currentRadius;
         particle.x = this.portalCenter.x;
         particle.y = this.portalCenter.y;
         particle.velocityX = 0;
@@ -173,7 +195,13 @@ export class ParticleEngine {
   private prepareNextImage = async (): Promise<void> => {
     this.currentIndex++;
     const url = this.getCurrentImageUrl();
-    const points = await prepareNextImage(url, window.innerWidth, window.innerHeight);
+    const points = await prepareNextImage(
+      url, 
+      window.innerWidth, 
+      window.innerHeight, 
+      this.portalCenter.x, 
+      this.portalCenter.y
+    );
 
     if (this.state !== 'ROTATING_GLOBE') return;
 
@@ -255,18 +283,18 @@ export class ParticleEngine {
 
     const isTransitioning = this.state === 'COLLAPSING' || this.state === 'EXPANDING';
     let currentEase = CONFIG.ease;
-    if (isTransitioning) {
-      currentEase = CONFIG.transitionEase;
-    } else if (isGlobeShape) {
+    if (isGlobeShape && !isTransitioning) {
       currentEase = 0.15;
     }
+
+    const currentRadius = window.innerWidth < 768 ? CONFIG.globeRadius * 0.6 : CONFIG.globeRadius;
 
     for (const particle of this.particles) {
       if (isRotating) {
         const rotated = rotateAroundY(particle, this.rotationAngle);
         const depth = depthFactor(rotated.z);
-        particle.targetX = this.portalCenter.x + rotated.x * CONFIG.globeRadius;
-        particle.targetY = this.portalCenter.y + rotated.y * CONFIG.globeRadius;
+        particle.targetX = this.portalCenter.x + rotated.x * currentRadius;
+        particle.targetY = this.portalCenter.y + rotated.y * currentRadius;
         particle.size = Math.max(0.8, particle.baseSize * depthScale(depth, 0.6));
         particle.renderDepth = depth;
       } else if (!isGlobeShape) {
@@ -277,9 +305,16 @@ export class ParticleEngine {
       particle.originX = this.portalCenter.x + (particle.targetX - this.portalCenter.x) * this.transitionScale;
       particle.originY = this.portalCenter.y + (particle.targetY - this.portalCenter.y) * this.transitionScale;
 
-      if (this.state !== 'BLASTING') applyAttraction(particle, currentEase);
-      applyHover(particle, this.pointer);
-      integrate(particle, this.state === 'BLASTING');
+      if (isTransitioning) {
+        particle.x = particle.originX;
+        particle.y = particle.originY;
+        particle.velocityX = 0;
+        particle.velocityY = 0;
+      } else {
+        if (this.state !== 'BLASTING') applyAttraction(particle, currentEase);
+        applyHover(particle, this.pointer);
+        integrate(particle, this.state === 'BLASTING');
+      }
     }
 
     drawParticles(this.context, this.particles, color, isGlobeShape);
