@@ -5,7 +5,6 @@ import { createParticlesFromPoints, getDynamicParticleSize, syncCountTo } from '
 import { rotateAroundY, depthFactor, depthScale } from './sphere-geometry';
 import { applyAttraction, applyHover, integrate, applyBoundaries, type PointerState } from './physics';
 import { drawParticles } from './renderer';
-import { prepareNextImage } from './image-transition';
 import { InteractionHandler } from './interaction-handler';
 import { CanvasManager } from './canvas-manager';
 import { MorphManager } from './morph-manager';
@@ -27,8 +26,7 @@ export class ParticleEngine {
   private rotationAngle = 0;
   private lastTimestamp = 0;
 
-  private lastImageOrigins: { x: number; y: number }[] = [];
-  private pendingImageOrigins: Point[] | null = null;
+  private lastImageOrigins: Point[] = [];
   private expansionTarget: 'IMAGE' | 'GLOBE' = 'IMAGE';
   private transitionScale = 1;
   
@@ -40,7 +38,7 @@ export class ParticleEngine {
     
     this.canvasManager = new CanvasManager(localCanvas, blastCanvas, anchorId);
     
-    this.interactions = new InteractionHandler({
+    this.interactions = new InteractionHandler(localCanvas, {
       onHover: (pointerState) => { this.pointer = pointerState; },
       onBlast: () => this.triggerBlast(),
       onResize: () => this.handleResize(),
@@ -66,7 +64,7 @@ export class ParticleEngine {
     if (points.length === 0) return;
 
     if (this.state !== 'IDLE') {
-      this.lastImageOrigins = points.map((point) => ({ x: point.x, y: point.y }));
+      this.lastImageOrigins = points;
       return;
     }
 
@@ -77,7 +75,7 @@ export class ParticleEngine {
       this.particles[index].targetY = points[index].y;
     }
     
-    this.lastImageOrigins = points.map((point) => ({ x: point.x, y: point.y }));
+    this.lastImageOrigins = points;
   };
 
   private handleResize = (): void => {
@@ -91,8 +89,10 @@ export class ParticleEngine {
     const size = this.canvasManager.anchorSize;
     const points = await extractPointsFromImage(url, size, x, y);
     
+    if (points.length === 0) return;
+
     this.particles = createParticlesFromPoints(points);
-    this.lastImageOrigins = points.map((point) => ({ x: point.x, y: point.y }));
+    this.lastImageOrigins = points;
     this.transitionScale = 1;
     this.state = 'IDLE';
     this.scheduleNextCycle();
@@ -122,10 +122,8 @@ export class ParticleEngine {
     if (this.expansionTarget === 'GLOBE') {
       MorphManager.prepareGlobe(this.particles, this.canvasManager.portalCenter);
       this.rotationAngle = 0;
-    } else if (this.expansionTarget === 'IMAGE' && this.pendingImageOrigins) {
-      MorphManager.prepareImage(this.particles, this.pendingImageOrigins, this.canvasManager.portalCenter);
-      this.lastImageOrigins = this.pendingImageOrigins.map((point) => ({ x: point.x, y: point.y }));
-      this.pendingImageOrigins = null;
+    } else if (this.expansionTarget === 'IMAGE') {
+      MorphManager.prepareImage(this.particles, this.lastImageOrigins, this.canvasManager.portalCenter);
     }
     this.state = 'EXPANDING';
   };
@@ -148,11 +146,14 @@ export class ParticleEngine {
     const url = this.getCurrentImageUrl();
     const { x, y } = this.canvasManager.portalCenter;
     const size = this.canvasManager.anchorSize;
-    const points = await prepareNextImage(url, size, x, y);
+    const points = await extractPointsFromImage(url, size, x, y);
 
     if (this.state !== 'ROTATING_GLOBE') return;
 
-    this.pendingImageOrigins = points ? points : this.lastImageOrigins;
+    if (points && points.length > 0) {
+      this.lastImageOrigins = points;
+    }
+    
     this.state = 'COLLAPSING';
     this.expansionTarget = 'IMAGE';
     this.transitionScale = 1;
@@ -176,7 +177,6 @@ export class ParticleEngine {
       this.transitionScale = 1;
     }
 
-    this.pendingImageOrigins = null;
     this.state = 'BLASTING';
     this.clearStateTimer();
 

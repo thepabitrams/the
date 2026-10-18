@@ -14,10 +14,10 @@ const {
 const uniqueAnchorId = `particle-anchor-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<div id={uniqueAnchorId} class:list={["relative pointer-events-none overflow-hidden", className]}>
+<div id={uniqueAnchorId} class:list={["relative overflow-hidden", className]}>
   <canvas
     id={`canvas-local-${uniqueAnchorId}`}
-    class="absolute inset-0 w-full h-full pointer-events-none transform-gpu will-change-transform"
+    class="absolute inset-0 w-full h-full pointer-events-auto cursor-pointer"
     data-light-images={JSON.stringify(lightImages)}
     data-dark-images={JSON.stringify(darkImages)}
     data-anchor-id={uniqueAnchorId}
@@ -26,7 +26,7 @@ const uniqueAnchorId = `particle-anchor-${Math.random().toString(36).substring(2
 
 <canvas
   id={`canvas-blast-${uniqueAnchorId}`}
-  class="fixed inset-0 w-screen h-screen pointer-events-none hidden z-9999 transform-gpu will-change-transform"
+  class="fixed inset-0 w-screen h-screen pointer-events-none hidden z-9999"
 ></canvas>
 
 <script>

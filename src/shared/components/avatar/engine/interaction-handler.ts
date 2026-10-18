@@ -9,20 +9,22 @@ export interface InteractionCallbacks {
 
 export class InteractionHandler {
   private callbacks: InteractionCallbacks;
+  private localCanvas: HTMLCanvasElement;
   
   private longPressTimer: ReturnType<typeof setTimeout> | null = null;
   private pointerDownPosition = { x: 0, y: 0 };
   private isLongPressHandled = false;
-  private isPointerOnUI = false;
   private isAborted = false;
+  private isPointerDown = false;
   private observer: MutationObserver | null = null;
 
-  constructor(callbacks: InteractionCallbacks) {
+  constructor(localCanvas: HTMLCanvasElement, callbacks: InteractionCallbacks) {
+    this.localCanvas = localCanvas;
     this.callbacks = callbacks;
   }
 
   public init(): void {
-    window.addEventListener('pointerdown', this.onPointerDown);
+    this.localCanvas.addEventListener('pointerdown', this.onPointerDown);
     window.addEventListener('pointermove', this.onPointerMove);
     window.addEventListener('pointerup', this.onPointerUp);
     window.addEventListener('pointercancel', this.onPointerCancel);
@@ -40,10 +42,7 @@ export class InteractionHandler {
   }
 
   private onPointerDown = (event: PointerEvent): void => {
-    const target = event.target as HTMLElement;
-    this.isPointerOnUI = !!target?.closest('a, button');
-    if (this.isPointerOnUI) return;
-
+    this.isPointerDown = true;
     this.isLongPressHandled = false;
     this.isAborted = false;
     this.pointerDownPosition = { x: event.clientX, y: event.clientY };
@@ -52,17 +51,19 @@ export class InteractionHandler {
     
     this.longPressTimer = setTimeout(() => {
       this.isLongPressHandled = true;
-      this.callbacks.onHover({ x: this.pointerDownPosition.x, y: this.pointerDownPosition.y, active: true });
+      this.callbacks.onHover({ x: event.clientX, y: event.clientY, active: true });
     }, 350);
   };
 
   private onPointerMove = (event: PointerEvent): void => {
-    if (this.isPointerOnUI || this.isAborted) return;
+    if (this.isAborted) return;
 
     if (event.pointerType === 'mouse') {
       this.callbacks.onHover({ x: event.clientX, y: event.clientY, active: true });
       return;
     }
+
+    if (!this.isPointerDown) return;
 
     const distanceX = Math.abs(event.clientX - this.pointerDownPosition.x);
     const distanceY = Math.abs(event.clientY - this.pointerDownPosition.y);
@@ -84,10 +85,8 @@ export class InteractionHandler {
   };
 
   private onPointerUp = (): void => {
-    if (this.isPointerOnUI) {
-      this.isPointerOnUI = false;
-      return;
-    }
+    if (!this.isPointerDown) return;
+    this.isPointerDown = false;
 
     if (this.longPressTimer) {
       clearTimeout(this.longPressTimer);
@@ -102,6 +101,8 @@ export class InteractionHandler {
   };
 
   private onPointerCancel = (): void => {
+    this.isPointerDown = false;
+
     if (this.longPressTimer) {
       clearTimeout(this.longPressTimer);
       this.longPressTimer = null;
@@ -114,7 +115,7 @@ export class InteractionHandler {
   public destroy = (): void => {
     if (this.longPressTimer) clearTimeout(this.longPressTimer);
     
-    window.removeEventListener('pointerdown', this.onPointerDown);
+    this.localCanvas.removeEventListener('pointerdown', this.onPointerDown);
     window.removeEventListener('pointermove', this.onPointerMove);
     window.removeEventListener('pointerup', this.onPointerUp);
     window.removeEventListener('pointercancel', this.onPointerCancel);

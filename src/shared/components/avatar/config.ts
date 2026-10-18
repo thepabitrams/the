@@ -1,10 +1,10 @@
 export const CONFIG = {
-  imageGap: 2,
+  imageGap: 3,
   globeParticleCount: 4000,
-  particleSize: 1.8,
+  particleSize: 2.0,
   referenceScreenWidth: 1440,
   
-  alphaThreshold: 128,
+  alphaThreshold: 100,
   jitter: 0,
   
   ease: 0.04,
