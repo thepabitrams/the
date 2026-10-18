@@ -1,0 +1,1 @@
+export { default as ParticleAvatar } from './Avatar.astro';

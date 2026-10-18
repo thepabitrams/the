@@ -1,0 +1,56 @@
+---
+export interface Props {
+  lightImages?: string[];
+  darkImages?: string[];
+}
+
+const {
+  lightImages = ['/icons/pabitra-avatar-suit-black.svg'],
+  darkImages = ['/icons/pabitra-avatar-suit-white.svg'],
+} = Astro.props;
+---
+
+<canvas
+  id="particle-avatar-canvas"
+  class="fixed inset-0 z-0 pointer-events-none"
+  data-light-images={JSON.stringify(lightImages)}
+  data-dark-images={JSON.stringify(darkImages)}
+></canvas>
+
+<script>
+  import { ParticleEngine } from './engine';
+
+  let engineInstance: ParticleEngine | null = null;
+
+  const destroy = () => {
+    if (engineInstance) {
+      engineInstance.destroy();
+      engineInstance = null;
+    }
+  };
+
+  const init = () => {
+    destroy();
+    const canvas = document.getElementById(
+      'particle-avatar-canvas'
+    ) as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    const lightImages: string[] = JSON.parse(canvas.dataset.lightImages || '[]');
+    const darkImages: string[] = JSON.parse(canvas.dataset.darkImages || '[]');
+
+    if (lightImages.length === 0 || darkImages.length === 0) return;
+
+    engineInstance = new ParticleEngine(canvas, lightImages, darkImages);
+    engineInstance.init();
+  };
+
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init, { once: true });
+  }
+
+  document.addEventListener('astro:before-swap', destroy);
+  window.addEventListener('pagehide', destroy);
+</script>
