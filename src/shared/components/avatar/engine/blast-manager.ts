@@ -39,6 +39,9 @@ export class BlastManager {
         particle.x -= newAnchorRect.left;
         particle.y -= newAnchorRect.top;
         
+        particle.velocityX = 0;
+        particle.velocityY = 0;
+        
         if (targetOrigins[index]) {
           particle.targetX = targetOrigins[index].x;
           particle.targetY = targetOrigins[index].y;
