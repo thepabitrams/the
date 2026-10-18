@@ -1,0 +1,84 @@
+---
+export interface Props {
+  lightImages?: string[];
+  darkImages?: string[];
+  class?: string;
+}
+
+const {
+  lightImages = [
+    '/icons/pabitra-avatar-black.svg',
+    '/icons/pabitra-avatar-suit-black.svg'
+  ],
+  darkImages = [
+    '/icons/pabitra-avatar-white.svg',
+    '/icons/pabitra-avatar-suit-white.svg'
+  ],
+  class: className = 'w-full h-[400px]',
+} = Astro.props;
+
+const imageCount = lightImages.length;
+const displayDurationSeconds = 4;
+const totalAnimationDuration = imageCount * displayDurationSeconds;
+const keyframeStepPercentage = 100 / imageCount;
+const transitionPercentage = 5;
+
+const animationKeyframes = `
+  @keyframes androidZoom {
+    0% { opacity: 0; transform: scale(0.3); }
+    ${transitionPercentage}% { opacity: 1; transform: scale(1); }
+    ${keyframeStepPercentage - transitionPercentage}% { opacity: 1; transform: scale(1); }
+    ${keyframeStepPercentage}% { opacity: 0; transform: scale(0.3); }
+    100% { opacity: 0; transform: scale(0.3); }
+  }
+`;
+---
+
+<style is:inline set:html={animationKeyframes}></style>
+
+<div class:list={["relative flex items-center justify-center overflow-hidden", className]}>
+  
+  <div class="absolute inset-0 transition-opacity duration-300 opacity-100 dark:opacity-0 pointer-events-none">
+    {lightImages.map((imageUrl, index) => (
+      <img 
+        src={imageUrl} 
+        alt="Avatar" 
+        class="absolute inset-0 w-full h-full object-contain animate-zoom-cycle"
+        style={`animation-delay: ${index * displayDurationSeconds}s; animation-duration: ${totalAnimationDuration}s;`}
+      />
+    ))}
+  </div>
+
+  <div class="absolute inset-0 transition-opacity duration-300 opacity-0 dark:opacity-100 pointer-events-none">
+    {darkImages.map((imageUrl, index) => (
+      <img 
+        src={imageUrl} 
+        alt="Avatar" 
+        class="absolute inset-0 w-full h-full object-contain animate-zoom-cycle"
+        style={`animation-delay: ${index * displayDurationSeconds}s; animation-duration: ${totalAnimationDuration}s;`}
+      />
+    ))}
+  </div>
+
+</div>
+
+<style>
+  .animate-zoom-cycle {
+    opacity: 0;
+    animation-name: androidZoom;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    will-change: transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-zoom-cycle {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .animate-zoom-cycle:not(:first-child) {
+      display: none;
+    }
+  }
+</style>

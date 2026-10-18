@@ -1,19 +1,9 @@
 ---
-import SponsorLayout from '@/layouts/Sponsor.astro';
-import { ParticleAvatar } from '@/shared/components/avatar';
+import { SponsorLayout } from '@/layouts/';
+import { Avatar } from '@/shared/components';
 
 const githubSponsorsUrl = 'https://github.com/sponsors/thepabitrams';
 const buyMeACoffeeUrl = 'https://buymeacoffee.com/thepabitrams';
-
-const myLightImages = [
-  '/icons/pabitra-avatar-black.svg',
-  '/icons/pabitra-avatar-suit-black.svg'
-]; 
-
-const myDarkImages = [
-  '/icons/pabitra-avatar-white.svg',
-  '/icons/pabitra-avatar-suit-white.svg'
-];
 ---
 
 <SponsorLayout 
@@ -22,11 +12,7 @@ const myDarkImages = [
 >
   <div class="w-full max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center flex-1 gap-8 md:gap-20 py-12 relative z-10 pointer-events-none">
     
-    <ParticleAvatar 
-      lightImages={myLightImages} 
-      darkImages={myDarkImages} 
-      class="w-full md:w-1/2 h-80 md:h-125" 
-    />
+    <Avatar class="w-full md:w-1/2 h-80 md:h-125" />
 
     <div class="w-full md:w-1/2 max-w-md flex flex-col gap-8 pointer-events-auto mt-4 md:mt-0">
       

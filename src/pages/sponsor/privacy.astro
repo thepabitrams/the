@@ -1,0 +1,203 @@
+---
+import SponsorLayout from '@/layouts/Sponsor.astro';
+
+const effectiveDateString: string = 'October 18, 2026';
+const websiteName: string = 'Pabitra Mohan Singh';
+const privacyContactEmail: string = 'support@pabitramohansingh.com';
+---
+
+<SponsorLayout title="Privacy Policy — Sponsor">
+  <div class="w-full max-w-3xl mx-auto px-6 py-16 flex-1 relative z-10">
+    
+    <header class="mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
+        Privacy Policy
+      </h1>
+      <p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+        <strong>Effective date:</strong> {effectiveDateString}
+      </p>
+    </header>
+
+    <div class="flex flex-col gap-8 text-neutral-600 dark:text-neutral-400 leading-relaxed">
+      
+      <section>
+        <p>
+          This Privacy Policy explains how <strong class="text-neutral-900 dark:text-white">{websiteName}</strong> ("I", "me", or "my")
+          handles information in connection with the sponsor page available at
+          <code class="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-sm text-neutral-900 dark:text-white">/sponsor</code> and its sub-pages. It is written to be transparent,
+          legally binding, and easy to read.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">1. Who is the data controller?</h2>
+        <p>
+          The data controller for this website is the individual open-source developer
+          operating <strong class="text-neutral-900 dark:text-white">{websiteName}</strong>. You can reach the controller at
+          <a href={`mailto:${privacyContactEmail}`} class="text-blue-600 dark:text-blue-400 hover:underline">{privacyContactEmail}</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">2. Zero first-party data collection</h2>
+        <p class="mb-4">
+          I do <strong class="text-neutral-900 dark:text-white">not</strong> collect, store, or process any personal data directly
+          from visitors on this sponsor page.
+        </p>
+        <ul class="list-disc list-inside space-y-2 ml-2 mb-4">
+          <li>No cookies are set by this website.</li>
+          <li>No analytics services (such as Google Analytics) are used.</li>
+          <li>No user accounts, contact forms, or comment systems are provided.</li>
+          <li>No first-party tracking pixels or fingerprinting scripts are loaded.</li>
+        </ul>
+        <p>
+          The avatar animation on this page is a local CSS animation. It runs entirely
+          in your browser and does not send any information to me or to third parties.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">3. Third-party sponsorship platforms</h2>
+        <p class="mb-4">
+          Sponsorship is processed exclusively through <strong class="text-neutral-900 dark:text-white">GitHub Sponsors</strong>
+          and <strong class="text-neutral-900 dark:text-white">Buy Me a Coffee</strong>. When you click a sponsorship link, you
+          leave this website and interact directly with those platforms.
+        </p>
+        <p class="mb-4">
+          I do not receive, store, or control your payment details, billing address,
+          full name, or email address from those platforms. The platforms act as
+          independent data controllers for the information they collect.
+        </p>
+        <ul class="list-disc list-inside space-y-3 ml-2 mb-4">
+          <li>
+            <strong class="text-neutral-900 dark:text-white">GitHub Sponsors:</strong> GitHub may share your GitHub username,
+            sponsorship tier, amount, and date with me. Payment and billing information
+            are handled by GitHub and its payment processors and are not shared with me. 
+            GitHub's privacy statement applies to all data it processes.
+          </li>
+          <li>
+            <strong class="text-neutral-900 dark:text-white">Buy Me a Coffee:</strong> Buy Me a Coffee processes payments through
+            PCI-compliant providers. Credit-card data is not stored on its servers. 
+            Buy Me a Coffee's privacy policy governs the information it collects.
+          </li>
+        </ul>
+        <div class="bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-4 rounded-xl">
+          <p class="text-sm font-medium text-neutral-900 dark:text-white">
+            You must refer to the privacy policies of GitHub and Buy Me a Coffee for a
+            full description of their data practices and for exercising your data
+            rights in relation to the information they collect.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">4. Server logs</h2>
+        <p class="mb-4">
+          This website is hosted on standard infrastructure (for example, Cloudflare or
+          a comparable hosting provider). The hosting provider may automatically
+          collect standard server log data, such as IP addresses, browser type,
+          referring pages, and timestamps, for security, abuse prevention, and
+          operational integrity.
+        </p>
+        <p>
+          I do not use these logs to identify individual visitors, and I do not combine
+          them with any other data. The hosting provider's own privacy policy governs
+          its log-processing activities.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">5. Your rights under the GDPR (EEA, UK, and Switzerland)</h2>
+        <p class="mb-4">
+          Because this website does not collect personal data directly, the GDPR
+          transparency obligations under Articles 13 and 14 are primarily satisfied by
+          this notice. To the extent that any personal data is processed by
+          the hosting provider or by the sponsorship platforms, you have the following
+          rights:
+        </p>
+        <ul class="list-disc list-inside space-y-2 ml-2 mb-4">
+          <li>Right of access (Article 15 GDPR)</li>
+          <li>Right to rectification (Article 16 GDPR)</li>
+          <li>Right to erasure (Article 17 GDPR)</li>
+          <li>Right to restriction of processing (Article 18 GDPR)</li>
+          <li>Right to data portability (Article 20 GDPR)</li>
+          <li>Right to object (Article 21 GDPR)</li>
+          <li>Right to lodge a complaint with a supervisory authority (Article 77 GDPR)</li>
+        </ul>
+        <p>
+          For data processed by GitHub or Buy Me a Coffee, please exercise your rights
+          directly with those platforms. For any question about this website, contact
+          <a href={`mailto:${privacyContactEmail}`} class="text-blue-600 dark:text-blue-400 hover:underline">{privacyContactEmail}</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">6. Your rights under the CCPA/CPRA (California)</h2>
+        <p class="mb-4">
+          This website does not sell or share personal information, and it does not
+          collect personal information directly from consumers. Therefore, the
+          thresholds that trigger direct CCPA/CPRA obligations are not met by this
+          website's first-party activities.
+        </p>
+        <p class="mb-4">
+          If you are a California resident and you interact with GitHub or Buy Me a
+          Coffee, those platforms are responsible for responding to your CCPA/CPRA
+          requests. You may contact them directly to exercise your rights to know,
+          delete, correct, or opt out of the sale or sharing of your personal
+          information.
+        </p>
+        <p>
+          This website does not respond to Global Privacy Control (GPC) signals because
+          it does not sell or share personal information and does not track visitors
+          across sites.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">7. CalOPPA (California Online Privacy Protection Act)</h2>
+        <p class="mb-4">
+          In accordance with CalOPPA, this Privacy Policy is publicly available and
+          conspicuously linked from the sponsor page. The categories of information
+          collected and the third parties with whom information may be shared are
+          described above.
+        </p>
+        <p class="mb-4">
+          <strong class="text-neutral-900 dark:text-white">Do Not Track:</strong> This website does not track visitors over time
+          or across third-party websites. It does not currently respond to "Do Not
+          Track" browser signals because no tracking is performed.
+        </p>
+        <p>
+          <strong class="text-neutral-900 dark:text-white">Effective date:</strong> {effectiveDateString}. Material changes to this
+          policy will be posted on this page with a new effective date.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">8. Changes to this Privacy Policy</h2>
+        <p>
+          I may update this Privacy Policy from time to time to reflect changes in legal
+          requirements or in the services linked from this page. The effective date at
+          the top of this page indicates when the latest version took effect. Continued
+          use of the sponsor page after an update constitutes acceptance of the revised
+          policy.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white mb-3">9. Contact</h2>
+        <p class="mb-4">
+          For privacy-related questions about this website, contact:
+          <a href={`mailto:${privacyContactEmail}`} class="text-blue-600 dark:text-blue-400 hover:underline">{privacyContactEmail}</a>.
+        </p>
+        <p>
+          For privacy questions about sponsorship data, please contact
+          <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" rel="noopener noreferrer" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">GitHub Privacy</a>
+          or
+          <a href="https://www.buymeacoffee.com/privacy-policy" rel="noopener noreferrer" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">Buy Me a Coffee Privacy</a>
+          directly.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</SponsorLayout>

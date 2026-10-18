@@ -1,0 +1,250 @@
+---
+import SponsorLayout from '@/layouts/Sponsor.astro';
+
+interface LegalSection {
+  readonly id: string;
+  readonly heading: string;
+  readonly paragraphs: readonly string[];
+  readonly bullets?: readonly string[];
+}
+
+const contactEmail: string = 'legal@thepabitrams.com';
+const effectiveDateIso: string = '2026-10-18';
+const effectiveDateLabel: string = 'October 18, 2026';
+const lastUpdatedDateIso: string = '2026-10-18';
+const lastUpdatedDateLabel: string = 'October 18, 2026';
+
+const legalSections: readonly LegalSection[] = [
+  {
+    id: 'acceptance',
+    heading: '1. Acceptance of These Terms',
+    paragraphs: [
+      'These Terms of Service ("Terms") govern your access to and use of the sponsorship pages, sponsorship links, and related content made available on this website (collectively, the "Sponsorship Program"). The Sponsorship Program is operated by the individual developer identified on this website ("Operator", "I", "me", or "my").',
+      'By accessing the Sponsorship Program, initiating a sponsorship, or continuing to use this website, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not initiate or continue a sponsorship.',
+      'You represent and warrant that you are at least the age of legal majority in your jurisdiction and have the legal capacity to enter into these Terms. If you are sponsoring on behalf of an organization, you represent that you have authority to bind that organization to these Terms.',
+    ],
+  },
+  {
+    id: 'voluntary-sponsorship',
+    heading: '2. Sponsorships Are Entirely Voluntary',
+    paragraphs: [
+      'All sponsorships are voluntary, discretionary, and gratuitous contributions made of your own free will. A sponsorship is a gift-like contribution intended to support the ongoing maintenance and development of open-source software and related educational content.',
+      'You are under no obligation whatsoever to sponsor. No sponsorship is required to access, use, download, modify, or distribute any open-source project published by the Operator, and no sponsorship creates or implies any form of membership, partnership, employment, agency, joint venture, franchise, or fiduciary relationship between you and the Operator.',
+      'Because sponsorships are voluntary contributions, they do not entitle you to any equity, ownership, governance rights, voting rights, or control over the Operator\'s projects, priorities, roadmap, or business decisions.',
+    ],
+  },
+  {
+    id: 'no-goods-or-services',
+    heading: '3. No Purchase of Goods or Services',
+    paragraphs: [
+      'A sponsorship does not constitute a purchase of goods, services, licenses, subscriptions, digital content, or any other commercial product. No consideration is exchanged for any deliverable, and no contract for the supply of goods or services is formed between you and the Operator by virtue of a sponsorship.',
+      'Sponsorships are not donations to a registered charity, tax-exempt organization, or non-profit entity unless expressly stated otherwise. The Operator is an independent individual developer and does not represent that any sponsorship is tax-deductible in your jurisdiction. You are solely responsible for determining the tax treatment of any sponsorship you make.',
+      'Any tangible or intangible benefit that may occasionally be offered to sponsors (such as a name listing, a badge, or a thank-you mention) is provided on a discretionary, courtesy basis, carries no independent monetary value, and does not convert a sponsorship into a commercial transaction.',
+    ],
+  },
+  {
+    id: 'no-guaranteed-support',
+    heading: '4. No Guaranteed Support, Service Levels, or Priority Response',
+    paragraphs: [
+      'Unless you and the Operator have entered into a separate, express, written agreement signed by the Operator that specifically provides otherwise, a sponsorship does NOT entitle you to any of the following:',
+    ],
+    bullets: [
+      'Guaranteed technical support, troubleshooting, consulting, or implementation assistance of any kind.',
+      'Priority, expedited, or guaranteed response times to issues, pull requests, emails, or messages.',
+      'Service level agreements (SLAs), uptime commitments, bug-fix timelines, or release schedules.',
+      'Custom development, feature requests, roadmap influence, or dedicated maintenance.',
+      'Security audits, compliance attestations, warranties of fitness for a particular purpose, or professional advice.',
+      'Any form of exclusivity, endorsement, sponsorship recognition beyond what is expressly published, or marketing placement.',
+    ],
+  },
+  {
+    id: 'support-disclaimer',
+    heading: '5. Support Is Provided at the Operator\'s Sole Discretion',
+    paragraphs: [
+      'Any support, communication, or engagement the Operator chooses to provide is rendered on a best-effort, voluntary, and discretionary basis, subject to availability, capacity, and interest. The Operator may decline, defer, or discontinue support for any requester at any time, for any reason, without liability.',
+      'Acknowledgement of a sponsorship, a public thank-you, or general responsiveness in public issue trackers does not create an expectation, obligation, or enforceable right to continued or priority support.',
+    ],
+  },
+  {
+    id: 'third-party-platforms',
+    heading: '6. Third-Party Sponsorship Platforms',
+    paragraphs: [
+      'Sponsorship payments are processed exclusively through third-party platforms, including GitHub Sponsors (operated by GitHub, Inc.) and Buy Me a Coffee (operated by Buy Me a Coffee / Publisherr, Inc.), as linked from this website. The Operator does not process, store, or control payment card data.',
+      'When you click a link to, or complete a transaction on, any third-party platform, you are leaving this website and you become subject to that platform\'s own terms of service, privacy policy, acceptable use policy, refund policy, and payment processor terms. You are solely responsible for reviewing and complying with those terms.',
+      'The Operator is not responsible or liable for the availability, security, accuracy, acts, omissions, fees, chargeback decisions, account suspensions, data practices, or payment failures of any third-party platform. Any dispute concerning a payment, refund, chargeback, account restriction, or platform-level issue must be resolved directly with the relevant platform under its own terms.',
+    ],
+  },
+  {
+    id: 'intellectual-property',
+    heading: '7. Intellectual Property',
+    paragraphs: [
+      'All original content on this website, including but not limited to source code, design systems, layouts, component architecture, written copy, illustrations, graphics, logos, icons, documentation, and the selection and arrangement of elements, is the exclusive intellectual property of the Operator and is protected by applicable copyright, trademark, and other intellectual property laws.',
+      'A sponsorship does not grant you any license, title, interest, or ownership in or to any intellectual property of the Operator. No trademark, service mark, trade name, or branding of the Operator may be used in connection with any product or service in a manner that is likely to cause confusion, without prior written permission.',
+      'Limited quotations, excerpts, and links to this website for personal, non-commercial, or journalistic purposes are permitted provided attribution is given and the material is not modified or presented as your own.',
+    ],
+  },
+  {
+    id: 'open-source-licensing',
+    heading: '8. Open-Source Projects and Their Licenses',
+    paragraphs: [
+      'Separate and apart from this website\'s proprietary content, the Operator publishes open-source software projects. Each such project is governed exclusively by the license declared in its own repository (for example, an OSI-approved license such as MIT, Apache-2.0, or GPL-3.0).',
+      'Your rights to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of any open-source project are defined solely by that project\'s license file and not by these Terms. In the event of any conflict between these Terms and an applicable open-source license, the open-source license controls with respect to that project\'s code.',
+      'Nothing in these Terms restricts, limits, or modifies rights granted to you under an applicable open-source license, and nothing in these Terms constitutes an additional restriction on open-source software in contravention of that license.',
+    ],
+  },
+  {
+    id: 'refunds-and-cancellation',
+    heading: '9. Refunds, Cancellation, and Recurring Sponsorships',
+    paragraphs: [
+      'Because sponsorships are voluntary contributions, they are generally non-refundable. Refund eligibility, if any, is determined exclusively by the refund policies of the third-party platform through which the contribution was made.',
+      'Recurring (monthly) sponsorships may be modified or cancelled at any time through the sponsor\'s account settings on the relevant platform. Cancellation takes effect at the end of the then-current billing period; amounts already contributed are not prorated or returned.',
+      'The Operator reserves the right to decline, return, or refund any sponsorship at any time, including where a sponsor\'s conduct violates these Terms or applicable law.',
+    ],
+  },
+  {
+    id: 'as-is-disclaimer',
+    heading: '10. "As-Is" and "As-Available" Disclaimer',
+    paragraphs: [
+      'TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THIS WEBSITE, THE SPONSORSHIP PROGRAM, AND ALL CONTENT, CODE, AND MATERIALS MADE AVAILABLE THROUGH THEM ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE.',
+      'THE OPERATOR EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, ACCURACY, QUIET ENJOYMENT, AND ANY WARRANTIES ARISING FROM COURSE OF DEALING OR USAGE OF TRADE.',
+      'THE OPERATOR DOES NOT WARRANT THAT THIS WEBSITE OR ANY PROJECT WILL BE UNINTERRUPTED, ERROR-FREE, SECURE, TIMELY, COMPLETE, FREE OF HARMFUL COMPONENTS, OR THAT ANY DEFECTS WILL BE CORRECTED. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED FROM THE OPERATOR SHALL CREATE ANY WARRANTY NOT EXPRESSLY STATED IN THESE TERMS.',
+      'SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF CERTAIN WARRANTIES, SO SOME OF THE ABOVE EXCLUSIONS MAY NOT APPLY TO YOU. IN THAT CASE, THE EXCLUSIONS SHALL APPLY TO THE FULLEST EXTENT PERMITTED BY LAW.',
+    ],
+  },
+  {
+    id: 'limitation-of-liability',
+    heading: '11. Limitation of Liability',
+    paragraphs: [
+      'TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE OPERATOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, PUNITIVE, OR AGGRAVATED DAMAGES, OR FOR ANY LOSS OF PROFITS, REVENUE, DATA, GOODWILL, BUSINESS OPPORTUNITY, OR ANTICIPATED SAVINGS, HOWEVER CAUSED AND UNDER ANY THEORY OF LIABILITY, INCLUDING CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, WARRANTY, OR OTHERWISE, EVEN IF THE OPERATOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.',
+      'TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE OPERATOR\'S TOTAL AGGREGATE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS, THE SPONSORSHIP PROGRAM, OR YOUR USE OF THIS WEBSITE SHALL NOT EXCEED THE TOTAL AMOUNT OF SPONSORSHIP CONTRIBUTIONS ACTUALLY RECEIVED BY THE OPERATOR FROM YOU DURING THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM, OR ONE HUNDRED UNITED STATES DOLLARS (USD $100.00), WHICHEVER IS GREATER.',
+      'THIS LIMITATION OF LIABILITY IS A FUNDAMENTAL BASIS OF THE BARGAIN BETWEEN YOU AND THE OPERATOR AND SHALL APPLY REGARDLESS OF WHETHER ANY LIMITED REMEDY FAILS OF ITS ESSENTIAL PURPOSE. SOME JURISDICTIONS DO NOT ALLOW THE LIMITATION OR EXCLUSION OF LIABILITY FOR CERTAIN DAMAGES, SO SOME OF THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU.',
+    ],
+  },
+  {
+    id: 'indemnification',
+    heading: '12. Indemnification',
+    paragraphs: [
+      'You agree to defend, indemnify, and hold harmless the Operator from and against any and all claims, demands, actions, liabilities, damages, losses, judgments, settlements, costs, and expenses (including reasonable attorneys\' fees) arising out of or relating to: (a) your breach of these Terms; (b) your misuse of this website or the Sponsorship Program; (c) your violation of any applicable law or regulation; or (d) your infringement of any third-party right, including intellectual property or privacy rights.',
+    ],
+  },
+  {
+    id: 'privacy',
+    heading: '13. Privacy and Data Handling',
+    paragraphs: [
+      'The Operator collects only the minimal information necessary to acknowledge and administer sponsorships. Payment details, billing information, and account credentials are collected and stored exclusively by the third-party sponsorship platform, not by the Operator.',
+      'Public sponsor listings, where enabled by the platform, may display your chosen display name and avatar. You may elect to sponsor privately where the platform supports that option. Any information you voluntarily transmit to the Operator directly (for example, by email) will be used solely to respond to your communication and will not be sold.',
+    ],
+  },
+  {
+    id: 'changes',
+    heading: '14. Changes to These Terms',
+    paragraphs: [
+      'The Operator reserves the right to modify, amend, or replace these Terms at any time. Material changes will be reflected by updating the "Last Updated" date at the top of this page. Your continued use of this website or continuation of a recurring sponsorship after changes become effective constitutes acceptance of the revised Terms.',
+      'If you do not agree to the revised Terms, your sole remedy is to discontinue use of this website and cancel any recurring sponsorship through the relevant third-party platform.',
+    ],
+  },
+  {
+    id: 'governing-law',
+    heading: '15. Governing Law and Dispute Resolution',
+    paragraphs: [
+      'These Terms and any dispute arising out of or relating to them shall be governed by and construed in accordance with the laws applicable at the Operator\'s principal place of residence, without regard to its conflict of law provisions and without application of the United Nations Convention on Contracts for the International Sale of Goods.',
+      'Before commencing any formal proceeding, you agree to attempt to resolve any dispute informally by contacting the Operator at the email address listed below and allowing a reasonable period of good-faith negotiation.',
+      'Nothing in this section limits any non-waivable statutory right you may have as a consumer under the mandatory laws of your country of residence.',
+    ],
+  },
+  {
+    id: 'general-provisions',
+    heading: '16. Severability, Waiver, and Entire Agreement',
+    paragraphs: [
+      'If any provision of these Terms is held to be invalid, illegal, or unenforceable, that provision shall be limited or eliminated to the minimum extent necessary, and the remaining provisions shall remain in full force and effect.',
+      'The Operator\'s failure to enforce any right or provision of these Terms shall not constitute a waiver of that right or provision. No waiver shall be effective unless made in writing.',
+      'These Terms, together with any documents expressly incorporated by reference, constitute the entire agreement between you and the Operator concerning the Sponsorship Program and supersede all prior or contemporaneous understandings, communications, and proposals, whether oral or written.',
+    ],
+  },
+  {
+    id: 'contact',
+    heading: '17. Contact',
+    paragraphs: [
+      `Questions, concerns, or notices regarding these Terms or the Sponsorship Program may be directed to the Operator at ${contactEmail}. Notices will be deemed received when sent by email with confirmation of transmission.`,
+    ],
+  },
+];
+---
+
+<SponsorLayout title="Terms of Service — Sponsor">
+  <div class="w-full max-w-3xl mx-auto px-6 py-16 flex-1 relative z-10">
+    <article class="max-w-none">
+      
+      <header class="mb-12">
+        <p class="text-sm font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400 mb-2">
+          Legal
+        </p>
+        <h1 class="text-4xl font-bold tracking-tight text-neutral-900 dark:text-white mb-6">
+          Sponsorship Terms of Service
+        </h1>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+          These Terms of Service govern all sponsorships made through this website and any linked
+          third-party sponsorship platforms.
+        </p>
+        <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-8">
+          <span>Effective date: </span>
+          <time datetime={effectiveDateIso}>{effectiveDateLabel}</time>
+          <span> &middot; </span>
+          <span>Last updated: </span>
+          <time datetime={lastUpdatedDateIso}>{lastUpdatedDateLabel}</time>
+        </p>
+        <div class="rounded-xl border border-amber-300/60 bg-amber-50 p-5 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200 leading-relaxed">
+          <strong class="font-semibold">Summary:</strong> Sponsorships are voluntary contributions. They are not a purchase of
+          goods or services, and they do not entitle you to guaranteed support, priority responses, or any
+          service level. This summary is provided for convenience only and has no legal effect; the full
+          Terms below govern.
+        </div>
+      </header>
+
+      <nav aria-label="Table of contents" class="my-12 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30 p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-neutral-900 dark:text-white mb-6">Contents</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 list-none p-0 m-0">
+          {legalSections.map((section) => (
+            <li class="m-0 p-0">
+              <a href={`#${section.id}`} class="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors block leading-snug">
+                {section.heading}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="space-y-12">
+        {legalSections.map((section) => (
+          <section id={section.id} class="scroll-mt-24">
+            <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-4">
+              {section.heading}
+            </h2>
+            <div class="space-y-4">
+              {section.paragraphs.map((paragraph) => (
+                <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
+              {section.bullets ? (
+                <ul class="list-disc pl-6 space-y-2 text-neutral-600 dark:text-neutral-400 leading-relaxed mt-4">
+                  {section.bullets.map((bullet) => (
+                    <li class="pl-2">{bullet}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <footer class="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800">
+        <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed italic">
+          By initiating a sponsorship, you confirm that you have read, understood, and agreed to these
+          Terms of Service. Thank you for supporting independent open-source work.
+        </p>
+      </footer>
+
+    </article>
+  </div>
+</SponsorLayout>
