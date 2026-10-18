@@ -1,8 +1,8 @@
 ---
-import { SITE_CONFIGURATION } from '@/shared/config/site';
+import { site } from '@/shared/config/site';
 
 const currentYear = new Date().getFullYear();
-const portfolioUrl = SITE_CONFIGURATION.siteDomain;
+const portfolioUrl = site.domain;
 
 const legalLinks = [
   { href: '/sponsor/contact', label: 'Contact' },
@@ -22,7 +22,7 @@ const legalLinks = [
         rel="noopener noreferrer" 
         class="font-semibold text-neutral-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
       >
-        Pabitra Mohan Singh
+        {site.name}
       </a>
     </p>
     

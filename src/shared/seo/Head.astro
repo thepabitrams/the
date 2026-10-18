@@ -1,5 +1,5 @@
 ---
-import { SITE_CONFIGURATION } from '@/shared/config/site';
+import { site, social } from '@/shared/config/site';
 
 export interface HeadProps {
   title: string;
@@ -10,19 +10,19 @@ export interface HeadProps {
 
 const {
   title,
-  description = SITE_CONFIGURATION.siteDescription,
-  openGraphImage = SITE_CONFIGURATION.defaultOpenGraphImageUrl,
-  canonicalUrl = SITE_CONFIGURATION.siteDomain,
+  description = site.description,
+  openGraphImage = site.openGraphImage,
+  canonicalUrl = site.domain,
 } = Astro.props;
 
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: SITE_CONFIGURATION.siteName,
-  url: SITE_CONFIGURATION.siteDomain,
-  image: SITE_CONFIGURATION.defaultOpenGraphImageUrl,
-  jobTitle: SITE_CONFIGURATION.professionalJobTitle,
-  sameAs: SITE_CONFIGURATION.socialMediaLinks.map((link) => link.profileUrl),
+  name: site.name,
+  url: site.domain,
+  image: site.openGraphImage,
+  jobTitle: site.jobTitle,
+  sameAs: Object.values(social),
 } as const;
 ---
 
@@ -33,8 +33,8 @@ const personSchema = {
 <meta name="description" content={description} />
 
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content={SITE_CONFIGURATION.siteName} />
-<meta property="og:locale" content={SITE_CONFIGURATION.siteLocale} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={site.locale} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalUrl} />

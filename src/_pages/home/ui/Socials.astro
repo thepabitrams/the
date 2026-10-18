@@ -1,37 +1,39 @@
 ---
-import { SITE_CONFIGURATION } from '@/shared/config/site';
+import { social, email } from '@/shared/config/site';
 import { GitHub, LinkedIn, X, YouTube, Instagram, Gmail } from '@/shared/components/ui/icons';
 import LinkButton from '@/shared/components/ui/LinkButton.astro';
 
 const ICON_MAP = {
-  GitHub,
-  LinkedIn,
-  X,
-  YouTube,
-  Instagram,
+  github: GitHub,
+  linkedin: LinkedIn,
+  x: X,
+  youtube: YouTube,
+  instagram: Instagram,
 } as const;
 ---
 
 <div class="flex flex-wrap items-center gap-5">
-  {SITE_CONFIGURATION.socialMediaLinks.map(({ platformName, profileUrl }) => {
-    const Icon = ICON_MAP[platformName as keyof typeof ICON_MAP];
+  {Object.entries(social).map(([platform, url]) => {
+    const Icon = ICON_MAP[platform as keyof typeof ICON_MAP];
     if (!Icon) return null;
+
+    const displayName = platform.charAt(0).toUpperCase() + platform.slice(1);
 
     return (
       <a
-        href={profileUrl}
+        href={url}
         target="_blank"
         rel="noopener noreferrer"
         class="group inline-flex items-center transition-transform duration-300 ease-out hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
-        aria-label={platformName}
-        title={platformName}
+        aria-label={displayName}
+        title={displayName}
       >
         <Icon />
       </a>
     );
   })}
 
-  <LinkButton href={`mailto:${SITE_CONFIGURATION.contactEmailAddresses.generalInquiryEmailAddress}`} label="Contact Me">
+  <LinkButton href={`mailto:${email.general}`} label="Contact Me">
     <Gmail slot="icon" class="w-4 h-4" />
   </LinkButton>
 </div>

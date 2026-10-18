@@ -1,6 +1,6 @@
 ---
 import { SponsorLayout } from '@/layouts';
-import { SITE_CONFIGURATION } from '@/shared/config/site';
+import { email } from '@/shared/config/site';
 
 interface LegalSection {
   readonly id: string;
@@ -9,7 +9,7 @@ interface LegalSection {
   readonly bullets?: readonly string[];
 }
 
-const contactEmail: string = SITE_CONFIGURATION.contactEmailAddresses.legalInquiryEmailAddress;
+const contactEmail: string = email.legal;
 const effectiveDateIso: string = '2026-10-18';
 const effectiveDateLabel: string = 'October 18, 2026';
 const lastUpdatedDateIso: string = '2026-10-18';
