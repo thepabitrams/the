@@ -3,12 +3,13 @@ import { extractPointsFromImage } from '../ImageUtils';
 import type { Particle, EngineState, Point } from '../types';
 import { createParticlesFromPoints, getDynamicParticleSize, syncCountTo } from './particle-factory';
 import { rotateAroundY, depthFactor, depthScale } from './sphere-geometry';
-import { applyAttraction, applyHover, integrate, applyBoundaries, applyBlastImpulse, type PointerState } from './physics';
+import { applyAttraction, applyHover, integrate, applyBoundaries, type PointerState } from './physics';
 import { drawParticles } from './renderer';
 import { prepareNextImage } from './image-transition';
 import { InteractionHandler } from './interaction-handler';
 import { CanvasManager } from './canvas-manager';
 import { MorphManager } from './morph-manager';
+import { BlastManager } from './blast-manager';
 
 export class ParticleEngine {
   private canvasManager: CanvasManager;
@@ -21,7 +22,7 @@ export class ParticleEngine {
 
   private currentIndex = 0;
   private state: EngineState = 'IDLE';
-  private timer: ReturnType<typeof setTimeout> | null = null;
+  private stateTimer: ReturnType<typeof setTimeout> | null = null;
   private animationFrameId = 0;
   private rotationAngle = 0;
 
@@ -33,11 +34,11 @@ export class ParticleEngine {
   private previousPortalY = 0;
   private themeRequestId = 0;
 
-  constructor(canvas: HTMLCanvasElement, imagesLight: string[], imagesDark: string[], anchorId: string) {
+  constructor(localCanvas: HTMLCanvasElement, blastCanvas: HTMLCanvasElement, imagesLight: string[], imagesDark: string[], anchorId: string) {
     this.imagesLight = imagesLight;
     this.imagesDark = imagesDark;
     
-    this.canvasManager = new CanvasManager(canvas, anchorId);
+    this.canvasManager = new CanvasManager(localCanvas, blastCanvas, anchorId);
     
     this.interactions = new InteractionHandler({
       onHover: (pointerState) => { this.pointer = pointerState; },
@@ -49,7 +50,7 @@ export class ParticleEngine {
   }
 
   public init(): void {
-    this.canvasManager.resize();
+    this.canvasManager.resizeLocal();
     this.previousPortalY = this.canvasManager.portalCenter.y;
     this.interactions.init();
     void this.loadInitialImage();
@@ -67,29 +68,31 @@ export class ParticleEngine {
     if (points.length === 0) return;
 
     if (this.state !== 'IDLE') {
-      this.lastImageOrigins = points.map((p) => ({ x: p.x, y: p.y }));
+      this.lastImageOrigins = points.map((point) => ({ x: point.x, y: point.y }));
       return;
     }
 
     syncCountTo(this.particles, points.length, this.canvasManager.portalCenter);
     
-    for (let i = 0; i < this.particles.length; i++) {
-      this.particles[i].targetX = points[i].x;
-      this.particles[i].targetY = points[i].y;
+    for (let index = 0; index < this.particles.length; index++) {
+      this.particles[index].targetX = points[index].x;
+      this.particles[index].targetY = points[index].y;
     }
     
-    this.lastImageOrigins = points.map((p) => ({ x: p.x, y: p.y }));
+    this.lastImageOrigins = points.map((point) => ({ x: point.x, y: point.y }));
   };
 
   private handleResize = (): void => {
-    this.canvasManager.resize();
+    this.canvasManager.resizeLocal();
+    this.canvasManager.resizeBlast();
     this.previousPortalY = this.canvasManager.portalCenter.y;
   };
 
   private handleScroll = (): void => {
-    this.canvasManager.updateCenter();
-    const scrollDeltaY = this.canvasManager.portalCenter.y - this.previousPortalY;
-    this.previousPortalY = this.canvasManager.portalCenter.y;
+    const rect = this.canvasManager.getAnchorRect();
+    const currentY = rect.top + rect.height / 2;
+    const scrollDeltaY = currentY - this.previousPortalY;
+    this.previousPortalY = currentY;
 
     if (scrollDeltaY !== 0) {
       for (const particle of this.particles) {
@@ -108,21 +111,21 @@ export class ParticleEngine {
     const points = await extractPointsFromImage(url, size, x, y);
     
     this.particles = createParticlesFromPoints(points);
-    this.lastImageOrigins = points.map((p) => ({ x: p.x, y: p.y }));
+    this.lastImageOrigins = points.map((point) => ({ x: point.x, y: point.y }));
     this.transitionScale = 1;
     this.state = 'IDLE';
     this.scheduleNextCycle();
   };
 
   private getCurrentImageUrl = (): string => {
-    const isDark = document.documentElement.classList.contains('dark');
-    const sources = isDark ? this.imagesDark : this.imagesLight;
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    const sources = isDarkMode ? this.imagesDark : this.imagesLight;
     return sources[this.currentIndex % sources.length];
   };
 
   private scheduleNextCycle = (): void => {
-    this.clearTimer();
-    this.timer = setTimeout(() => {
+    this.clearStateTimer();
+    this.stateTimer = setTimeout(() => {
       if (this.state === 'IDLE') this.startGlobeTransition();
     }, CONFIG.idleDelayMs);
   };
@@ -140,7 +143,7 @@ export class ParticleEngine {
       this.rotationAngle = 0;
     } else if (this.expansionTarget === 'IMAGE' && this.pendingImageOrigins) {
       MorphManager.prepareImage(this.particles, this.pendingImageOrigins, this.canvasManager.portalCenter);
-      this.lastImageOrigins = this.pendingImageOrigins.map((p) => ({ x: p.x, y: p.y }));
+      this.lastImageOrigins = this.pendingImageOrigins.map((point) => ({ x: point.x, y: point.y }));
       this.pendingImageOrigins = null;
     }
     this.state = 'EXPANDING';
@@ -149,8 +152,8 @@ export class ParticleEngine {
   private handleExpansionComplete = (): void => {
     if (this.expansionTarget === 'GLOBE') {
       this.state = 'ROTATING_GLOBE';
-      this.clearTimer();
-      this.timer = setTimeout(() => {
+      this.clearStateTimer();
+      this.stateTimer = setTimeout(() => {
         if (this.state === 'ROTATING_GLOBE') void this.prepareNextImage();
       }, CONFIG.globeHoldTimeMs);
     } else if (this.expansionTarget === 'IMAGE') {
@@ -182,41 +185,56 @@ export class ParticleEngine {
 
     if (wasGlobe && this.lastImageOrigins.length > 0) {
       syncCountTo(this.particles, this.lastImageOrigins.length, this.canvasManager.portalCenter);
-      for (let i = 0; i < this.particles.length; i++) {
-        this.particles[i].targetX = this.lastImageOrigins[i].x;
-        this.particles[i].targetY = this.lastImageOrigins[i].y;
-        this.particles[i].baseSize = dynamicSize;
-        this.particles[i].size = dynamicSize;
-        this.particles[i].renderDepth = 1;
+      for (let index = 0; index < this.particles.length; index++) {
+        this.particles[index].targetX = this.lastImageOrigins[index].x;
+        this.particles[index].targetY = this.lastImageOrigins[index].y;
+        this.particles[index].baseSize = dynamicSize;
+        this.particles[index].size = dynamicSize;
+        this.particles[index].renderDepth = 1;
       }
       this.transitionScale = 1;
     }
 
     this.pendingImageOrigins = null;
     this.state = 'BLASTING';
-    this.clearTimer();
+    this.clearStateTimer();
 
-    const maxSpeed = window.innerWidth / 25;
-    for (const particle of this.particles) applyBlastImpulse(particle, maxSpeed);
-
-    this.timer = setTimeout(() => {
-      this.state = 'IDLE';
-      this.scheduleNextCycle();
-    }, CONFIG.blastRecoveryMs);
+    BlastManager.applyBlast(
+      this.particles, 
+      this.canvasManager, 
+      this.lastImageOrigins, 
+      () => {
+        this.state = 'IDLE';
+        this.scheduleNextCycle();
+      }
+    );
   };
 
   private animate = (): void => {
-    this.canvasManager.clear();
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const isBlasting = this.state === 'BLASTING';
+    
+    if (isBlasting) {
+      this.canvasManager.clearBlast();
+    } else {
+      this.canvasManager.clearLocal();
+    }
+
     const color = document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000';
+    const width = isBlasting ? window.innerWidth : this.canvasManager.localCanvas.width / (window.devicePixelRatio || 1);
+    const height = isBlasting ? window.innerHeight : this.canvasManager.localCanvas.height / (window.devicePixelRatio || 1);
 
     if (this.state === 'COLLAPSING') {
       this.transitionScale -= CONFIG.transitionSpeed;
-      if (this.transitionScale <= 0) { this.transitionScale = 0; this.handleCollapseComplete(); }
+      if (this.transitionScale <= 0) { 
+        this.transitionScale = 0; 
+        this.handleCollapseComplete(); 
+      }
     } else if (this.state === 'EXPANDING') {
       this.transitionScale += CONFIG.transitionSpeed;
-      if (this.transitionScale >= 1) { this.transitionScale = 1; this.handleExpansionComplete(); }
+      if (this.transitionScale >= 1) { 
+        this.transitionScale = 1; 
+        this.handleExpansionComplete(); 
+      }
     }
 
     const isGlobeShape = this.state === 'ROTATING_GLOBE' || 
@@ -232,6 +250,13 @@ export class ParticleEngine {
     const currentEase = (isGlobeShape && !isTransitioning) ? 0.15 : CONFIG.ease;
     const currentRadius = window.innerWidth < 768 ? CONFIG.globeRadius * 0.6 : CONFIG.globeRadius;
 
+    const rect = this.canvasManager.getAnchorRect();
+    const activePointer = { ...this.pointer };
+    if (!isBlasting && activePointer.active) {
+      activePointer.x -= rect.left;
+      activePointer.y -= rect.top;
+    }
+
     for (const particle of this.particles) {
       if (isRotating) {
         const rotated = rotateAroundY(particle, this.rotationAngle);
@@ -240,7 +265,7 @@ export class ParticleEngine {
         particle.targetY = this.canvasManager.portalCenter.y + rotated.y * currentRadius;
         particle.size = Math.max(0.8, particle.baseSize * depthScale(depth, 0.6));
         particle.renderDepth = depth;
-      } else if (!isGlobeShape) {
+      } else if (!isGlobeShape && !isBlasting) {
         particle.renderDepth = 1;
         particle.size = particle.baseSize;
       }
@@ -254,23 +279,27 @@ export class ParticleEngine {
         particle.velocityX = 0;
         particle.velocityY = 0;
       } else {
-        applyAttraction(particle, currentEase * (this.state === 'BLASTING' ? 0.3 : 1));
-        applyHover(particle, this.pointer);
-        integrate(particle, this.state === 'BLASTING');
-        if (this.state === 'BLASTING') applyBoundaries(particle, width, height);
+        applyAttraction(particle, currentEase * (isBlasting ? 0.3 : 1));
+        applyHover(particle, activePointer);
+        integrate(particle, isBlasting);
+        if (isBlasting) applyBoundaries(particle, width, height);
       }
     }
 
-    drawParticles(this.canvasManager.context, this.particles, color, isGlobeShape);
+    const context = isBlasting ? this.canvasManager.blastContext : this.canvasManager.localContext;
+    drawParticles(context, this.particles, color, isGlobeShape);
     this.animationFrameId = requestAnimationFrame(this.animate);
   };
 
-  private clearTimer(): void {
-    if (this.timer) { clearTimeout(this.timer); this.timer = null; }
+  private clearStateTimer(): void {
+    if (this.stateTimer) { 
+      clearTimeout(this.stateTimer); 
+      this.stateTimer = null; 
+    }
   }
 
   public destroy = (): void => {
-    this.clearTimer();
+    this.clearStateTimer();
     cancelAnimationFrame(this.animationFrameId);
     this.interactions.destroy();
   };

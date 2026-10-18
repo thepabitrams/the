@@ -1,46 +1,66 @@
 export class CanvasManager {
-  public canvas: HTMLCanvasElement;
-  public context: CanvasRenderingContext2D;
+  public localCanvas: HTMLCanvasElement;
+  public localContext: CanvasRenderingContext2D;
+  public blastCanvas: HTMLCanvasElement;
+  public blastContext: CanvasRenderingContext2D;
+  
   public portalCenter = { x: 0, y: 0 };
   public anchorSize = 300;
   private anchorId: string;
 
-  constructor(canvas: HTMLCanvasElement, anchorId: string) {
-    this.canvas = canvas;
-    this.context = canvas.getContext('2d')!;
+  constructor(localCanvas: HTMLCanvasElement, blastCanvas: HTMLCanvasElement, anchorId: string) {
+    this.localCanvas = localCanvas;
+    this.localContext = localCanvas.getContext('2d')!;
+    this.blastCanvas = blastCanvas;
+    this.blastContext = blastCanvas.getContext('2d')!;
     this.anchorId = anchorId;
-    this.updateCenter();
+    this.resizeLocal();
   }
 
-  public resize(): void {
-    const ratio = Math.max(window.devicePixelRatio || 1, 1);
-    this.canvas.width = Math.floor(window.innerWidth * ratio);
-    this.canvas.height = Math.floor(window.innerHeight * ratio);
-    this.canvas.style.width = `${window.innerWidth}px`;
-    this.canvas.style.height = `${window.innerHeight}px`;
-    this.context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    this.updateCenter();
-  }
-
-  public updateCenter(): void {
+  public resizeLocal(): void {
     const anchor = document.getElementById(this.anchorId);
-    if (anchor) {
-      const rect = anchor.getBoundingClientRect();
-      this.portalCenter = { 
-        x: rect.left + rect.width / 2, 
-        y: rect.top + rect.height / 2 
-      };
-      this.anchorSize = Math.min(rect.width, rect.height);
-    } else {
-      this.portalCenter = { 
-        x: window.innerWidth / 2, 
-        y: window.innerHeight / 2 
-      };
-      this.anchorSize = 300;
-    }
+    if (!anchor) return;
+
+    const rect = anchor.getBoundingClientRect();
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    
+    this.localCanvas.width = Math.floor(rect.width * ratio);
+    this.localCanvas.height = Math.floor(rect.height * ratio);
+    this.localContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+    
+    this.anchorSize = Math.min(rect.width, rect.height);
+    this.portalCenter = { x: rect.width / 2, y: rect.height / 2 };
   }
 
-  public clear(): void {
-    this.context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  public resizeBlast(): void {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    this.blastCanvas.width = Math.floor(window.innerWidth * ratio);
+    this.blastCanvas.height = Math.floor(window.innerHeight * ratio);
+    this.blastContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+  }
+
+  public getAnchorRect(): DOMRect {
+    const anchor = document.getElementById(this.anchorId);
+    return anchor ? anchor.getBoundingClientRect() : new DOMRect();
+  }
+
+  public switchToBlastView(): void {
+    this.resizeBlast();
+    this.localCanvas.style.display = 'none';
+    this.blastCanvas.style.display = 'block';
+  }
+
+  public switchToLocalView(): void {
+    this.blastCanvas.style.display = 'none';
+    this.localCanvas.style.display = 'block';
+    this.resizeLocal();
+  }
+
+  public clearLocal(): void {
+    this.localContext.clearRect(0, 0, this.localCanvas.width, this.localCanvas.height);
+  }
+
+  public clearBlast(): void {
+    this.blastContext.clearRect(0, 0, this.blastCanvas.width, this.blastCanvas.height);
   }
 }

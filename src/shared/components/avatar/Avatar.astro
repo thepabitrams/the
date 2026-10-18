@@ -14,35 +14,45 @@ const {
 const uniqueAnchorId = `particle-anchor-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<div id={uniqueAnchorId} class:list={["relative pointer-events-none", className]}>
+<div id={uniqueAnchorId} class:list={["relative pointer-events-none overflow-hidden", className]}>
+  <!-- 1. Local Canvas (Inside the div) -->
   <canvas
-    id={`canvas-${uniqueAnchorId}`}
-    class="fixed inset-0 z-0 pointer-events-none"
+    id={`canvas-local-${uniqueAnchorId}`}
+    class="absolute inset-0 w-full h-full pointer-events-none"
     data-light-images={JSON.stringify(lightImages)}
     data-dark-images={JSON.stringify(darkImages)}
     data-anchor-id={uniqueAnchorId}
   ></canvas>
 </div>
 
+<!-- 2. Blast Canvas (Full screen, hidden by default) -->
+<canvas
+  id={`canvas-blast-${uniqueAnchorId}`}
+  class="fixed inset-0 w-screen h-screen pointer-events-none hidden z-[9999]"
+></canvas>
+
 <script>
   import { ParticleEngine } from './engine';
 
-  const canvases = document.querySelectorAll('canvas[data-anchor-id]');
+  const localCanvases = document.querySelectorAll('canvas[id^="canvas-local-"]');
   
-  canvases.forEach((canvas) => {
-    const htmlCanvas = canvas as HTMLCanvasElement;
-    if (htmlCanvas.dataset.initialized) return;
-    htmlCanvas.dataset.initialized = 'true';
+  localCanvases.forEach((localCanvas) => {
+    const htmlLocalCanvas = localCanvas as HTMLCanvasElement;
+    if (htmlLocalCanvas.dataset.initialized) return;
+    htmlLocalCanvas.dataset.initialized = 'true';
+
+    const anchorId: string = htmlLocalCanvas.dataset.anchorId || '';
+    const blastCanvas = document.getElementById(`canvas-blast-${anchorId}`) as HTMLCanvasElement;
 
     let engineInstance: ParticleEngine | null = null;
     
-    const lightImages: string[] = JSON.parse(htmlCanvas.dataset.lightImages || '[]');
-    const darkImages: string[] = JSON.parse(htmlCanvas.dataset.darkImages || '[]');
-    const anchorId: string = htmlCanvas.dataset.anchorId || '';
+    const lightImages: string[] = JSON.parse(htmlLocalCanvas.dataset.lightImages || '[]');
+    const darkImages: string[] = JSON.parse(htmlLocalCanvas.dataset.darkImages || '[]');
 
-    if (lightImages.length === 0 || darkImages.length === 0 || !anchorId) return;
+    if (lightImages.length === 0 || darkImages.length === 0 || !anchorId || !blastCanvas) return;
 
-    engineInstance = new ParticleEngine(htmlCanvas, lightImages, darkImages, anchorId);
+    // Note: We pass BOTH canvases to the engine now
+    engineInstance = new ParticleEngine(htmlLocalCanvas, blastCanvas, lightImages, darkImages, anchorId);
     engineInstance.init();
 
     const destroy = () => {
