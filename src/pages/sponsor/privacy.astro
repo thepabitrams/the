@@ -1,12 +1,16 @@
 ---
-import SponsorLayout from '@/layouts/Sponsor.astro';
+import { SponsorLayout } from '@/layouts';
+import { SITE_CONFIGURATION } from '@/shared/config/site';
 
 const effectiveDateString: string = 'October 18, 2026';
-const websiteName: string = 'Pabitra Mohan Singh';
-const privacyContactEmail: string = 'support@pabitramohansingh.com';
+const websiteName: string = SITE_CONFIGURATION.siteName;
+const privacyContactEmail: string = SITE_CONFIGURATION.contactEmailAddresses.privacyInquiryEmailAddress;
 ---
 
-<SponsorLayout title="Privacy Policy — Sponsor">
+<SponsorLayout 
+  title="Privacy Policy | Pabitra Mohan Singh" 
+  description="Privacy policy for Pabitra Mohan Singh's sponsorship program, detailing zero first-party data collection, third-party platforms, and GDPR/CCPA compliance."
+>
   <div class="w-full max-w-3xl mx-auto px-6 py-16 flex-1 relative z-10">
     
     <header class="mb-12">

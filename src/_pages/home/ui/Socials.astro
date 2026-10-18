@@ -1,5 +1,5 @@
 ---
-import { SITE_CONFIG } from '@/shared/config/site';
+import { SITE_CONFIGURATION } from '@/shared/config/site';
 import { GitHub, LinkedIn, X, YouTube, Instagram, Gmail } from '@/shared/components/ui/icons';
 import LinkButton from '@/shared/components/ui/LinkButton.astro';
 
@@ -13,25 +13,25 @@ const ICON_MAP = {
 ---
 
 <div class="flex flex-wrap items-center gap-5">
-  {SITE_CONFIG.socialLinks.map(({ platform, url }) => {
-    const Icon = ICON_MAP[platform as keyof typeof ICON_MAP];
+  {SITE_CONFIGURATION.socialMediaLinks.map(({ platformName, profileUrl }) => {
+    const Icon = ICON_MAP[platformName as keyof typeof ICON_MAP];
     if (!Icon) return null;
 
     return (
       <a
-        href={url}
+        href={profileUrl}
         target="_blank"
         rel="noopener noreferrer"
         class="group inline-flex items-center transition-transform duration-300 ease-out hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
-        aria-label={platform}
-        title={platform}
+        aria-label={platformName}
+        title={platformName}
       >
         <Icon />
       </a>
     );
   })}
 
-  <LinkButton href={`mailto:${SITE_CONFIG.email}`} label="Contact Me">
+  <LinkButton href={`mailto:${SITE_CONFIGURATION.contactEmailAddresses.generalInquiryEmailAddress}`} label="Contact Me">
     <Gmail slot="icon" class="w-4 h-4" />
   </LinkButton>
 </div>

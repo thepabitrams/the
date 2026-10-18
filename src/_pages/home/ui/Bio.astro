@@ -1,5 +1,5 @@
 ---
-import { SITE_CONFIG } from '@/shared/config/site';
+import { SITE_CONFIGURATION } from '@/shared/config/site';
 
 export interface BioProps {
   introduction?: string;
@@ -18,7 +18,7 @@ const {
   <h1
     class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white"
   >
-    {SITE_CONFIG.name}
+    {SITE_CONFIGURATION.siteName}
   </h1>
 
   <div class="space-y-3 max-w-2xl">

@@ -1,0 +1,62 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+}
+
+const { id, title, description, content } = Astro.props;
+---
+
+<div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 overflow-hidden shadow-sm">
+  <div class="flex items-start justify-between p-6 border-b border-neutral-100 dark:border-neutral-800/50">
+    <div>
+      <h3 class="text-base font-semibold text-neutral-900 dark:text-white">{title}</h3>
+      <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">{description}</p>
+    </div>
+    <button 
+      data-copy-target={`template-${id}`}
+      class="copy-button flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-neutral-600 bg-white border border-neutral-200 rounded-lg hover:bg-neutral-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 transition-colors shrink-0"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+      <span class="button-text">Copy</span>
+    </button>
+  </div>
+  <div class="p-6 bg-neutral-50/50 dark:bg-neutral-900/20">
+    <pre id={`template-${id}`} class="font-mono text-sm text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap leading-relaxed">{content}</pre>
+  </div>
+</div>
+
+<script>
+  const copyButtons = document.querySelectorAll<HTMLButtonElement>('.copy-button');
+
+  copyButtons.forEach((button) => {
+    button.addEventListener('click', async () => {
+      const targetId = button.getAttribute('data-copy-target');
+      if (!targetId) return;
+
+      const targetElement = document.getElementById(targetId);
+      if (!targetElement) return;
+
+      const textToCopy = targetElement.innerText;
+      const textSpan = button.querySelector<HTMLElement>('.button-text');
+
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        
+        if (textSpan) {
+          textSpan.innerText = 'Copied!';
+          button.classList.add('text-green-600', 'border-green-200', 'dark:text-green-400', 'dark:border-green-900/50');
+          
+          setTimeout(() => {
+            textSpan.innerText = 'Copy';
+            button.classList.remove('text-green-600', 'border-green-200', 'dark:text-green-400', 'dark:border-green-900/50');
+          }, 2000);
+        }
+      } catch (error) {
+        console.error('Failed to copy text: ', error);
+      }
+    });
+  });
+</script>

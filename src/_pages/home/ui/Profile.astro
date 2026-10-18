@@ -1,5 +1,5 @@
 ---
-import { SITE_CONFIG } from '@/shared/config/site';
+import { SITE_CONFIGURATION } from '@/shared/config/site';
 
 const PROFILE_IMAGE_SRC = '/profile/profile.webp' as const;
 
@@ -10,7 +10,7 @@ export interface ProfileProps {
 
 const {
   imageSrc = PROFILE_IMAGE_SRC,
-  imageAlt = `Portrait of ${SITE_CONFIG.name}`,
+  imageAlt = `Portrait of ${SITE_CONFIGURATION.siteName}`,
 }: ProfileProps = Astro.props;
 ---
 

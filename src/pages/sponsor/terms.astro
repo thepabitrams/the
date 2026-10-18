@@ -1,5 +1,6 @@
 ---
-import SponsorLayout from '@/layouts/Sponsor.astro';
+import { SponsorLayout } from '@/layouts';
+import { SITE_CONFIGURATION } from '@/shared/config/site';
 
 interface LegalSection {
   readonly id: string;
@@ -8,7 +9,7 @@ interface LegalSection {
   readonly bullets?: readonly string[];
 }
 
-const contactEmail: string = 'legal@thepabitrams.com';
+const contactEmail: string = SITE_CONFIGURATION.contactEmailAddresses.legalInquiryEmailAddress;
 const effectiveDateIso: string = '2026-10-18';
 const effectiveDateLabel: string = 'October 18, 2026';
 const lastUpdatedDateIso: string = '2026-10-18';
@@ -171,7 +172,10 @@ const legalSections: readonly LegalSection[] = [
 ];
 ---
 
-<SponsorLayout title="Terms of Service — Sponsor">
+<SponsorLayout 
+  title="Terms of Service | Pabitra Mohan Singh" 
+  description="Terms of Service governing sponsorships, outlining voluntary contributions, third-party platforms, and liability limitations for Pabitra Mohan Singh."
+>
   <div class="w-full max-w-3xl mx-auto px-6 py-16 flex-1 relative z-10">
     <article class="max-w-none">
       

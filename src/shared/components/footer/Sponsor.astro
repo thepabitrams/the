@@ -1,22 +1,37 @@
 ---
+import { SITE_CONFIGURATION } from '@/shared/config/site';
+
 const currentYear = new Date().getFullYear();
+const portfolioUrl = SITE_CONFIGURATION.siteDomain;
+
 const legalLinks = [
+  { href: '/sponsor/contact', label: 'Contact' },
   { href: '/sponsor/privacy', label: 'Privacy Policy' },
   { href: '/sponsor/terms', label: 'Terms of Service' },
 ];
 ---
 
 <footer class="border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950">
-  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-neutral-500 sm:flex-row sm:px-6 dark:text-neutral-400">
+  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 py-8 text-sm text-neutral-500 sm:flex-row sm:px-6 dark:text-neutral-400">
     
-    <p>&copy; {currentYear} Pabitra Mohan Singh</p>
+    <p class="text-center sm:text-left">
+      &copy; {currentYear} 
+      <a 
+        href={portfolioUrl} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="font-semibold text-neutral-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+      >
+        Pabitra Mohan Singh
+      </a>
+    </p>
     
-    <ul class="flex items-center gap-6">
+    <ul class="flex flex-wrap items-center justify-center gap-6">
       {legalLinks.map((link) => (
         <li>
           <a 
             href={link.href} 
-            class="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+            class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >
             {link.label}
           </a>

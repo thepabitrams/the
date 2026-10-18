@@ -1,0 +1,122 @@
+---
+import { SponsorLayout } from '@/layouts';
+import { InfoCard, TemplateCard, LinkCard } from '@/shared/components/card';
+import { SITE_CONFIGURATION } from '@/shared/config/site'; 
+
+const contactEmail: string = SITE_CONFIGURATION.contactEmailAddresses.legalInquiryEmailAddress;
+const securityEmail: string = SITE_CONFIGURATION.contactEmailAddresses.securityInquiryEmailAddress;
+
+const contactReasons = [
+  {
+    title: 'Corporate Sponsorship',
+    description: 'Your company relies on my open-source work and requires official invoices, W-9s, or a standard vendor contract for accounting.'
+  },
+  {
+    title: 'Individual Sponsorship',
+    description: 'You use my open-source tools, find them valuable, and want to support their ongoing maintenance and development.'
+  },
+  {
+    title: 'Security Disclosures',
+    description: 'You have discovered a potential security vulnerability in one of my projects and need to report it privately.'
+  }
+];
+
+const messageTemplates = [
+  {
+    id: 'corporateSponsorship',
+    title: 'Corporate Sponsorship',
+    description: 'Use this template if you require invoices, tax forms, or a contract.',
+    content: `[Corporate Sponsorship] - [Company Name]\n\nHi Pabitra,\n\nMy company relies on your open-source work and we would like to become a corporate sponsor.\n\nCompany Name:\nCompany Website:\nSponsorship Amount / Tier:\n\nAdministrative Needs:\nDo you provide official invoices?\nDo you require a W-9 or equivalent tax form?\nDo you require a standard vendor contract?\n\nBilling Contact Name:\nBilling Email:\n\nBest regards,\n[Your Name]`
+  },
+  {
+    id: 'securityDisclosure',
+    title: 'Security Disclosure',
+    description: 'Use this template to privately report a vulnerability.',
+    content: `[Security] - Vulnerability Report - [Project Name]\n\nHi Pabitra,\n\nI am writing to responsibly disclose a security vulnerability I discovered in [Project Name].\n\nVulnerability Type:\nAffected Version:\nSeverity (e.g., High, Medium, Low):\n\nSteps to reproduce:\n1.\n2.\n3.\n\nImpact:\n\nI have not disclosed this publicly. Please let me know your preferred secure channel to share the full technical details and proof-of-concept.\n\nBest regards,\n[Your Name]`
+  },
+  {
+    id: 'generalInquiry',
+    title: 'General Inquiry',
+    description: 'Use this template for general questions or individual sponsorship.',
+    content: `[General] - [Your Name]\n\nHi Pabitra,\n\nI am reaching out regarding [Topic - e.g., Sponsoring you, Project Question].\n\n[Write your message here]\n\nBest regards,\n[Your Name]`
+  }
+];
+
+const contactChannels = [
+  {
+    title: 'Email (Business & Sponsorship)',
+    description: 'For corporate sponsorships, invoices, and general inquiries.',
+    url: `mailto:${contactEmail}`,
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`
+  },
+  {
+    title: 'Security Disclosure',
+    description: 'For private vulnerability reports. Do not open public issues.',
+    url: `mailto:${securityEmail}`,
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`
+  }
+];
+---
+
+<SponsorLayout title="Sponsorship Contact | Pabitra Mohan Singh">
+  <div class="w-full max-w-3xl mx-auto px-6 py-16 flex-1 relative z-10">
+    
+    <header class="mb-16">
+      <h1 class="text-4xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
+        Sponsorship Contact
+      </h1>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        This project is built and maintained by a single independent developer. If you or your company rely on my work, sponsorships are the best way to ensure it stays maintained, secure, and actively developed.
+      </p>
+    </header>
+
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-6">How can I help you?</h2>
+      <div class="flex flex-col gap-4">
+        {contactReasons.map((reason) => (
+          <InfoCard title={reason.title} description={reason.description} />
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-2">Message templates</h2>
+        <p class="text-neutral-600 dark:text-neutral-400">
+          To ensure your request is processed quickly, please use the official templates below. Copy, fill in the details, and send via email.
+        </p>
+      </div>
+      <div class="space-y-6">
+        {messageTemplates.map((template) => (
+          <TemplateCard 
+            id={template.id} 
+            title={template.title} 
+            description={template.description} 
+            content={template.content} 
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-6">Where to send</h2>
+      <div class="space-y-3">
+        {contactChannels.map((channel) => (
+          <LinkCard 
+            href={channel.url} 
+            title={channel.title} 
+            description={channel.description} 
+            iconSvg={channel.iconSvg} 
+          />
+        ))}
+      </div>
+    </section>
+
+    <footer class="pt-8 border-t border-neutral-200 dark:border-neutral-800 text-center">
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+        Need something else? Visit my <a href="https://your-portfolio-link.com/contact" target="_blank" rel="noopener noreferrer" class="font-medium text-neutral-900 dark:text-white hover:underline">Portfolio Contact Page</a>.
+      </p>
+    </footer>
+
+  </div>
+</SponsorLayout>
