@@ -1,7 +1,7 @@
 import { CONFIG } from '../config';
 import { extractPointsFromImage } from '../ImageUtils';
 import type { Particle, EngineState, Point } from '../types';
-import { createParticlesFromPoints, syncCountTo } from './ParticleFactory';
+import { createParticlesFromPoints, syncCountTo, getDynamicParticleSize } from './ParticleFactory';
 import {
   buildFibonacciSphere,
   rotateAroundY,
@@ -128,6 +128,7 @@ export class ParticleEngine {
 
   private handleCollapseComplete = (): void => {
     const currentRadius = window.innerWidth < 768 ? CONFIG.globeRadius * 0.6 : CONFIG.globeRadius;
+    const dynamicSize = getDynamicParticleSize();
 
     if (this.expansionTarget === 'GLOBE') {
       syncCountTo(this.particles, CONFIG.globeParticleCount, this.portalCenter);
@@ -139,7 +140,7 @@ export class ParticleEngine {
         particle.baseX = basis.baseX;
         particle.baseY = basis.baseY;
         particle.baseZ = basis.baseZ;
-        particle.baseSize = CONFIG.particleSize;
+        particle.baseSize = dynamicSize;
         
         const rotated = rotateAroundY(particle, 0);
         particle.targetX = this.portalCenter.x + rotated.x * currentRadius;
@@ -158,8 +159,8 @@ export class ParticleEngine {
         const particle = this.particles[i];
         particle.targetX = point.x;
         particle.targetY = point.y;
-        particle.baseSize = CONFIG.particleSize;
-        particle.size = CONFIG.particleSize;
+        particle.baseSize = dynamicSize;
+        particle.size = dynamicSize;
         particle.x = this.portalCenter.x;
         particle.y = this.portalCenter.y;
         particle.velocityX = 0;
@@ -217,14 +218,15 @@ export class ParticleEngine {
     if (this.state === 'BLASTING') return;
 
     const wasGlobe = this.state !== 'IDLE';
+    const dynamicSize = getDynamicParticleSize();
 
     if (wasGlobe && this.lastImageOrigins.length > 0) {
       syncCountTo(this.particles, this.lastImageOrigins.length, this.portalCenter);
       for (let i = 0; i < this.particles.length; i++) {
         this.particles[i].targetX = this.lastImageOrigins[i].x;
         this.particles[i].targetY = this.lastImageOrigins[i].y;
-        this.particles[i].baseSize = CONFIG.particleSize;
-        this.particles[i].size = CONFIG.particleSize;
+        this.particles[i].baseSize = dynamicSize;
+        this.particles[i].size = dynamicSize;
         this.particles[i].renderDepth = 1;
       }
       this.transitionScale = 1;

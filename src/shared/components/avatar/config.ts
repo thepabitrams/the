@@ -2,6 +2,7 @@ export const CONFIG = {
   imageGap: 1,
   globeParticleCount: 4000,
   particleSize: 1.8,
+  referenceScreenWidth: 1440,
   
   alphaThreshold: 128,
   jitter: 0,
