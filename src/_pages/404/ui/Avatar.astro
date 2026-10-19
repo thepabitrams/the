@@ -1,0 +1,83 @@
+---
+export interface AvatarProps {
+  className?: string;
+}
+
+const { className = 'w-40 h-40 md:w-48 md:h-48' } = Astro.props;
+---
+
+<div class={`relative flex items-center justify-center ${className}`}>
+  
+  <div class="relative w-full h-full block dark:hidden animate-breathe">
+    <img 
+      src="/icons/pabitra-avatar-suit-black.svg" 
+      alt="Pabitra Mohan Singh" 
+      class="absolute inset-0 w-full h-full object-contain image-one" 
+    />
+    <img 
+      src="/icons/pabitra-avatar-black.svg" 
+      alt="" 
+      class="absolute inset-0 w-full h-full object-contain image-two" 
+    />
+  </div>
+
+  <div class="relative w-full h-full hidden dark:block animate-breathe">
+    <img 
+      src="/icons/pabitra-avatar-suit-white.svg" 
+      alt="Pabitra Mohan Singh" 
+      class="absolute inset-0 w-full h-full object-contain image-one" 
+    />
+    <img 
+      src="/icons/pabitra-avatar-white.svg" 
+      alt="" 
+      class="absolute inset-0 w-full h-full object-contain image-two" 
+    />
+  </div>
+
+</div>
+
+<style>
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  .animate-breathe {
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  .image-one {
+    animation: swap-one 6s infinite;
+  }
+
+  .image-two {
+    animation: swap-two 6s infinite;
+    opacity: 0;
+  }
+
+  @keyframes swap-one {
+    0%, 45% { opacity: 1; transform: scale(1) skew(0); }
+    46% { opacity: 0; transform: translateX(-10px) skewX(20deg); }
+    47% { opacity: 1; transform: translateX(10px) skewX(-20deg); }
+    48% { opacity: 0; transform: translateX(-5px) scale(0.95); }
+    49% { opacity: 1; transform: translateX(5px) scale(1.05); }
+    50%, 95% { opacity: 0; transform: scale(1) skew(0); }
+    96% { opacity: 1; transform: translateX(10px) skewX(-20deg); }
+    97% { opacity: 0; transform: translateX(-10px) skewX(20deg); }
+    98% { opacity: 1; transform: translateX(5px) scale(1.05); }
+    99%, 100% { opacity: 1; transform: scale(1) skew(0); }
+  }
+
+  @keyframes swap-two {
+    0%, 45% { opacity: 0; transform: scale(1) skew(0); }
+    46% { opacity: 1; transform: translateX(10px) skewX(-20deg); }
+    47% { opacity: 0; transform: translateX(-10px) skewX(20deg); }
+    48% { opacity: 1; transform: translateX(5px) scale(1.05); }
+    49% { opacity: 0; transform: translateX(-5px) scale(0.95); }
+    50%, 95% { opacity: 1; transform: scale(1) skew(0); }
+    96% { opacity: 0; transform: translateX(-10px) skewX(20deg); }
+    97% { opacity: 1; transform: translateX(10px) skewX(-20deg); }
+    98% { opacity: 0; transform: translateX(-5px) scale(0.95); }
+    99%, 100% { opacity: 0; transform: scale(1) skew(0); }
+  }
+</style>
