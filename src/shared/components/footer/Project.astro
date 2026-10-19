@@ -17,6 +17,7 @@ const legalLinks = [
     
     <div class="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-10 md:gap-12 items-start">
       
+      <!-- Avatar -->
       <div class="flex justify-center md:justify-start">
         <img 
           src="/icons/pabitra-avatar-suit-black.svg" 
@@ -35,6 +36,7 @@ const legalLinks = [
         />
       </div>
 
+      <!-- Info -->
       <div class="flex flex-col items-center md:items-start text-center md:text-left gap-2">
         <h2 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
           {site.name}
@@ -48,9 +50,10 @@ const legalLinks = [
         </div>
       </div>
 
+      <!-- Support -->
       <section 
         aria-labelledby="support-heading"
-        class="flex flex-col items-center md:items-end text-center md:text-right gap-2 max-w-xs mx-auto md:mx-0 md:pt-1"
+        class="flex flex-col items-center md:items-end text-center md:text-right gap-2"
       >
         <h3 id="support-heading" class="font-semibold text-sm text-neutral-900 dark:text-white uppercase tracking-wider">
           Support
@@ -59,10 +62,11 @@ const legalLinks = [
           Love my work? You can buy me a coffee or sponsor my open-source projects.
         </p>
         
+        <!-- Fixed Button: w-fit instead of w-full -->
         <LinkButton 
           href="/sponsor" 
           label="Sponsor My Work" 
-          class="w-full md:w-auto mt-2 md:mt-6"
+          class="w-fit mt-2 md:mt-6"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -72,6 +76,7 @@ const legalLinks = [
 
     </div>
 
+    <!-- Bottom Bar -->
     <div class="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-sm text-neutral-500 dark:text-neutral-400">
         &copy; {currentYear} {site.name}. All rights reserved.
