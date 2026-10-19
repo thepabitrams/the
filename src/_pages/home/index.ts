@@ -1,1 +1,1 @@
-export { default as Home } from './ui/home.astro';
+export { default as Home } from './home.astro';

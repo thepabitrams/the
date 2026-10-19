@@ -32,12 +32,8 @@ preview:
     image: "/letters/mobile-light.webp"
 ---
 
-import Accordion from '@/shared/components/ui/Accordion.astro';
-import CodeEditor from '@/shared/components/ui/CodeEditor.astro';
-import ArchitectureDiagram from './_components/ArchitectureDiagram.astro';
-import CleanupDiagram from './_components/CleanupDiagram.astro';
-import LifetimeGraph from './_components/LifetimeGraph.astro';
-import DataFlowDiagram from './_components/DataFlowDiagram.astro';
+import { Accordion, CodeEditor } from '@/shared/components';
+import { ArchitectureDiagram, CleanupDiagram, LifetimeGraph, DataFlowDiagram } from './_components';
 
 <Accordion title="Project Overview">
 
