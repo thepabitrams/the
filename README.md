@@ -64,10 +64,103 @@ The codebase follows a clean, modular architecture designed for maintainability 
 pages → _pages → layouts → content → shared → styles
 ```
 
-* Pages import from `_pages`, `layouts`, and `shared`.
-* `_pages` import from `layouts`, `content`, and `shared`.
-* Layouts import from `shared` and `styles`.
-* Content imports from `shared`.
-* Shared imports from `styles`.
+- Pages import from `_pages`, `layouts`, and `shared`.
+- `_pages` import from `layouts`, `content`, and `shared`.
+- Layouts import from `shared` and `styles`.
+- Content imports from `shared`.
+- Shared imports from `styles`.
 
 This hierarchy prevents circular dependencies and keeps the codebase predictable.
+
+## Getting Started
+
+Follow these steps to run the project locally.
+
+### Prerequisites
+
+- **Node.js** - Version 22.12.0 or higher is required.
+- **pnpm** - Used as the package manager for this project.
+
+### Installation
+
+```bash
+git clone https://github.com/thepabitrams/the.git
+cd the
+pnpm install
+```
+
+### Development
+
+Start the dev server:
+
+```bash
+pnpm dev
+```
+
+### Production Build
+
+```bash
+pnpm build
+```
+
+## Deployment
+
+Production deployment is automated via Cloudflare Workers Builds.
+
+| Setting | Value |
+|---|---|
+| Production branch | `main` |
+| Build command | `pnpm run build` |
+| Deploy command | `pnpm exec wrangler deploy` |
+| Preview command | `pnpm exec wrangler versions upload` |
+
+Push to `main` triggers a production deploy to `the.pabitramohansingh.com`. Pushes to any other branch create preview versions.
+
+### Cloudflare Bindings
+
+Configured in `wrangler.jsonc` to define how the Astro app runs on the edge.
+
+- **`main`** – Points to the Astro Cloudflare adapter server entrypoint to handle routing and SSR.
+- **`assets`** – Binds the built `./dist` directory to the `ASSETS` variable and handles 404 routing automatically.
+- **`observability`** – Enables real-time logs and metrics in the Cloudflare dashboard for monitoring.
+- **`workers_dev`** – Disabled (`false`) to ensure traffic only routes through the custom production domain.
+- **`compatibility_date`** – Locks the runtime to standard behaviors as of `2026-10-06` to prevent breaking changes.
+
+## Folder Structure
+
+```text
+.
+├── public/                  # Static assets (images, robots.txt)
+├── src/                     # Main application source code
+│   ├── _pages/              # Page-specific view components
+│   ├── content/             # MDX project case studies
+│   ├── layouts/             # Page shells and global structure
+│   ├── pages/               # File-based routing entry points
+│   ├── shared/              # Reusable UI components and logic
+│   ├── styles/              # Global CSS and design tokens
+│   └── content.config.ts    # Content Collections schema
+├── THIRD-PARTY/             # Bundled license files
+├── astro.config.mjs         # Astro framework configuration
+├── package.json             # Project manifest and dependencies
+└── wrangler.jsonc           # Cloudflare deployment configuration
+```
+
+## Contributing
+
+Issues and PRs are welcome. See [AGENTS.md](./AGENTS.md) for AI agent instructions.
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE). See [LICENSES](./LICENSES/) for third-party attributions.
+
+## Acknowledgements
+
+Built with Astro, Tailwind CSS, and TypeScript. Built with a modular, scalable architecture for maintainability and developer experience.
+
+---
+
+<div align="center">
+
+**Made by [Pabitra Mohan Singh](https://www.linkedin.com/in/pabitramohansingh)**
+
+</div>
