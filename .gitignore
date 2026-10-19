@@ -10,5 +10,8 @@ dist/
 # Cloudflare Wrangler cache
 .wrangler/
 
+# Generated files
+worker-configuration.d.ts
+
 # VS Code settings
 .vscode/
