@@ -13,52 +13,36 @@
 </button>
 
 <script>
-  const THEME_STORAGE_KEY = 'theme' as const;
-  const DARK_CLASS_NAME = 'dark' as const;
-  const DARK_THEME_VALUE = 'dark' as const;
-  const LIGHT_THEME_VALUE = 'light' as const;
+  const themeStorageKey: string = 'theme';
+  const darkClassName: string = 'dark';
+  const darkThemeValue: string = 'dark';
+  const lightThemeValue: string = 'light';
 
-  function applyTheme(isDark: boolean): void {
-    const rootElement = document.documentElement;
+  function applyThemePreference(isDarkModeRequested: boolean): void {
+    const documentRootElement: HTMLElement = document.documentElement;
 
-    if (isDark) {
-      rootElement.classList.add(DARK_CLASS_NAME);
-      localStorage.setItem(THEME_STORAGE_KEY, DARK_THEME_VALUE);
+    if (isDarkModeRequested) {
+      documentRootElement.classList.add(darkClassName);
+      localStorage.setItem(themeStorageKey, darkThemeValue);
       return;
     }
 
-    rootElement.classList.remove(DARK_CLASS_NAME);
-    localStorage.setItem(THEME_STORAGE_KEY, LIGHT_THEME_VALUE);
+    documentRootElement.classList.remove(darkClassName);
+    localStorage.setItem(themeStorageKey, lightThemeValue);
   }
 
-  function getInitialThemePreference(): boolean {
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  function initializeThemeToggleListener(): void {
+    const themeToggleButton: HTMLElement | null = document.getElementById('theme-toggle');
 
-    if (savedTheme === DARK_THEME_VALUE) {
-      return true;
-    }
-
-    if (savedTheme === LIGHT_THEME_VALUE) {
-      return false;
-    }
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
-
-  function initializeThemeToggle(): void {
-    const toggleButton = document.getElementById('theme-toggle');
-
-    if (!(toggleButton instanceof HTMLButtonElement)) {
+    if (!(themeToggleButton instanceof HTMLButtonElement)) {
       return;
     }
 
-    applyTheme(getInitialThemePreference());
-
-    toggleButton.addEventListener('click', (): void => {
-      const isDarkMode = document.documentElement.classList.contains(DARK_CLASS_NAME);
-      applyTheme(!isDarkMode);
+    themeToggleButton.addEventListener('click', (): void => {
+      const isDarkModeCurrentlyActive: boolean = document.documentElement.classList.contains(darkClassName);
+      applyThemePreference(!isDarkModeCurrentlyActive);
     });
   }
 
-  initializeThemeToggle();
+  initializeThemeToggleListener();
 </script>
