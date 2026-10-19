@@ -1,8 +1,8 @@
 <div align="center">
 
-# Personal Site by Pabitra Mohan Singh
+# Professional Site by Pabitra Mohan Singh
 
-**A personal portfolio and showcase built with Astro, Tailwind CSS, and TypeScript.**
+**A professional portfolio and showcase built with Astro, Tailwind CSS, and TypeScript.**
 
 [![Astro](https://img.shields.io/badge/Astro-7.x-FF5D01?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
