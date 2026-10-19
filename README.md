@@ -44,7 +44,7 @@ The codebase follows a clean, modular architecture designed for maintainability 
 
 - **`src/`** – Contains all application source code.
 - **`public/`** – Holds static assets and root files like robots.txt, llms.txt, and image folders.
-- **`THIRDPARTY/`** – Contains bundled license texts for third-party dependencies like Astro and Tailwind.
+- **`LICENSES/`** – Contains bundled license texts for third-party dependencies like Astro and Tailwind.
 - **`astro.config.mjs`** – The main Astro configuration file.
 - **`package.json`** – The project manifest for dependencies and scripts.
 
@@ -139,7 +139,7 @@ Configured in `wrangler.jsonc` to define how the Astro app runs on the edge.
 │   ├── shared/              # Reusable UI components and logic
 │   ├── styles/              # Global CSS and design tokens
 │   └── content.config.ts    # Content Collections schema
-├── THIRD-PARTY/             # Bundled license files
+├── LICENSES/                # Bundled license files
 ├── astro.config.mjs         # Astro framework configuration
 ├── package.json             # Project manifest and dependencies
 └── wrangler.jsonc           # Cloudflare deployment configuration
