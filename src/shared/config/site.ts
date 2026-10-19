@@ -23,6 +23,18 @@ export interface SocialMediaLinks {
   readonly instagram: string;
 }
 
+export interface SponsorLinksConfig {
+  readonly github: string;
+  readonly buyMeACoffee: string;
+  readonly razorpay: string;
+  readonly kofi: string;
+  readonly patreon: string;
+  readonly openCollective: string;
+  readonly polar: string;
+  readonly liberapay: string;
+  readonly buyMeAChai: string;
+}
+
 export const site: SiteDetails = {
   name: 'Pabitra Mohan Singh',
   title: 'Pabitra Mohan Singh – Software Engineer',
@@ -46,4 +58,16 @@ export const social: SocialMediaLinks = {
   x: 'https://x.com/thepabitrams',
   youtube: 'https://youtube.com/@thepabitrams',
   instagram: 'https://www.instagram.com/thepabitrams',
+} as const;
+
+export const sponsor: SponsorLinksConfig = {
+  github: 'https://github.com/sponsors/thepabitrams',
+  buyMeACoffee: 'https://buymeacoffee.com/pabitramohansingh',
+  razorpay: 'https://razorpay.me/',
+  kofi: 'https://ko-fi.com/',
+  patreon: 'https://patreon.com/',
+  openCollective: 'https://opencollective.com/',
+  polar: 'https://polar.sh/',
+  liberapay: 'https://liberapay.com/',
+  buyMeAChai: 'https://buymeachai.com/',
 } as const;
