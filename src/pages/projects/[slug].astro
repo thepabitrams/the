@@ -4,6 +4,7 @@ import ProjectHero from '@/shared/components/ProjectHero.astro';
 import Accordion from '@/shared/components/Accordion.astro';
 import GitHubActivity from '@/shared/components/GitHubActivity.astro';
 import { getCollection, render } from 'astro:content';
+import { site } from '@/shared/config/site';
 import {
   fetchRepoActivity,
   parseGitHubUrl,
@@ -22,9 +23,16 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 
 const { githubUrl } = entry.data;
+const projectSlug = entry.id.replace(/\/about$/, '');
 
 const finalSeoTitle = entry.data.seoTitle || `${entry.data.title} | Pabitra Mohan Singh`;
 const finalSeoDescription = entry.data.seoDescription || entry.data.description;
+
+const breadcrumbItems = [
+  { name: 'Home', url: site.domain },
+  { name: 'Projects', url: `${site.domain}/projects` },
+  { name: entry.data.title, url: `${site.domain}/projects/${projectSlug}` }
+];
 
 let activity: GitHubEvent[] = [];
 if (githubUrl) {
@@ -39,6 +47,7 @@ if (githubUrl) {
   title={finalSeoTitle}
   projectName={entry.data.title}
   description={finalSeoDescription}
+  breadcrumbItems={breadcrumbItems}
 >
   <div class="project-page">
     <ProjectHero

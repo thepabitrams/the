@@ -1,11 +1,18 @@
 ---
 import { site, social } from '@/shared/config/site';
 
+export interface BreadcrumbItem {
+  readonly name: string;
+  readonly url: string;
+}
+
 export interface HeadProps {
   title: string;
   description?: string;
   openGraphImage?: string;
   canonicalUrl?: string;
+  noindex?: boolean;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 }
 
 const {
@@ -13,17 +20,65 @@ const {
   description = site.description,
   openGraphImage = site.openGraphImage,
   canonicalUrl = Astro.url.href,
+  noindex = false,
+  breadcrumbItems = [],
 } = Astro.props;
 
+const personId = `${site.domain}/#person`;
+const webSiteId = `${site.domain}/#website`;
+
 const personSchema = {
-  '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': personId,
   name: site.name,
   url: site.domain,
   image: site.openGraphImage,
   jobTitle: site.jobTitle,
   sameAs: Object.values(social),
 } as const;
+
+const webSiteSchema = {
+  '@type': 'WebSite',
+  '@id': webSiteId,
+  name: site.name,
+  url: site.domain,
+  description: site.description,
+  publisher: { '@id': personId },
+} as const;
+
+const webPageSchema = {
+  '@type': 'WebPage',
+  name: title,
+  description: description,
+  url: canonicalUrl,
+  isPartOf: { '@id': webSiteId },
+  about: { '@id': personId },
+} as const;
+
+const breadcrumbSchema =
+  breadcrumbItems.length > 0
+    ? {
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbItems.map(
+          (breadcrumbItem: BreadcrumbItem, index: number) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: breadcrumbItem.name,
+            item: breadcrumbItem.url,
+          })
+        ),
+      }
+    : null;
+
+const graphSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    personSchema,
+    webSiteSchema,
+    webPageSchema,
+    ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+  ],
+};
 ---
 
 <meta charset="UTF-8" />
@@ -31,6 +86,7 @@ const personSchema = {
 
 <title>{title}</title>
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, follow" />}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={site.name} />
@@ -53,4 +109,4 @@ const personSchema = {
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171717" />
 
-<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(graphSchema)} />

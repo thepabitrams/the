@@ -1,19 +1,27 @@
 ---
 import '@/styles/global.css';
 import Head from '@/shared/seo/Head.astro';
+import type { BreadcrumbItem } from '@/shared/seo/Head.astro';
 
 export interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex, breadcrumbItems } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <Head {title} {description} />
+    <Head 
+      {title} 
+      {description} 
+      {noindex} 
+      {breadcrumbItems} 
+    />
     <meta name="color-scheme" content="dark light" />
     
     <script is:inline>
