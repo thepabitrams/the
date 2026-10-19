@@ -1,0 +1,161 @@
+---
+import { HomeLayout } from '@/layouts';
+import { InfoCard, TemplateCard, LinkCard } from '@/shared/components/card';
+import { email, social, site } from '@/shared/config/site';
+
+const contactReasons = [
+  {
+    title: 'Bug Reports',
+    description: 'You found something broken in one of my apps or open-source projects and want to report it.'
+  },
+  {
+    title: 'Feature Requests',
+    description: 'You have an idea for a new feature or an improvement that would make one of my tools better.'
+  },
+  {
+    title: 'Freelance & Consulting',
+    description: 'You have a project, need a bug fixed urgently, or want to hire me for a specific engagement.'
+  },
+  {
+    title: 'Hiring & Recruitment',
+    description: 'You are a recruiter or hiring manager looking to discuss a full-time role or contract position.'
+  },
+  {
+    title: 'Security Disclosure',
+    description: 'You have discovered a potential security vulnerability and need to report it privately.'
+  },
+  {
+    title: 'General & Collaboration',
+    description: 'You have a question, want to collaborate on open-source, or just want to say hello.'
+  }
+];
+
+const messageTemplates = [
+  {
+    id: 'bugReport',
+    title: 'Bug Report',
+    description: 'Use this template if you found a bug and need help fixing it.',
+    content: `[Bug] - [Project Name] - [Short Description]\n\nHi Pabitra,\n\nI encountered a bug in [Project Name].\n\nWhat happened:\n\nSteps to reproduce:\n1.\n2.\n3.\n\nExpected behavior:\n\nDevice / Browser / OS:\n\nAdditional context (screenshots/logs):\n\nBest regards,\n[Your Name]`
+  },
+  {
+    id: 'featureRequest',
+    title: 'Feature Request',
+    description: 'Use this template to suggest a new feature or improvement.',
+    content: `[Feature] - [Project Name] - [Short Description]\n\nHi Pabitra,\n\nI would love to see a new feature in [Project Name].\n\nWhat problem does this solve?\n\nWhat would you like to see?\n\nWhy it would help:\n\nAlternatives considered:\n\nBest regards,\n[Your Name]`
+  },
+  {
+    id: 'freelance',
+    title: 'Freelance & Consulting',
+    description: 'Use this template if you want to hire me for a specific project.',
+    content: `[Freelance] - [Company Name] - [Project Name]\n\nHi Pabitra,\n\nI would like to discuss a potential freelance or consulting engagement.\n\nProject Overview:\nEstimated Timeline:\nBudget Range:\n\nDo you have availability to take on new work?\n\nBest regards,\n[Your Name]`
+  },
+  {
+    id: 'hiring',
+    title: 'Hiring / Job Offer',
+    description: 'Use this template if you are reaching out about a job opportunity.',
+    content: `[Hiring] - [Company Name] - [Role Title]\n\nHi Pabitra,\n\nI am reaching out from [Company Name] regarding a potential opportunity.\n\nCompany Name:\nRole Title:\nEmployment Type (Full-time/Contract):\nTech Stack:\nSalary / Compensation Range:\n\nAre you open to a quick chat next week?\n\nBest regards,\n[Your Name]`
+  },
+  {
+    id: 'securityDisclosure',
+    title: 'Security Disclosure',
+    description: 'Use this template to privately report a vulnerability.',
+    content: `[Security] - Vulnerability Report - [Project Name]\n\nHi Pabitra,\n\nI am writing to responsibly disclose a security vulnerability I discovered in [Project Name].\n\nVulnerability Type:\nAffected Version:\nSeverity (e.g., High, Medium, Low):\n\nSteps to reproduce:\n1.\n2.\n3.\n\nImpact:\n\nI have not disclosed this publicly. Please let me know your preferred secure channel to share the full technical details and proof-of-concept.\n\nBest regards,\n[Your Name]`
+  },
+  {
+    id: 'generalInquiry',
+    title: 'General Inquiry',
+    description: 'Use this template for general questions, feedback, or collaboration.',
+    content: `[General] - [Your Name]\n\nHi Pabitra,\n\nI am reaching out regarding [Topic - e.g., Collaboration, General Question].\n\n[Write your message here]\n\nBest regards,\n[Your Name]`
+  }
+];
+
+const contactChannels = [
+  {
+    title: 'Direct Email',
+    description: 'For private bug reports, job offers, and general inquiries.',
+    url: `mailto:${email.general}`,
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`
+  },
+  {
+    title: 'GitHub Issues',
+    description: 'For public bug reports and feature requests.',
+    url: social.github,
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c4.51 2 5-2 7-2"/></svg>`
+  },
+  {
+    title: 'LinkedIn',
+    description: 'For professional networking and recruitment.',
+    url: social.linkedin,
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>`
+  },
+  {
+    title: 'X (Twitter)',
+    description: 'For quick questions and direct messages.',
+    url: social.x,
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>`
+  }
+];
+---
+
+<HomeLayout 
+  title="Contact - Pabitra Mohan Singh - Software Engineer" 
+  description="Contact Pabitra Mohan Singh for bug reports, feature requests, freelance work, hiring, or general inquiries. Use the templates provided for a faster response."
+>
+  <div class="w-full max-w-5xl mx-auto px-6 py-16 md:py-24 text-left">
+    
+    <header class="mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
+        Let's Connect
+      </h1>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl leading-relaxed">
+        Whether you found a bug, have a feature request, or want to discuss a job opportunity, my inbox is always open.
+      </p>
+      <div class="mt-6 p-4 rounded-xl border border-blue-200/60 bg-blue-50 dark:border-blue-500/30 dark:bg-blue-500/10 text-blue-900 dark:text-blue-200 text-sm leading-relaxed">
+        <strong>Before you reach out:</strong> Please use the templates below. This ensures your request is routed correctly and I can help you faster. If you are reporting a bug, please check if there is already an open issue on GitHub.
+      </div>
+    </header>
+
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-6">How can I help you?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {contactReasons.map((reason) => (
+          <InfoCard title={reason.title} description={reason.description} />
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-2">Message Templates</h2>
+        <p class="text-neutral-600 dark:text-neutral-400">
+          Copy the relevant template, fill in the details, and send it via email or GitHub.
+        </p>
+      </div>
+      <div class="space-y-6">
+        {messageTemplates.map((template) => (
+          <TemplateCard 
+            id={template.id} 
+            title={template.title} 
+            description={template.description} 
+            content={template.content} 
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-6">Where to find me</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {contactChannels.map((channel) => (
+          <LinkCard 
+            href={channel.url} 
+            title={channel.title} 
+            description={channel.description} 
+            iconSvg={channel.iconSvg} 
+          />
+        ))}
+      </div>
+    </section>
+
+  </div>
+</HomeLayout>

@@ -8,6 +8,9 @@ export const GET: APIRoute = async () => {
   const staticRoutes = [
     '',
     '/projects',
+    '/contact',
+    '/privacy',
+    '/terms',
     '/sponsor',
     '/sponsor/contact',
     '/sponsor/privacy',

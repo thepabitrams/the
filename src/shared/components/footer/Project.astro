@@ -7,6 +7,7 @@ import { site } from '@/shared/config/site';
 const currentYear = new Date().getFullYear();
 
 const legalLinks = [
+  { href: '/contact', label: 'Contact' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms of Service' },
 ];
@@ -17,7 +18,6 @@ const legalLinks = [
     
     <div class="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-10 md:gap-12 items-start">
       
-      <!-- Avatar -->
       <div class="flex justify-center md:justify-start">
         <img 
           src="/icons/pabitra-avatar-suit-black.svg" 
@@ -36,7 +36,6 @@ const legalLinks = [
         />
       </div>
 
-      <!-- Info -->
       <div class="flex flex-col items-center md:items-start text-center md:text-left gap-2">
         <h2 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
           {site.name}
@@ -50,7 +49,6 @@ const legalLinks = [
         </div>
       </div>
 
-      <!-- Support -->
       <section 
         aria-labelledby="support-heading"
         class="flex flex-col items-center md:items-end text-center md:text-right gap-2"
@@ -62,7 +60,6 @@ const legalLinks = [
           Love my work? You can buy me a coffee or sponsor my open-source projects.
         </p>
         
-        <!-- Fixed Button: w-fit instead of w-full -->
         <LinkButton 
           href="/sponsor" 
           label="Sponsor My Work" 
@@ -76,7 +73,6 @@ const legalLinks = [
 
     </div>
 
-    <!-- Bottom Bar -->
     <div class="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-sm text-neutral-500 dark:text-neutral-400">
         &copy; {currentYear} {site.name}. All rights reserved.
