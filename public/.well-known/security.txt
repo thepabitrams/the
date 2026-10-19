@@ -1,4 +1,5 @@
-Contact: mailto:security@thepabitrams.com
+# Our security address for vulnerability reports
+Contact: mailto:contactpabitrams@gmail.com
 Expires: 2027-12-31T23:59:00.000Z
 Preferred-Languages: en
 Canonical: https://pabitramohansingh.com/.well-known/security.txt
