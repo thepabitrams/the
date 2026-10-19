@@ -1,5 +1,4 @@
 export { ICON_BASE_CLASSES, ICON_SIZE_DEFAULT } from './iconStyles';
-export type { IconProps } from './types';
 
 export { default as GitHub } from './github.astro';
 export { default as LinkedIn } from './linkedin.astro';
