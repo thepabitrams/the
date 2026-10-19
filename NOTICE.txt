@@ -1,10 +1,58 @@
-This project includes software developed by:
+Letter
+Copyright 2026 Pabitra Mohan Singh
 
-- TypeScript (https://www.typescriptlang.org) – Apache License 2.0
-  Portions of this software are Copyright (c) Microsoft Corporation.
+This project includes software developed by third parties.
 
-- Astro (https://astro.build) – MIT License
-- Tailwind CSS (https://tailwindcss.com) – MIT License
-- Other dependencies are licensed under the MIT license.
+THIRD-PARTY SOFTWARE NOTICES
+============================
 
-Full license texts are available in the third-party/ folder.
+TypeScript
+https://www.typescriptlang.org
+License: Apache-2.0
+Copyright (c) Microsoft Corporation
+
+---
+
+Astro
+https://astro.build
+License: MIT
+Copyright (c) 2021 Fred K. Schott
+
+---
+
+Astro MDX Integration
+https://docs.astro.build/en/guides/integrations-guide/mdx/
+License: MIT
+Copyright (c) 2021 Fred K. Schott
+
+---
+
+Astro Cloudflare Adapter
+https://docs.astro.build/en/guides/integrations-guide/cloudflare/
+License: MIT
+Copyright (c) 2021 Fred K. Schott
+
+---
+
+Tailwind CSS
+https://tailwindcss.com
+License: MIT
+Copyright (c) Tailwind Labs, Inc.
+
+---
+
+Tailwind CSS Vite Plugin
+https://tailwindcss.com
+License: MIT
+Copyright (c) Tailwind Labs, Inc.
+
+---
+
+Cloudflare Workers SDK (Wrangler)
+https://github.com/cloudflare/workers-sdk
+License: MIT
+Copyright (c) Cloudflare, Inc.
+
+---
+
+Full license texts are available in the LICENSES/ directory.
