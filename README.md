@@ -14,7 +14,7 @@
 
 </div>
 
-## ✨ Features
+## Features
 
 | Feature | Description |
 | :--- | :--- |
@@ -24,4 +24,15 @@
 | **Modern UI/UX** | Fully responsive mobile-first design with a seamless dark/light theme toggle. |
 | **Interactive 404** | A custom 404 page featuring a breathing avatar and a live typewriter effect. |
 | **Accessibility** | Semantic HTML, proper heading hierarchy, and a skip-to-content link for screen readers. |
+
+## 🛠️ Technology Stack
+
+- Astro 7
+- Tailwind CSS 4
+- TypeScript 7
+- MDX (via @astrojs/mdx)
+- Cloudflare Pages (via @astrojs/cloudflare)
+- Wrangler
+- Node.js (v22.12.0)
+- PNPM
 
