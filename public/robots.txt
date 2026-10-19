@@ -1,16 +1,31 @@
-import type { APIRoute } from 'astro';
-
-const robotsTxt = `
+# Allow all standard search engine crawlers
 User-agent: *
 Allow: /
 
-Sitemap: ${new URL('sitemap.xml', import.meta.env.SITE).href}
-`.trim();
+# Sitemap location
+Sitemap: https://pabitramohansingh.com/sitemap.xml
 
-export const GET: APIRoute = () => {
-  return new Response(robotsTxt, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-    },
-  });
-};
+# AI Search and Retrieval Bots (Explicitly Allowed for AI Visibility)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /

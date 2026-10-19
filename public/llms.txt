@@ -1,27 +1,16 @@
-import type { APIRoute } from 'astro';
-import { site } from '@/shared/config/site';
+# Pabitra Mohan Singh - Software Engineer & Creator
 
-export const GET: APIRoute = () => {
-  const content = `
-# ${site.name}
-
-> ${site.description}
+> Portfolio of Pabitra Mohan Singh, a software engineer building clean, scalable, and user-focused applications. Explore projects and open-source work.
 
 ## Main Pages
+- [Home](https://pabitramohansingh.com): Personal portfolio and introduction.
+- [Projects](https://pabitramohansingh.com/projects): Showcase of software engineering projects and experiments.
 
-- [Home](${site.domain}/)
-- [Projects](${site.domain}/projects)
-- [Sponsorship](${site.domain}/sponsor)
-- [Contact](${site.domain}/sponsor/contact)
+## Featured Projects
+- [Letters](https://pabitramohansingh.com/projects/letters): Beautiful, self-destructing letters built with React 19, Hono, Cloudflare Workers, and Drizzle ORM.
+- [Toolkit](https://pabitramohansingh.com/projects/toolkit): A privacy-first, browser-based utility toolkit with modular architecture.
 
-## Technical Stack
-
-This site is built with Astro and Tailwind CSS, focusing on performance and clean design. It is deployed on Cloudflare Workers.
-  `.trim();
-
-  return new Response(content, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-    },
-  });
-};
+## Optional
+- [Contact](https://pabitramohansingh.com/contact)
+- [Privacy Policy](https://pabitramohansingh.com/privacy)
+- [Terms of Service](https://pabitramohansingh.com/terms)
