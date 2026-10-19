@@ -23,6 +23,7 @@ export const GET: APIRoute = async () => {
   });
 
   const allRoutes = [...staticRoutes, ...projectRoutes];
+  const lastModDate = new Date().toISOString();
 
   const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -30,6 +31,7 @@ ${allRoutes
   .map((routePath) => {
     return `  <url>
     <loc>${site.domain}${routePath}</loc>
+    <lastmod>${lastModDate}</lastmod>
   </url>`;
   })
   .join('\n')}

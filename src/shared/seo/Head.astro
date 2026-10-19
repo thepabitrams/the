@@ -26,6 +26,7 @@ const {
 
 const personId = `${site.domain}/#person`;
 const webSiteId = `${site.domain}/#website`;
+const webPageId = `${canonicalUrl}/#webpage`;
 
 const personSchema = {
   '@type': 'Person',
@@ -35,6 +36,10 @@ const personSchema = {
   image: site.openGraphImage,
   jobTitle: site.jobTitle,
   sameAs: Object.values(social),
+  worksFor: {
+    '@type': 'Organization',
+    name: site.name,
+  },
 } as const;
 
 const webSiteSchema = {
@@ -48,9 +53,12 @@ const webSiteSchema = {
 
 const webPageSchema = {
   '@type': 'WebPage',
+  '@id': webPageId,
   name: title,
   description: description,
   url: canonicalUrl,
+  mainEntityOfPage: { '@id': canonicalUrl },
+  dateModified: new Date().toISOString(),
   inLanguage: 'en',
   isPartOf: { '@id': webSiteId },
   about: { '@id': personId },
@@ -87,7 +95,12 @@ const graphSchema = {
 
 <title>{title}</title>
 <meta name="description" content={description} />
-{noindex && <meta name="robots" content="noindex, follow" />}
+
+{noindex ? (
+  <meta name="robots" content="noindex, follow" />
+) : (
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+)}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={site.name} />
