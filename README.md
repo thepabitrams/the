@@ -13,3 +13,15 @@
 [![Node.js](https://img.shields.io/badge/Node.js-22.x-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
 </div>
+
+## ✨ Features
+
+| Feature | Description |
+| :--- | :--- |
+| **2026 SEO Ready** | Advanced JSON-LD `@graph` schemas, dynamic sitemap, `robots.txt`, `llms.txt`, and `humans.txt`. |
+| **Zero-JS Architecture** | Built with Astro for instant, lightning-fast page loads with zero unnecessary JavaScript. |
+| **Dynamic Content** | Project case studies and pages are powered by MDX and Astro Content Collections. |
+| **Modern UI/UX** | Fully responsive mobile-first design with a seamless dark/light theme toggle. |
+| **Interactive 404** | A custom 404 page featuring a breathing avatar and a live typewriter effect. |
+| **Accessibility** | Semantic HTML, proper heading hierarchy, and a skip-to-content link for screen readers. |
+
