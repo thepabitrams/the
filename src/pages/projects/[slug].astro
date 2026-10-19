@@ -1,8 +1,11 @@
 ---
 import { ProjectLayout } from '@/layouts/';
-import ProjectHero from '@/shared/components/ProjectHero.astro';
-import Accordion from '@/shared/components/Accordion.astro';
-import GitHubActivity from '@/shared/components/GitHubActivity.astro';
+import {
+  Accordion,
+  Breadcrumb,
+  GitHubActivity,
+  ProjectHero,
+} from '@/shared/components';
 import { getCollection, render } from 'astro:content';
 import { site } from '@/shared/config/site';
 import {
@@ -50,6 +53,8 @@ if (githubUrl) {
   breadcrumbItems={breadcrumbItems}
 >
   <div class="project-page">
+    <Breadcrumb items={breadcrumbItems} />
+
     <ProjectHero
       category={entry.data.category}
       title={entry.data.title}
