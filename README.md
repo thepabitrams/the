@@ -36,3 +36,25 @@
 - Node.js (v22.12.0)
 - PNPM
 
+## Architecture Overview
+
+The codebase follows a clean, modular architecture designed for maintainability and a clear separation of concerns.
+
+### Project Root
+
+- **`src/`** – Contains all application source code.
+- **`public/`** – Holds static assets and root files like robots.txt, llms.txt, and image folders.
+- **`THIRDPARTY/`** – Contains bundled license texts for third-party dependencies like Astro and Tailwind.
+- **`astro.config.mjs`** – The main Astro configuration file.
+- **`package.json`** – The project manifest for dependencies and scripts.
+
+### `src/` Root-Level Folders
+
+- **`_pages/`** – Houses page-specific view components grouped by route.
+- **`pages/`** – Contains file-based routing entry points and API endpoints like sitemap.xml.ts.
+- **`layouts/`** – Provides page shells that wrap content and handle global structure.
+- **`shared/`** – Contains reusable building blocks split by concern (components, config, lib, seo, types).
+- **`content/`** – Stores MDX project case studies for `letters` and `toolkit`.
+- **`styles/`** – Holds global design tokens, animations, and table styling.
+- **`content.config.ts`** – Defines the Astro Content Collections schema for the projects.
+
