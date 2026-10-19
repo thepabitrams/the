@@ -26,7 +26,7 @@ const {
 
 const personId = `${site.domain}/#person`;
 const webSiteId = `${site.domain}/#website`;
-const webPageId = `${canonicalUrl}/#webpage`;
+const webPageId = `${canonicalUrl.replace(/\/$/, '')}/#webpage`;
 
 const personSchema = {
   '@type': 'Person',
