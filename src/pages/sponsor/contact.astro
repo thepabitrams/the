@@ -1,7 +1,7 @@
 ---
 import { SponsorLayout } from '@/layouts';
 import { InfoCard, TemplateCard, LinkCard } from '@/shared/components/card';
-import { email } from '@/shared/config/site';  
+import { email, site } from '@/shared/config/site'; 
 
 const contactEmail: string = email.legal;
 const securityEmail: string = email.security;
@@ -114,7 +114,7 @@ const contactChannels = [
 
     <footer class="pt-8 border-t border-neutral-200 dark:border-neutral-800 text-center">
       <p class="text-sm text-neutral-500 dark:text-neutral-400">
-        Need something else? Visit my <a href="https://your-portfolio-link.com/contact" target="_blank" rel="noopener noreferrer" class="font-medium text-neutral-900 dark:text-white hover:underline">Portfolio Contact Page</a>.
+        Need something else? Visit my <a href={site.domain} target="_blank" rel="noopener noreferrer" class="font-medium text-neutral-900 dark:text-white hover:underline">{site.name}</a>.
       </p>
     </footer>
 
