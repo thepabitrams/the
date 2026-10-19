@@ -11,6 +11,5 @@
 [![Cloudflare](https://img.shields.io/badge/Cloudflare-14.x-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://www.cloudflare.com)
 [![Wrangler](https://img.shields.io/badge/Wrangler-4.x-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/workers/wrangler/)
 [![Node.js](https://img.shields.io/badge/Node.js-22.x-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 
 </div>
