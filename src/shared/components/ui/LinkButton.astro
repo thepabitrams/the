@@ -1,32 +1,35 @@
 ---
-export interface Props {
-  href: string;
-  label: string;
-  variant?: 'outline' | 'solid';
-  class?: string;
+export interface LinkButtonProps {
+  readonly href: string;
+  readonly label: string;
+  readonly variant?: 'outline' | 'solid';
+  readonly class?: string;
+  readonly target?: '_blank' | '_self' | '_parent' | '_top';
+  readonly rel?: string;
 }
 
 const {
   href,
   label,
-  variant = 'outline',
-  class: className = '',
+  variant: buttonVariant = 'outline',
+  class: customClassName = '',
+  target: targetAttribute = '_self',
+  rel: relAttribute,
 } = Astro.props;
 ---
 
 <a
   href={href}
+  target={targetAttribute}
+  rel={relAttribute}
   class:list={[
     'group inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-    // The Minimalist Outline style (copied from your Gmail button)
-    variant === 'outline' && 'border border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-white hover:text-black dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-lg',
-    // The Solid style (in case you want a primary button later)
-    variant === 'solid' && 'bg-neutral-900 text-white border border-neutral-900 hover:bg-neutral-800 hover:shadow-lg dark:bg-white dark:text-neutral-900 dark:border-white dark:hover:bg-neutral-200',
-    className,
+    buttonVariant === 'outline' && 'border border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-white hover:text-black dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-lg',
+    buttonVariant === 'solid' && 'bg-neutral-900 text-white border border-neutral-900 hover:bg-neutral-800 hover:shadow-lg dark:bg-white dark:text-neutral-900 dark:border-white dark:hover:bg-neutral-200',
+    customClassName,
   ]}
   aria-label={label}
 >
-  <!-- The Icon Slot: drop any SVG here and it will be styled correctly -->
   <slot name="icon" />
   {label}
 </a>

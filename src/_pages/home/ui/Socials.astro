@@ -3,7 +3,7 @@ import { social, email } from '@/shared/config/site';
 import { GitHub, LinkedIn, X, YouTube, Instagram, Gmail } from '@/shared/components/ui/icons';
 import LinkButton from '@/shared/components/ui/LinkButton.astro';
 
-const ICON_MAP = {
+const iconMapping = {
   github: GitHub,
   linkedin: LinkedIn,
   x: X,
@@ -13,22 +13,22 @@ const ICON_MAP = {
 ---
 
 <div class="flex flex-wrap items-center gap-5">
-  {Object.entries(social).map(([platform, url]) => {
-    const Icon = ICON_MAP[platform as keyof typeof ICON_MAP];
-    if (!Icon) return null;
+  {Object.entries(social).map(([platformName, profileUrl]) => {
+    const IconComponent = iconMapping[platformName as keyof typeof iconMapping];
+    if (!IconComponent) return null;
 
-    const displayName = platform.charAt(0).toUpperCase() + platform.slice(1);
+    const displayName = platformName.charAt(0).toUpperCase() + platformName.slice(1);
 
     return (
       <a
-        href={url}
+        href={profileUrl}
         target="_blank"
         rel="noopener noreferrer"
         class="group inline-flex items-center transition-transform duration-300 ease-out hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
         aria-label={displayName}
         title={displayName}
       >
-        <Icon />
+        <IconComponent />
       </a>
     );
   })}

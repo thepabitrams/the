@@ -2,6 +2,7 @@
 import Socials from '@/_pages/home/ui/Socials.astro';
 import LinkButton from '@/shared/components/ui/LinkButton.astro';
 import Heart from '@/shared/components/ui/icons/Heart.astro';
+import { site } from '@/shared/config/site';
 
 const currentYear = new Date().getFullYear();
 
@@ -19,7 +20,7 @@ const legalLinks = [
       <div class="flex justify-center md:justify-start">
         <img 
           src="/icons/pabitra-avatar-suit-black.svg" 
-          alt="Pabitra Mohan Singh" 
+          alt={site.name} 
           width="128" 
           height="128" 
           class="size-32 shrink-0 dark:hidden" 
@@ -36,10 +37,10 @@ const legalLinks = [
 
       <div class="flex flex-col items-center md:items-start text-center md:text-left gap-2">
         <h2 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
-          Pabitra Mohan Singh
+          {site.name}
         </h2>
         <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-sm">
-          Building clean, scalable, and user-focused applications. Always learning and improving as a developer.
+          {site.description}
         </p>
         
         <div class="mt-2">
@@ -58,7 +59,13 @@ const legalLinks = [
           Love my work? You can buy me a coffee or sponsor my open-source projects.
         </p>
         
-        <LinkButton href="/sponsor" label="Sponsor My Work" class="w-full md:w-auto mt-2 md:mt-6">
+        <LinkButton 
+          href="/sponsor" 
+          label="Sponsor My Work" 
+          class="w-full md:w-auto mt-2 md:mt-6"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Heart slot="icon" class="w-4 h-4" />
         </LinkButton>
       </section>
@@ -67,7 +74,7 @@ const legalLinks = [
 
     <div class="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-sm text-neutral-500 dark:text-neutral-400">
-        &copy; {currentYear} Pabitra Mohan Singh. All rights reserved.
+        &copy; {currentYear} {site.name}. All rights reserved.
       </p>
       
       <nav aria-label="Legal">
