@@ -30,8 +30,6 @@ ${allRoutes
   .map((routePath) => {
     return `  <url>
     <loc>${site.domain}${routePath}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>${routePath === '' ? '1.0' : '0.8'}</priority>
   </url>`;
   })
   .join('\n')}
