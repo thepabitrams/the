@@ -58,3 +58,16 @@ The codebase follows a clean, modular architecture designed for maintainability 
 - **`styles/`** – Holds global design tokens, animations, and table styling.
 - **`content.config.ts`** – Defines the Astro Content Collections schema for the projects.
 
+### Dependency Flow
+
+```text
+pages → _pages → layouts → content → shared → styles
+```
+
+* Pages import from `_pages`, `layouts`, and `shared`.
+* `_pages` import from `layouts`, `content`, and `shared`.
+* Layouts import from `shared` and `styles`.
+* Content imports from `shared`.
+* Shared imports from `styles`.
+
+This hierarchy prevents circular dependencies and keeps the codebase predictable.
