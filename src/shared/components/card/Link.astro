@@ -4,20 +4,31 @@ interface Props {
   title: string;
   description: string;
   iconSvg: string;
+  iconBackgroundColorClass?: string;
+  iconTextColorClass?: string;
 }
 
-const { href, title, description, iconSvg } = Astro.props;
+const { 
+  href, 
+  title, 
+  description, 
+  iconSvg,
+  iconBackgroundColorClass = 'bg-neutral-100 dark:bg-neutral-900',
+  iconTextColorClass = 'text-neutral-600 dark:text-neutral-400'
+} = Astro.props;
 ---
 
-<a href={href} target="_blank" rel="noopener noreferrer" class="flex items-start gap-4 p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors group">
-  <div class="p-2.5 bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 rounded-xl shrink-0">
-    <Fragment set:html={iconSvg} />
+<a href={href} target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-5 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300">
+  <div class="flex items-center gap-4">
+    <div class={`w-12 h-12 flex items-center justify-center rounded-xl shrink-0 ${iconBackgroundColorClass} ${iconTextColorClass} group-hover:scale-110 transition-transform`}>
+      <Fragment set:html={iconSvg} />
+    </div>
+    <div class="text-left">
+      <h3 class="text-base font-bold text-neutral-900 dark:text-white flex items-center gap-2">
+        {title}
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+      </h3>
+      <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">{description}</p>
+    </div>
   </div>
-  <div>
-    <h3 class="text-base font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
-      {title}
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-    </h3>
-    <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">{description}</p>
-  </div>
-</a>    
+</a>

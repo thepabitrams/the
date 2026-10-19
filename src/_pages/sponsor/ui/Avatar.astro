@@ -36,7 +36,8 @@ const animationKeyframes = `
 
 <style is:inline set:html={animationKeyframes}></style>
 
-<div class:list={["relative flex items-center justify-center overflow-hidden", className]}>
+<!-- Direct div with the exact height/width classes -->
+<div class:list={["relative flex items-center justify-center overflow-hidden mx-auto", className]}>
   
   <div class="absolute inset-0 transition-opacity duration-300 opacity-100 dark:opacity-0 pointer-events-none">
     {lightImages.map((imageUrl, index) => (
