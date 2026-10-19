@@ -1,0 +1,10 @@
+/* TEAM */
+Developer: Pabitra Mohan Singh
+Contact: contactpabitrams@gmail.com
+Location: India
+
+/* SITE */
+Last update: 2026-10-19
+Standards: HTML5, CSS3, JavaScript
+Components: Astro, Tailwind CSS
+Software: VS Code, Figma, Git

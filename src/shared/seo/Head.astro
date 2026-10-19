@@ -12,7 +12,7 @@ const {
   title,
   description = site.description,
   openGraphImage = site.openGraphImage,
-  canonicalUrl = site.domain,
+  canonicalUrl = Astro.url.href,
 } = Astro.props;
 
 const personSchema = {

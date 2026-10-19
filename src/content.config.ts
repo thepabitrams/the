@@ -37,6 +37,8 @@ export const projectDetails = defineCollection({
   }),
   schema: z.object({
     ...sharedProjectSchema,
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
     category: z.string(),
     role: z.string(),
     status: z.string().default('Completed'),

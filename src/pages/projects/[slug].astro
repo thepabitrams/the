@@ -23,6 +23,9 @@ const { Content } = await render(entry);
 
 const { githubUrl } = entry.data;
 
+const finalSeoTitle = entry.data.seoTitle || `${entry.data.title} | Pabitra Mohan Singh`;
+const finalSeoDescription = entry.data.seoDescription || entry.data.description;
+
 let activity: GitHubEvent[] = [];
 if (githubUrl) {
   const parsed = parseGitHubUrl(githubUrl);
@@ -33,9 +36,9 @@ if (githubUrl) {
 ---
 
 <ProjectLayout
-  title={`${entry.data.title} – Pabitra Mohan Singh`}
+  title={finalSeoTitle}
   projectName={entry.data.title}
-  description={entry.data.description}
+  description={finalSeoDescription}
 >
   <div class="project-page">
     <ProjectHero

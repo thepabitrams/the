@@ -1,0 +1,27 @@
+import type { APIRoute } from 'astro';
+import { site } from '@/shared/config/site';
+
+export const GET: APIRoute = () => {
+  const content = `
+# ${site.name}
+
+> ${site.description}
+
+## Main Pages
+
+- [Home](${site.domain}/)
+- [Projects](${site.domain}/projects)
+- [Sponsorship](${site.domain}/sponsor)
+- [Contact](${site.domain}/sponsor/contact)
+
+## Technical Stack
+
+This site is built with Astro and Tailwind CSS, focusing on performance and clean design. It is deployed on Cloudflare Workers.
+  `.trim();
+
+  return new Response(content, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+    },
+  });
+};
