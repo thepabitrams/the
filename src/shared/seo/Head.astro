@@ -51,12 +51,13 @@ const webPageSchema = {
   name: title,
   description: description,
   url: canonicalUrl,
+  inLanguage: 'en',
   isPartOf: { '@id': webSiteId },
   about: { '@id': personId },
 } as const;
 
 const breadcrumbSchema =
-  breadcrumbItems.length > 0
+  breadcrumbItems.length >= 2
     ? {
         '@type': 'BreadcrumbList',
         itemListElement: breadcrumbItems.map(
