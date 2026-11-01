@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://pabitramohansingh.com/sitemap.xml
+Sitemap: https://pabitramohansingh.com/sitemap-index.xml
 
 # AI Search and Retrieval Bots (Explicitly Allowed for AI Visibility)
 User-agent: Googlebot
